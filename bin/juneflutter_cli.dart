@@ -3,6 +3,8 @@ import 'package:args/args.dart';
 import 'function/add_global_export_if_not_exists/function.dart';
 import 'function/check_is_right_project/function.dart';
 import 'function/clone_or_update_github_repository/function.dart';
+import 'function/flutter_package_add/function.dart';
+import 'function/flutter_package_remove/function.dart';
 
 const String version = '0.0.1';
 
@@ -50,9 +52,11 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'flutter_package_add') {
       print('flutter_package_add');
+      await addFlutterPackage('http', version: '0.13.3');
     }
     if(testArgs.first == 'flutter_package_remove') {
       print('flutter_package_remove');
+      await removeFlutterPackage('http');
     }
     if(testArgs.first == 'clone_or_update_git_repository') {
       print('clone_or_update_git_repository');
