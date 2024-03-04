@@ -1,10 +1,11 @@
 import 'dart:io';
 
 Future<bool> checkIsRightProject() async {
+  String currentPath = Directory.current.path;
   List<String> filePaths = [
-    'lib/util/start_app.dart',
-    'lib/util/global_imports.dart',
-    'lib/util/ready/ready.dart',
+    '$currentPath/lib/util/start_app.dart',
+    '$currentPath/lib/util/global_imports.dart',
+    '$currentPath/lib/util/ready/ready.dart',
   ];
 
   for (String path in filePaths) {
