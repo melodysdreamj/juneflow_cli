@@ -1,3 +1,5 @@
 import 'function.dart';
 
-main() {}
+main() async {
+  print('check_is_right_project:${await checkIsRightProject()}');
+}

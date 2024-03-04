@@ -2,6 +2,7 @@ import 'package:args/args.dart';
 
 import 'function/add_global_export_if_not_exists/function.dart';
 import 'function/check_is_right_project/function.dart';
+import 'function/clone_or_update_github_repository/function.dart';
 
 const String version = '0.0.1';
 
@@ -55,6 +56,8 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'clone_or_update_git_repository') {
       print('clone_or_update_git_repository');
+      cloneOrUpdateGitHubRepository('https://github.com/melodysdreamj/JuneFlutter',
+          branchName: 'view_store');
     }
     if(testArgs.first == 'check_is_right_project') {
       print('check_is_right_project:${await checkIsRightProject()}');
