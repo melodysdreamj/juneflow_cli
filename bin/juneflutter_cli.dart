@@ -1,6 +1,7 @@
 import 'package:args/args.dart';
 
 import 'function/add_global_export_if_not_exists/function.dart';
+import 'function/check_is_right_project/function.dart';
 
 const String version = '0.0.1';
 
@@ -44,7 +45,7 @@ void runPractices(List<String> testArgs) {
     // 예를 들어, testArgs에 따라 다른 테스트 케이스를 실행할 수 있습니다.
     if(testArgs.first == 'add_global_export_if_not_exists') {
       print('add_global_export_if_not_exists');
-      addExportIfNotExists('util/global_imports.dart', 'new/package/path.dart');
+      addExportIfNotExists('new/package/path.dart');
     }
     if(testArgs.first == 'flutter_package_add') {
       print('flutter_package_add');
@@ -56,7 +57,7 @@ void runPractices(List<String> testArgs) {
       print('clone_or_update_git_repository');
     }
     if(testArgs.first == 'check_is_right_project') {
-      print('check_is_right_project');
+      print('check_is_right_project:${checkIsRightProject()}');
     }
   } else {
     print('No test arguments provided.');
