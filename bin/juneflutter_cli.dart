@@ -37,7 +37,7 @@ void printUsage(ArgParser argParser) {
   print(argParser.usage);
 }
 
-void runPractices(List<String> testArgs) {
+void runPractices(List<String> testArgs) async {
   print('Running practices...');
   if (testArgs.isNotEmpty) {
     print('Test arguments: $testArgs');
@@ -57,7 +57,7 @@ void runPractices(List<String> testArgs) {
       print('clone_or_update_git_repository');
     }
     if(testArgs.first == 'check_is_right_project') {
-      print('check_is_right_project:${checkIsRightProject()}');
+      print('check_is_right_project:${await checkIsRightProject()}');
     }
   } else {
     print('No test arguments provided.');
