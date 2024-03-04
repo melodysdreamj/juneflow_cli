@@ -1,1 +1,3 @@
-A sample command-line application providing basic argument parsing with an entrypoint in `bin/`.
+```
+dart pub global activate --source git https://github.com/melodysdreamj/juneflutter_cli.git
+```

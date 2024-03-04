@@ -1,6 +1,6 @@
 name: juneflutter_cli
 description: A command-line for JuneFlutter.
-version: 0.0.1
+version: 0.0.4
 repository: https://github.com/melodysdreamj/juneflutter_cli
 
 environment:
