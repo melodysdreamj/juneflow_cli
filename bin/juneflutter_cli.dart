@@ -52,7 +52,7 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'flutter_package_add') {
       print('flutter_package_add');
-      await addFlutterPackage('http', version: '0.13.3');
+      await addFlutterPackage('http');
     }
     if(testArgs.first == 'flutter_package_remove') {
       print('flutter_package_remove');

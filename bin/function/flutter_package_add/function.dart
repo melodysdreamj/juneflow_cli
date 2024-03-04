@@ -8,9 +8,12 @@ Future<void> addFlutterPackage(String packageName, {String? version}) async {
       );
 
   // 실행 결과 출력
-  print('Exit code: ${result.exitCode}');
-  print('Stdout: ${result.stdout}');
-  print('Stderr: ${result.stderr}');
+  // print('Exit code: ${result.exitCode}');
+  // print('Stdout: ${result.stdout}');
+  // print('Stderr: ${result.stderr}');
+  if(result.stderr.toString().isNotEmpty) {
+    print('error: ${result.stderr}');
+  }
 
   print("installed $packageName");
 }
