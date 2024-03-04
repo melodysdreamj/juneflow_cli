@@ -3,7 +3,7 @@ import 'dart:io';
 Future<void> addExportIfNotExists(String filePath, String exportPath) async {
 
   String currentPath = Directory.current.path;
-  filePath = filePath.replaceAll('currentPath/', '');
+  filePath = '$currentPath/$filePath';
   print('filePath: $filePath');
   final file = File(filePath);
   if (!await file.exists()) {
