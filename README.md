@@ -4,5 +4,5 @@ dart pub global activate --source git https://github.com/melodysdreamj/juneflow_
 
 
 
-juneflow --practice name_here
+june --practice name_here
 ```
