@@ -3,6 +3,7 @@ import 'package:args/args.dart';
 import 'function/add_global_export_if_not_exists/function.dart';
 import 'function/check_is_right_project/function.dart';
 import 'function/clone_or_update_github_repository/function.dart';
+import 'function/find_ready_annotation_and_generate_ready_code/function.dart';
 import 'function/flutter_package_add/function.dart';
 import 'function/flutter_package_remove/function.dart';
 
@@ -65,6 +66,10 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'check_is_right_project') {
       print('check_is_right_project:${await checkIsRightProject()}');
+    }
+    if(testArgs.first == 'find_ready_annotation_and_generate_ready_code') {
+      print('find_ready_annotation_and_generate_ready_code');
+      await findReadyAnnotationsAndGenerateReadyCode();
     }
   } else {
     print('No test arguments provided.');
