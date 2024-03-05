@@ -5,3 +5,5 @@
 .clone-june-flutter/**
 
 .clone-june-flutter/
+.idea/libraries/Dart_Packages.xml
+juneflutter_cli.iml
