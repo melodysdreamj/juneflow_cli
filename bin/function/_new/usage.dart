@@ -1,3 +1,3 @@
 import 'function.dart';
 
-main() {}
+main() async {}
