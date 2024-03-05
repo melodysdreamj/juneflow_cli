@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../check_is_right_project/function.dart';
+
 class AnnotationInfo {
   String path;
   String functionName;
@@ -8,11 +10,15 @@ class AnnotationInfo {
   AnnotationInfo({required this.path, required this.functionName, this.index});
 }
 
-
-findReadyAnnotationsAndGenerateReadyCode() {
+findReadyAnnotationsAndGenerateReadyCode() async {
   final List<AnnotationInfo> readyRunAppList = [];
   final List<AnnotationInfo> readyAppList = [];
   final List<AnnotationInfo> readyMaterialAppList = [];
+
+  if(! await checkIsRightProject()) {
+    print('This is not a JuneFlutter project.');
+    return;
+  }
 
   String basePath = '${Directory.current.path}/lib/util/ready';
 
@@ -20,7 +26,8 @@ findReadyAnnotationsAndGenerateReadyCode() {
   if (directory.existsSync()) {
     directory.listSync(recursive: true).forEach((file) {
       if (file is File && file.path.endsWith('.dart')) {
-        final relativePath = file.path.replaceFirst('$basePath/', ''); // 지정된 기본 경로 제거
+        final relativePath =
+            file.path.replaceFirst('$basePath/', ''); // 지정된 기본 경로 제거
         final content = file.readAsStringSync();
 
         // 어노테이션 검사를 위한 패턴 리스트
@@ -32,11 +39,14 @@ findReadyAnnotationsAndGenerateReadyCode() {
 
         annotationPatterns.forEach((annotation, list) {
           // 어노테이션과 함수명 매칭 패턴
-          RegExp exp = RegExp('@$annotation\\((index: (\\d+(\\.\\d+)?))?\\)\\s+Future<void>\\s+(\\w+)\\s*\\(\\)', multiLine: true);
+          RegExp exp = RegExp(
+              '@$annotation\\((index: (\\d+(\\.\\d+)?))?\\)\\s+Future<void>\\s+(\\w+)\\s*\\(\\)',
+              multiLine: true);
           final matches = exp.allMatches(content);
 
           for (var match in matches) {
-            final index = match.group(2) != null ? double.parse(match.group(2)!) : null;
+            final index =
+                match.group(2) != null ? double.parse(match.group(2)!) : null;
             final functionName = match.group(4)!;
 
             list.add(AnnotationInfo(
@@ -81,7 +91,11 @@ import 'web_url_strategy/none.dart'
 ''';
 
   // Import paths
-  Set<String> allPaths = {...readyRunAppList, ...readyAppList, ...readyMaterialAppList}.map((info) => info.path).toSet();
+  Set<String> allPaths = {
+    ...readyRunAppList,
+    ...readyAppList,
+    ...readyMaterialAppList
+  }.map((info) => info.path).toSet();
   String imports = allPaths.map((path) => "import '$path';\n").join();
 
   // 함수 호출 정렬 및 생성
@@ -92,11 +106,13 @@ import 'web_url_strategy/none.dart'
     var nonIndexed = annotations.where((info) => info.index == null).toList();
 
     // 인덱스 있는 것 순서대로 실행
-    String indexedCalls = indexed.map((info) => "  await ${info.functionName}();\n").join();
+    String indexedCalls =
+        indexed.map((info) => "  await ${info.functionName}();\n").join();
 
     // 인덱스 없는 것 동시 실행
     if (nonIndexed.isNotEmpty) {
-      String nonIndexedCalls = nonIndexed.map((info) => "    ${info.functionName}(),\n").join();
+      String nonIndexedCalls =
+          nonIndexed.map((info) => "    ${info.functionName}(),\n").join();
       indexedCalls += "  await Future.wait([\n$nonIndexedCalls  ]);\n";
     }
 
@@ -138,7 +154,6 @@ bool _readyForAppStart = false;
 
   return codeTemplate;
 }
-
 
 Future<void> _overwriteFile(String filePath, String content) async {
   var file = File(filePath);
