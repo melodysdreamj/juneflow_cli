@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 
 Future<void> addAssetPaths(List<String> newPaths) async {
-  const String filePath = '/Users/june/Documents/GitHub/JuneFlutter/pubspec.yaml';
+  const String filePath = '/Users/june/Documents/GitHub/JuneFlow/pubspec.yaml';
     File file = File(filePath);
 
     if (await file.exists()) {

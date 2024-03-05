@@ -37,7 +37,7 @@ ArgParser buildParser() {
 }
 
 void printUsage(ArgParser argParser) {
-  print('Usage: dart juneflutter_cli.dart <flags> [arguments]');
+  print('Usage: dart juneflow_cli.dart <flags> [arguments]');
   print(argParser.usage);
 }
 
@@ -61,7 +61,7 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'clone_or_update_git_repository') {
       print('clone_or_update_git_repository');
-      cloneOrUpdateGitHubRepository('https://github.com/melodysdreamj/JuneFlutter',
+      cloneOrUpdateGitHubRepository('https://github.com/melodysdreamj/JuneFlow',
           branchName: 'view_store');
     }
     if(testArgs.first == 'check_is_right_project') {
@@ -90,7 +90,7 @@ void main(List<String> arguments) {
       return;
     }
     if (results.wasParsed('version')) {
-      print('juneflutter_cli version: $version');
+      print('juneflow_cli version: $version');
       return;
     }
     if (results.wasParsed('verbose')) {

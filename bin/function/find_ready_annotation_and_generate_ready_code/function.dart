@@ -16,7 +16,7 @@ findReadyAnnotationsAndGenerateReadyCode() async {
   final List<AnnotationInfo> readyMaterialAppList = [];
 
   if(! await checkIsRightProject()) {
-    print('This is not a JuneFlutter project.');
+    print('This is not a JuneFlow project.');
     return;
   }
 

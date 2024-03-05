@@ -68,5 +68,5 @@ void findAnnotations(String basePath) {
 
 void main() {
   // 함수 사용 예
-  findAnnotations('/Users/june/Documents/GitHub/JuneFlutter/lib/util/ready');
+  findAnnotations('/Users/june/Documents/GitHub/JuneFlow/lib/util/ready');
 }
