@@ -2,11 +2,6 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
 
-class ReadyBeforeRunApp {
-  final double? index;
-
-  const ReadyBeforeRunApp({this.index});
-}
 
 class AnnotatedFunctionInfo {
   final String filePath;
@@ -16,7 +11,7 @@ class AnnotatedFunctionInfo {
   AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
-Future<void> findFunctionsAndGenerateFile() async {
+Future<void> findFunctionsAndGenerateFileBeforeRunApp() async {
   const String searchDirectory = 'lib/util/ready_app/ready_functions/before_run_app';
   const String targetFilePath = 'lib/util/ready_app/ready_functions/before_run_app/_.dart';
   final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
@@ -53,9 +48,15 @@ Future<void> _generateAndWriteReadyBeforeRunApp(List<AnnotatedFunctionInfo> func
   final StringBuffer functionCalls = StringBuffer();
   final Set<String> imports = {};
 
+  // 인덱스 기준으로 함수 정렬
   functions.sort((a, b) => a.index?.compareTo(b.index ?? 0) ?? -1);
 
-  for (final functionInfo in functions) {
+  // 인덱스가 있는 함수와 없는 함수를 분리
+  final indexedFunctions = functions.where((f) => f.index != null).toList();
+  final unindexedFunctions = functions.where((f) => f.index == null).toList();
+
+  // 인덱스가 있는 함수들의 호출문 생성
+  for (final functionInfo in indexedFunctions) {
     final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
     final importPath = relativeFilePath.replaceAll('\\', '/');
     imports.add("import '$importPath';");
@@ -63,39 +64,42 @@ Future<void> _generateAndWriteReadyBeforeRunApp(List<AnnotatedFunctionInfo> func
     functionCalls.writeln('  await ${functionInfo.functionName}();');
   }
 
-  if (functions.any((f) => f.index == null)) {
-    functionCalls.write('  await Future.wait([\n');
-    functions.where((f) => f.index == null).forEach((functionInfo) {
-      functionCalls.write('    ${functionInfo.functionName}(),\n');
-    });
-    functionCalls.write('  ]);\n');
+  // 인덱스가 없는 함수들의 호출문 생성
+  if (unindexedFunctions.isNotEmpty) {
+    functionCalls.writeln('  await Future.wait([');
+    for (final functionInfo in unindexedFunctions) {
+      final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
+      final importPath = relativeFilePath.replaceAll('\\', '/');
+      // 중복 import 방지
+      imports.add("import '$importPath';");
+
+      functionCalls.writeln('    ${functionInfo.functionName}(),');
+    }
+    functionCalls.writeln('  ]);');
   }
 
   final String importStatements = imports.join('\n');
 
+  // 최종 함수와 import 문 생성
   final String readyBeforeRunAppFunction = '''
 import 'package:flutter/material.dart';
-
 import '../../../../main.dart';
-
 import 'web_url_strategy/none.dart'
     if (dart.library.html) 'web_url_strategy/_.dart' as url_strategy;
 $importStatements
 
 Future<void> readyBeforeRunApp() async {
   url_strategy.readyForWebUrlStrategy();
-
-  await readyForWidgetsBinding();
-
 ${functionCalls.toString()}
 }
 ''';
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(readyBeforeRunAppFunction);
-  print('readyBeforeRunApp function updated successfully with dynamic imports.');
+  print('readyBeforeRunApp function updated successfully with dynamic imports and function calls.');
 }
 
+
 Future<void> main() async {
-  await findFunctionsAndGenerateFile();
+  await findFunctionsAndGenerateFileBeforeRunApp();
 }
