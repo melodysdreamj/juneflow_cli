@@ -79,9 +79,8 @@ Future<void> _generateAndWriteMaterialAppInsideBuilder(List<AnnotatedFunctionInf
 import 'package:flutter/material.dart';
 import '../../../../main.dart';
 
-import '../../../config/app_name.dart';
-import '../../../config/router/_/_.dart';
-import '../../../global_params/material_app.dart';
+import '../../../config/_/router/_/_.dart';
+import '../../../shared_params/material_app.dart';
 $importStatements
 
 Widget materialAppInsideBuilder(BuildContext context, Widget? child) {
@@ -97,7 +96,7 @@ Widget Function() MaterialAppBuilder(BuildContext context) {
         localizationsDelegates: MaterialAppParams.localizationsDelegates,
         supportedLocales: MaterialAppParams.supportedLocales ?? const <Locale>[Locale('en', 'US')],
         locale: MaterialAppParams.locale,
-        title: appName,
+        title: MaterialAppParams.appName ?? 'June',
         theme: MaterialAppParams.lightTheme,
         darkTheme: MaterialAppParams.darkTheme,
         themeMode: MaterialAppParams.themeMode,

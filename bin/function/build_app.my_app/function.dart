@@ -56,7 +56,7 @@ Future<void> _generateAndWriteBuildMyApp(List<AnnotatedFunctionInfo> coverFuncti
   final String buildMyAppFunction = '''
 import 'package:flutter/material.dart';
 import '../../../../main.dart';
-import '../../../config/router/_/_.dart';
+import '../../../config/_/router/_/_.dart';
 import '../../ready_functions/before_material_app/_.dart';
 import '../build_material_app/_.dart';
 $importStatements
