@@ -11,8 +11,8 @@ class AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileMaterialApp() async {
-  const String searchDirectory = 'lib/util/ready_app/build_app/build_material_app';
-  const String targetFilePath = 'lib/util/ready_app/build_app/build_material_app/_.dart';
+  const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_material_app';
+  const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_material_app/_.dart';
   final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverMaterialAppFunctions(searchDirectory);
   await _generateAndWriteMaterialAppInsideBuilder(coverFunctions, targetFilePath);
 }
@@ -77,10 +77,10 @@ Future<void> _generateAndWriteMaterialAppInsideBuilder(List<AnnotatedFunctionInf
 
   final String materialAppInsideBuilderFunction = '''
 import 'package:flutter/material.dart';
-import '../../../../main.dart';
+import '../../../../../main.dart';
 
-import '../../../config/_/router/_/_.dart';
-import '../../../shared_params/material_app.dart';
+import '../../../../config/_/router/_/_.dart';
+import '../../../shared_params/_/material_app.dart';
 $importStatements
 
 Widget materialAppInsideBuilder(BuildContext context, Widget? child) {

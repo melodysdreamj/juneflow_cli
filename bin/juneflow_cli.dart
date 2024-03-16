@@ -69,7 +69,7 @@ void runPractices(List<String> testArgs) async {
     }
     if(testArgs.first == 'find_ready_annotation_and_generate_ready_code') {
       print('find_ready_annotation_and_generate_ready_code');
-      await findReadyAnnotationsAndGenerateReadyCode();
+      // await findReadyAnnotationsAndGenerateReadyCode();
     }
   } else {
     print('No test arguments provided.');

@@ -12,8 +12,8 @@ class AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileBeforeRunApp() async {
-  const String searchDirectory = 'lib/util/ready_app/ready_functions/before_run_app';
-  const String targetFilePath = 'lib/util/ready_app/ready_functions/before_run_app/_.dart';
+  const String searchDirectory = 'lib/util/_/initial_app/ready_functions/before_run_app';
+  const String targetFilePath = 'lib/util/_/initial_app/ready_functions/before_run_app/_.dart';
   final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
 
   await _generateAndWriteReadyBeforeRunApp(functions, targetFilePath, searchDirectory);
@@ -83,7 +83,7 @@ Future<void> _generateAndWriteReadyBeforeRunApp(List<AnnotatedFunctionInfo> func
   // 최종 함수와 import 문 생성
   final String readyBeforeRunAppFunction = '''
 import 'package:flutter/material.dart';
-import '../../../../main.dart';
+import '../../../../../main.dart';
 import 'web_url_strategy/none.dart'
     if (dart.library.html) 'web_url_strategy/_.dart' as url_strategy;
 $importStatements

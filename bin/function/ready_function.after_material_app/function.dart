@@ -11,8 +11,8 @@ class AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileAfterMaterialApp() async {
-  const String searchDirectory = 'lib/util/ready_app/ready_functions/after_material_app';
-  const String targetFilePath = 'lib/util/ready_app/ready_functions/after_material_app/_.dart';
+  const String searchDirectory = 'lib/util/_/initial_app/ready_functions/after_material_app';
+  const String targetFilePath = 'lib/util/_/initial_app/ready_functions/after_material_app/_.dart';
   final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
 
   await _generateAndWriteReadyAfterMaterialApp(functions, targetFilePath, searchDirectory);
@@ -89,7 +89,7 @@ Future<void> _generateAndWriteReadyAfterMaterialApp(List<AnnotatedFunctionInfo> 
 
   final String readyAfterMaterialAppFunction = '''
 import 'package:flutter/material.dart';
-import '../../../../main.dart';
+import '../../../../../main.dart';
 $importStatements
 
 Future<void> readyAfterMaterialApp(BuildContext context) async {

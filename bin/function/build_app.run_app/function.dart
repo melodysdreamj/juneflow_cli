@@ -12,8 +12,8 @@ class AnnotatedFunctionInfo {
 
 
 Future<void> findFunctionsAndGenerateFileBuildRunApp() async {
-  const String searchDirectory = 'lib/util/ready_app/build_app/build_run_app';
-  const String targetFilePath = 'lib/util/ready_app/build_app/build_run_app/_.dart';
+  const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_run_app';
+  const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_run_app/_.dart';
   final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverRunAppFunctions(searchDirectory);
   await _generateAndWriteBuildApp(coverFunctions, targetFilePath);
 }
