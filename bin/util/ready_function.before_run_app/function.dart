@@ -96,7 +96,7 @@ ${functionCalls.toString()}
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(readyBeforeRunAppFunction);
-  print('readyBeforeRunApp function updated successfully with dynamic imports and function calls.');
+  print('readyBeforeRunApp util updated successfully with dynamic imports and util calls.');
 }
 
 

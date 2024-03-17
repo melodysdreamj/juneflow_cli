@@ -1,11 +1,11 @@
 import 'package:args/args.dart';
 
-import 'function/add_global_export_if_not_exists/function.dart';
-import 'function/check_is_right_project/function.dart';
-import 'function/clone_or_update_github_repository/function.dart';
-import 'function/find_ready_annotation_and_generate_ready_code/function.dart';
-import 'function/flutter_package_add/function.dart';
-import 'function/flutter_package_remove/function.dart';
+import 'util/add_global_export_if_not_exists/function.dart';
+import 'util/check_is_right_project/function.dart';
+import 'util/clone_or_update_github_repository/function.dart';
+import 'util/find_ready_annotation_and_generate_ready_code/function.dart';
+import 'util/flutter_package_add/function.dart';
+import 'util/flutter_package_remove/function.dart';
 
 const String version = '0.0.1';
 

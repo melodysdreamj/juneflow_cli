@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import '../../../../function/run_flutter_pub_get/function.dart';
-import '../../../../model/file_path_and_contents/model.dart';
-import '../../../../model/module/model.dart';
-import '../../../../model/package_info/model.dart';
+import '../../../../util/run_flutter_pub_get/function.dart';
+import '../../../../entity/model/file_path_and_contents/model.dart';
+import '../../../../entity/model/module/model.dart';
+import '../../../../entity/model/package_info/model.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 

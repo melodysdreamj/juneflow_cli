@@ -10,12 +10,12 @@ class AnnotatedFunctionInfo {
   AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
-Future<void> findFunctionsAndGenerateFileBeforeMaterialApp() async {
-  const String searchDirectory = 'lib/util/_/initial_app/ready_functions/before_material_app';
-  const String targetFilePath = 'lib/util/_/initial_app/ready_functions/before_material_app/_.dart';
+Future<void> findFunctionsAndGenerateFileAfterMaterialApp() async {
+  const String searchDirectory = 'lib/util/_/initial_app/ready_functions/after_material_app';
+  const String targetFilePath = 'lib/util/_/initial_app/ready_functions/after_material_app/_.dart';
   final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
 
-  await _generateAndWriteReadyBeforeMaterialApp(functions, targetFilePath, searchDirectory);
+  await _generateAndWriteReadyAfterMaterialApp(functions, targetFilePath, searchDirectory);
 }
 
 Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirectory) async {
@@ -30,7 +30,7 @@ Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirecto
     if (file is File && file.path.endsWith('.dart')) {
       final content = await file.readAsString();
       // 매개변수를 포함하는 함수 형태를 처리할 수 있도록 정규 표현식 수정
-      final RegExp exp = RegExp(r'@ReadyBeforeMaterialApp\((index:\s*(\d+(\.\d+)?)\s*)?\)\s*Future<void>\s*(\w+)\s*\(\s*BuildContext context\s*\)\s*async', multiLine: true);
+      final RegExp exp = RegExp(r'@ReadyAfterMaterialApp\((index:\s*(\d+(\.\d+)?)\s*)?\)\s*Future<void>\s*(\w+)\s*\(\s*BuildContext context\s*\)\s*async', multiLine: true);
       final matches = exp.allMatches(content);
 
       for (final match in matches) {
@@ -44,7 +44,7 @@ Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirecto
   return functions;
 }
 
-Future<void> _generateAndWriteReadyBeforeMaterialApp(List<AnnotatedFunctionInfo> functions, String targetFilePath, String searchDirectory) async {
+Future<void> _generateAndWriteReadyAfterMaterialApp(List<AnnotatedFunctionInfo> functions, String targetFilePath, String searchDirectory) async {
   final StringBuffer functionCalls = StringBuffer();
   final Set<String> imports = {};
 
@@ -87,24 +87,21 @@ Future<void> _generateAndWriteReadyBeforeMaterialApp(List<AnnotatedFunctionInfo>
 
   final String importStatements = imports.join('\n');
 
-  final String readyBeforeMaterialAppFunction = '''
+  final String readyAfterMaterialAppFunction = '''
 import 'package:flutter/material.dart';
 import '../../../../../main.dart';
 $importStatements
 
-/// At this stage, the context is directly received from MyApp,
-/// so it does not contain information on navigation and various other aspects.
-/// Please keep this in mind when using it.
-Future<void> readyBeforeMaterialApp(BuildContext context) async {
+Future<void> readyAfterMaterialApp(BuildContext context) async {
 ${functionCalls.toString()}
 }
 ''';
 
   final File targetFile = File(targetFilePath);
-  await targetFile.writeAsString(readyBeforeMaterialAppFunction);
-  print('readyBeforeMaterialApp function updated successfully with dynamic imports and function calls.');
+  await targetFile.writeAsString(readyAfterMaterialAppFunction);
+  print('readyAfterMaterialApp util updated successfully with dynamic imports and util calls.');
 }
 
 Future<void> main() async {
-  await findFunctionsAndGenerateFileBeforeMaterialApp();
+  await findFunctionsAndGenerateFileAfterMaterialApp();
 }

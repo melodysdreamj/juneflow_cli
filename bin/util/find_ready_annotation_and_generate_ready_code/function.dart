@@ -1,6 +1,6 @@
 // import 'dart:io';
 //
-// import '../check_is_right_project/function.dart';
+// import '../check_is_right_project/util.dart';
 //
 // class AnnotationInfo {
 //   String path;

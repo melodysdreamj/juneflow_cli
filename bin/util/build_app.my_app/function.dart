@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(buildMyAppFunction);
-  print('buildMyApp function updated successfully with cover functions and imports.');
+  print('buildMyApp util updated successfully with cover functions and imports.');
 }
 
 Future<void> main() async {
