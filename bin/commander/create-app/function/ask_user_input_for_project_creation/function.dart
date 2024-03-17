@@ -3,7 +3,7 @@ import 'dart:io';
 import '../../../../entity/enum/project_type/enum.dart';
 import '../../../../entity/model/creation_result/model.dart';
 
-Future<CreationResult?> getUserInputForProjectCreation() async {
+Future<CreationResult?> askUserInputForProjectCreation() async {
   String type = 'skeleton'; // Default value
   while (true) {
     print(
