@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import '../../../../entity/enum/project_type/enum.dart';
 import '../../../../entity/model/creation_result/model.dart';
 import '../../../../util/clone_and_remove_git/function.dart';
 import '../ask_user_input_for_project_creation/function.dart';
 import '../change_project_name/function.dart';
 import '../rename_new_folder/function.dart';
+import '../replace_string_in_file/function.dart';
 import '../replace_sttring_in_files/function.dart';
 
 createApp() async {
@@ -34,8 +37,8 @@ createApp() async {
 
     await renameNewFolders('${result.Name}/lib/util', result.Name);
 
-    await replaceStringInFiles(
-        '${result.Name}/juneflow_module.yaml', '_new', result.Name);
+    await replaceStringInFile(
+        '${Directory.current.path}/${result.Name}/juneflow_module.yaml', '_new', result.Name);
   }
 
   print('\nCongratulations! Your project has been created successfully!');
