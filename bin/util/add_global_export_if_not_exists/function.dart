@@ -3,7 +3,7 @@ import 'dart:io';
 Future<void> addExportIfNotExists(String exportPath) async {
 
   String currentPath = Directory.current.path;
-  String filePath = '$currentPath/lib/util/config/_/global_imports.dart';
+  String filePath = '$currentPath/lib/util/config/_commander/global_imports.dart';
   print('filePath: $filePath');
   final file = File(filePath);
   if (!await file.exists()) {

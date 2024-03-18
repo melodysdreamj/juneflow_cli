@@ -11,8 +11,8 @@ class AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileBuildMyApp() async {
-  const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_my_app';
-  const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_my_app/_.dart';
+  const String searchDirectory = 'lib/util/_commander/initial_app/build_app_widget/build_my_app';
+  const String targetFilePath = 'lib/util/_commander/initial_app/build_app_widget/build_my_app/_commander.dart';
   final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverMyAppFunctions(searchDirectory);
   await _generateAndWriteBuildMyApp(coverFunctions, targetFilePath);
 }
@@ -56,9 +56,9 @@ Future<void> _generateAndWriteBuildMyApp(List<AnnotatedFunctionInfo> coverFuncti
   final String buildMyAppFunction = '''
 import 'package:flutter/material.dart';
 import '../../../../../main.dart';
-import '../../../../config/_/router/_/_.dart';
-import '../../ready_functions/before_material_app/_.dart';
-import '../build_material_app/_.dart';
+import '../../../../config/_commander/router/_commander/_commander.dart';
+import '../../ready_functions/before_material_app/_commander.dart';
+import '../build_material_app/_commander.dart';
 $importStatements
 
 Widget Function() buildMyApp(BuildContext context) {
