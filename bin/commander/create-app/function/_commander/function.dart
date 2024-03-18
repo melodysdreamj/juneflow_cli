@@ -24,7 +24,10 @@ createApp() async {
 
   await changeProjectName(result.Name, result.Name);
 
-  await replaceStringInFiles(result.Name, 'june.lee.love', result.PackageName);
+  if (result.Type == ProjectTypeEnum.Module) {
+    await replaceStringInFiles(
+        result.Name, 'june.lee.love', result.PackageName);
+  }
 
   print('\nCongratulations! Your project has been created successfully!');
 }
