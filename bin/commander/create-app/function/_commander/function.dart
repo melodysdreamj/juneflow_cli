@@ -24,7 +24,7 @@ createApp() async {
 
   await changeProjectName(result.Name, result.Name);
 
-  if (result.Type == ProjectTypeEnum.Module) {
+  if (result.Type == ProjectTypeEnum.Skeleton) {
     await replaceStringInFiles(
         result.Name, 'june.lee.love', result.PackageName);
   }
