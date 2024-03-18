@@ -109,7 +109,7 @@ Future<String?> _getPackageName() async {
 
 _printSuccessMessage(ProjectTypeEnum type, String? name, String? packageName) {
   print('Project/Module name: $name');
-  if (packageName != null || packageName != '') {
+  if (packageName != null && packageName != '') {
     print('Package name: $packageName');
   }
 }
