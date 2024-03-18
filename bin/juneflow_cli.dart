@@ -1,5 +1,6 @@
 import 'package:args/args.dart';
 
+import 'commander/create-app/function/_commander/function.dart';
 import 'util/add_global_export_if_not_exists/function.dart';
 import 'util/check_is_right_project/function.dart';
 import 'util/clone_or_update_github_repository/function.dart';
@@ -84,6 +85,7 @@ void main(List<String> arguments) {
       switch (results.rest.first) {
         case 'create-app':
           print('App creation process initiated.');
+          createApp();
           // 여기에 앱 생성 로직 추가
           break;
         case 'build':
