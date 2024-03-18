@@ -15,8 +15,8 @@ Future<void> changeProjectName(String targetDirectory, String newName) async {
     }).toList();
 
     await pubspecFile.writeAsString(updatedLines.join('\n'));
-    print('Project name updated to $newName in pubspec.yaml');
+    // print('Project name updated to $newName in pubspec.yaml');
   } else {
-    print('pubspec.yaml not found in the provided project path.');
+    // print('pubspec.yaml not found in the provided project path.');
   }
 }

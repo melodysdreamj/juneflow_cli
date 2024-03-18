@@ -19,10 +19,12 @@ createApp() async {
     branchName = 'module_template';
   }
 
-  await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git', branchName,
-      result.Name);
+  await cloneAndRemoveGit(
+      'https://github.com/melodysdreamj/juneflow.git', branchName, result.Name);
 
- await changeProjectName(result.Name, result.Name);
+  await changeProjectName(result.Name, result.Name);
 
- await replaceStringInFiles(result.Name,'june.lee.love',result.PackageName);
+  await replaceStringInFiles(result.Name, 'june.lee.love', result.PackageName);
+
+  print('\nCongratulations! Your project has been created successfully!');
 }

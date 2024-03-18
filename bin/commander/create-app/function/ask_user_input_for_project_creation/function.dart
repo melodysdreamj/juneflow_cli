@@ -108,7 +108,6 @@ Future<String?> _getPackageName() async {
 }
 
 _printSuccessMessage(ProjectTypeEnum type, String? name, String? packageName) {
-  print('\nCongratulations! Your $type has been created successfully!');
   print('Project/Module name: $name');
   if (packageName != null) {
     print('Package name: $packageName');
