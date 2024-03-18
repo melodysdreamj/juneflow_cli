@@ -16,7 +16,7 @@ Future<void> replaceStringInFiles(String directoryPath, String originalString, S
         if (fileContent.contains(originalString)) {
           final modifiedContent = fileContent.replaceAll(originalString, replacementString);
           await entity.writeAsString(modifiedContent);
-          print('Replaced in ${entity.path}');
+          // print('Replaced in ${entity.path}');
         }
       } on FileSystemException catch (e) {
         // print('Skipping ${entity.path}, error reading file: ${e.message}');
