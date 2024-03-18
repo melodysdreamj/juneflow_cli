@@ -79,13 +79,27 @@ void main(List<String> arguments) {
       return;
     }
 
-    if (results.wasParsed('build')) {
-      print('build');
+    // 위치 인자를 기반으로 명령어 처리
+    if (results.rest.isNotEmpty) {
+      switch (results.rest.first) {
+        case 'create-app':
+          print('App creation process initiated.');
+          // 여기에 앱 생성 로직 추가
+          break;
+        case 'build':
+          print('Project initialization process initiated.');
+          // 여기에 빌드 로직 추가
+          break;
+        default:
+          print('Unknown command: ${results.rest.first}');
+          printUsage(argParser);
+      }
       return;
     }
 
-    // Act on the arguments provided.
-    print('Positional arguments: ${results.rest}');
+    // 명령어가 제공되지 않았을 경우
+    print('No command provided.');
+    printUsage(argParser);
     if (verbose) {
       print('[VERBOSE] All arguments: ${results.arguments}');
     }
