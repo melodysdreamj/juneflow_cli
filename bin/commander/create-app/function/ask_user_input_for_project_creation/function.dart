@@ -43,10 +43,10 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   if (result != null) {
     _printSuccessMessage(
         result.Type, result.Name, result.PackageName);
-    print('The $type has been created successfully!');
+    // print('The $type has been created successfully!');
     return result;
   } else {
-    print('The $type creation has been cancelled.');
+    // print('The $type creation has been cancelled.');
   }
   return null;
 }
