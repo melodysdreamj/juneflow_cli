@@ -1,5 +1,6 @@
 import 'package:args/args.dart';
 
+import 'commander/build/function/get_june_packages_in_project/function.dart';
 import 'commander/create-app/function/_commander/function.dart';
 import 'util/add_global_export_if_not_exists/function.dart';
 import 'util/check_is_right_project/function.dart';
@@ -90,6 +91,7 @@ void main(List<String> arguments) {
           break;
         case 'build':
           print('Project initialization process initiated.');
+          getJuneFlowPackagesInProject();
           // 여기에 빌드 로직 추가
           break;
         default:
