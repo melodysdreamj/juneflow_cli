@@ -37,6 +37,8 @@ createApp() async {
 
     await renameNewFolders('${result.Name}/lib/util', result.Name);
 
+    await renameNewFolders('${result.Name}/assets/module', result.Name);
+
     await replaceStringInFile(
         '${Directory.current.path}/${result.Name}/juneflow_module.yaml', '_new', result.Name);
   }

@@ -32,7 +32,10 @@ buildApp() async {
     // 4. add readme
     await addReadme(module.ReadMeContents);
 
-    // 5. check asset and if exist copy and make one
+    // 5. check asset if exist, copy file and add to pubspec
+
+
+    // 6. copy and paste the file to the lib folder
 
 
 

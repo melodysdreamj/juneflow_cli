@@ -305,7 +305,7 @@ class Module {
   //
   List<dynamic> AddLineToGitignore = [];
   List<dynamic> AddLineToGlobalImports = [];
-  // List<dynamic> L002 = [];
+  List<dynamic> AddLineToPubspecAssetsBlock = [];
   // List<dynamic> L003 = [];
   // List<dynamic> L004 = [];
   // List<dynamic> L005 = [];
@@ -690,7 +690,7 @@ class Module {
       // 'T030': T030.millisecondsSinceEpoch,
       'AddLineToGitignore': AddLineToGitignore,
       'AddLineToGlobalImports': AddLineToGlobalImports,
-      // 'L002': L002,
+      'AddLineToPubspecAssetsBlock': AddLineToPubspecAssetsBlock,
       // 'L003': L003,
       // 'L004': L004,
       // 'L005': L005,
@@ -1075,7 +1075,7 @@ class Module {
     // obj.T030 = DateTime.fromMillisecondsSinceEpoch(data['T030'] ?? 0);
     obj.AddLineToGitignore = List<String>.from(data['AddLineToGitignore'] ?? []);
     obj.AddLineToGlobalImports = List<String>.from(data['AddLineToGlobalImports'] ?? []);
-    // obj.L002 = List<String>.from(data['L002'] ?? []);
+    obj.AddLineToPubspecAssetsBlock = List<String>.from(data['AddLineToPubspecAssetsBlock'] ?? []);
     // obj.L003 = List<String>.from(data['L003'] ?? []);
     // obj.L004 = List<String>.from(data['L004'] ?? []);
     // obj.L005 = List<String>.from(data['L005'] ?? []);
