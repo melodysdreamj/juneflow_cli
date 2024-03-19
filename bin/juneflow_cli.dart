@@ -1,14 +1,8 @@
 import 'package:args/args.dart';
 
-import 'commander/build/function/_commander/function.dart';
+import 'commander/build/function/_/function.dart';
 import 'commander/build/function/get_june_packages_in_project/function.dart';
-import 'commander/create-app/function/_commander/function.dart';
-import 'util/add_global_export_if_not_exists/function.dart';
-import 'util/check_is_right_project/function.dart';
-import 'util/clone_or_update_github_repository/function.dart';
-import 'util/find_ready_annotation_and_generate_ready_code/function.dart';
-import 'util/flutter_package_add/function.dart';
-import 'util/flutter_package_remove/function.dart';
+import 'commander/create-app/function/_/function.dart';
 
 const String version = '0.0.1';
 

@@ -84,7 +84,7 @@
 //     print(
 //         'Enter the name for your $type (e.g., my_app), or type "cancel" to exit:');
 //     print(
-//         'The name should be all lowercase and may include underscores (_commander) to separate words.');
+//         'The name should be all lowercase and may include underscores (_) to separate words.');
 //     name = stdin.readLineSync();
 //     if (name?.toLowerCase() == 'cancel') {
 //       print('Operation cancelled.');

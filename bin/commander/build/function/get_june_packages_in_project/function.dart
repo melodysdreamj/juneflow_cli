@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../../entity/model/pubspec_code/model.dart';
 import '../../../../util/run_flutter_pub_get/function.dart';
 import '../../../../entity/model/file_path_and_contents/model.dart';
 import '../../../../entity/model/module/model.dart';
@@ -99,10 +100,24 @@ String? _getPackagePath(String packageName, String packageVersion) {
 }
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
-    String projectPath, List<String> copyPaths) async {
+    String libraryName, String projectPath, List<String> copyPaths) async {
+  /// 여기서 copyPaths 를 수정해야하는데, 왜냐하면 util쪽은 함부로 건들면 안되고 정해진대로 해야하기때문. 그외는 상관없음.
+  /// 만약 문자열이 lib/util 로 시작할경우, 끝이 libraryName 로 끝나는 경우를 제외하고는 지우기
+  // lib/util로 시작하며, libraryName으로 끝나지 않는 경로를 필터링
+  List<String> filteredCopyPaths = copyPaths.where((path) {
+    // lib/util로 시작하는지 확인
+    bool startsWithUtil = path.startsWith('lib/util');
+    // libraryName으로 끝나는지 확인
+    bool endsWithLibraryName = path.endsWith(libraryName);
+
+    // lib/util로 시작하지 않거나, lib/util로 시작하며 libraryName으로 끝나는 경우 true를 반환
+    return !startsWithUtil || (startsWithUtil && endsWithLibraryName);
+  }).toList();
+
+
   List<FilePathAndContents> files = [];
 
-  for (String relativePath in copyPaths) {
+  for (String relativePath in filteredCopyPaths) {
     String fullPath = '$projectPath/$relativePath';
     File file = File(fullPath);
     if (await file.exists()) {
@@ -144,7 +159,9 @@ Future<Module?> generateModuleObjFromPackage(
     moduleObj.AddLineToGlobalImports =
         _parseYamlList(yamlContent, 'add_line_to_global_imports');
     moduleObj.Files = await _generateFilePathAndContentsList(
-        projectPath, _parseYamlList(yamlContent, 'copy_path'));
+        libraryName, projectPath, _parseYamlList(yamlContent, 'copy_path'));
+
+    moduleObj.CodeBloc = await _getCodeBlocksFromPubspec(projectPath);
 
     return moduleObj;
   } else {
@@ -159,4 +176,41 @@ List<String> _parseYamlList(YamlMap yamlContent, String key) {
     return list.map((item) => item.toString()).toList();
   }
   return [];
+}
+
+Future<List<PubspecCode>> _getCodeBlocksFromPubspec(String projectPath) async {
+  File pubspecFile = File('$projectPath/pubspec.yaml');
+  if (await pubspecFile.exists()) {
+    String configContent = await pubspecFile.readAsString();
+
+    List<PubspecCode> codeBlocksToCheck = [];
+
+    // 'add_code_block_to_pubspec:' 섹션 찾기
+    RegExp regExp = RegExp(r'add_code_block_to_pubspec:(.*?)#', dotAll: true);
+    var matches = regExp.firstMatch(configContent);
+
+    if (matches != null) {
+      // 코드 블록 추출
+      String blocksContent = matches.group(1)!;
+      RegExp blockRegExp = RegExp(r'- (.*?): *\|\n(.*?)\n\s*\n', dotAll: true);
+      var blockMatches = blockRegExp.allMatches(blocksContent);
+
+      for (var match in blockMatches) {
+        String key = match.group(1)!.trim();
+        String value = match.group(2)!.trim().replaceAll(RegExp(r'\n\s+'), '\n'); // 들여쓰기 최소화
+        // 값이 바로 뒤에 오는 경우를 위해 조건 추가
+        if (value.startsWith('|')) {
+          value = value.substring(1).trim();
+          codeBlocksToCheck.add(PubspecCode()..Title = key..CodeBloc = value);
+        } else {
+          codeBlocksToCheck.add(PubspecCode()..Title = key..CodeBloc = "\n$value");
+        }
+      }
+    }
+
+    return codeBlocksToCheck;
+  } else {
+    print('File not found: ${pubspecFile.path}');
+    return [];
+  }
 }

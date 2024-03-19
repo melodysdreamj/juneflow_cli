@@ -71,11 +71,11 @@
 // //   readyMaterialAppList.forEach((info) =>
 // //       print('${info.path} - ${info.functionName} - Index: ${info.index}'));
 // //
-// //   var _commander = _generateInitializationCode(
+// //   var _ = _generateInitializationCode(
 // //       readyRunAppList, readyAppList, readyMaterialAppList);
-// //   // print(_commander);
+// //   // print(_);
 // //
-// //   _overwriteFile("${Directory.current.path}/lib/util/ready/ready.dart", _commander);
+// //   _overwriteFile("${Directory.current.path}/lib/util/ready/ready.dart", _);
 // // }
 //
 // String _generateInitializationCode(
@@ -87,7 +87,7 @@
 // import 'package:flutter/material.dart';
 // import '../start_app.dart';
 // import 'web_url_strategy/none.dart'
-//     if (dart.library.html) 'web_url_strategy/_commander.dart' as url_strategy;
+//     if (dart.library.html) 'web_url_strategy/_.dart' as url_strategy;
 // ''';
 //
 //   // Import paths
