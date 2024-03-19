@@ -35,8 +35,6 @@ Future<void> getJuneFlowPackagesInProject() async {
       }
     }
   }
-
-  print(BuildInfo.instance.ModuleList);
 }
 
 Future<bool> _checkJuneFlowModule(
