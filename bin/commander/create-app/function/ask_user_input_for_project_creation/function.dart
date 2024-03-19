@@ -73,7 +73,7 @@ Future<String?> _getName() async {
     print(
         'Enter the name for your project (e.g., my_app), or type "cancel" to exit:');
     print(
-        'The name should be all lowercase and may include underscores (_commander) to separate words.');
+        'The name should be all lowercase and may include underscores (_) to separate words.');
     name = await readLine();
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');

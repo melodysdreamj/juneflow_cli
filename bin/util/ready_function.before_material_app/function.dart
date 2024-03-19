@@ -11,8 +11,8 @@ class AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileBeforeMaterialApp() async {
-  const String searchDirectory = 'lib/util/_commander/initial_app/ready_functions/before_material_app';
-  const String targetFilePath = 'lib/util/_commander/initial_app/ready_functions/before_material_app/_commander.dart';
+  const String searchDirectory = 'lib/util/_/initial_app/ready_functions/before_material_app';
+  const String targetFilePath = 'lib/util/_/initial_app/ready_functions/before_material_app/_.dart';
   final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
 
   await _generateAndWriteReadyBeforeMaterialApp(functions, targetFilePath, searchDirectory);
