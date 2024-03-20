@@ -2,23 +2,23 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
 
-class AnnotatedFunctionInfo {
+class _AnnotatedFunctionInfo {
   final String filePath;
   final String functionName;
   final double? index;
 
-  AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
+  _AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
 Future<void> findFunctionsAndGenerateFileBuildMyApp() async {
   const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_my_app';
   const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_my_app/_.dart';
-  final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverMyAppFunctions(searchDirectory);
+  final List<_AnnotatedFunctionInfo> coverFunctions = await _findCoverMyAppFunctions(searchDirectory);
   await _generateAndWriteBuildMyApp(coverFunctions, targetFilePath);
 }
 
-Future<List<AnnotatedFunctionInfo>> _findCoverMyAppFunctions(String searchDirectory) async {
-  final List<AnnotatedFunctionInfo> functions = [];
+Future<List<_AnnotatedFunctionInfo>> _findCoverMyAppFunctions(String searchDirectory) async {
+  final List<_AnnotatedFunctionInfo> functions = [];
   final directory = Directory(searchDirectory);
   await for (final file in directory.list(recursive: true, followLinks: false)) {
     if (file is File && file.path.endsWith('.dart')) {
@@ -31,14 +31,14 @@ Future<List<AnnotatedFunctionInfo>> _findCoverMyAppFunctions(String searchDirect
       for (final match in matches) {
         final double? index = match.group(1) != null ? double.tryParse(match.group(1)!) : null;
         final String functionName = match.group(2)!;
-        functions.add(AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
+        functions.add(_AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
       }
     }
   }
   return functions;
 }
 
-Future<void> _generateAndWriteBuildMyApp(List<AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
+Future<void> _generateAndWriteBuildMyApp(List<_AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
   final StringBuffer coverFunctionCalls = StringBuffer();
   final Set<String> imports = Set();
 

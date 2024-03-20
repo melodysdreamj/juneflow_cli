@@ -2,24 +2,24 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
 
-class AnnotatedFunctionInfo {
+class _AnnotatedFunctionInfo {
   final String filePath;
   final String functionName;
   final double? index;
 
-  AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
+  _AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
 Future<void> findFunctionsAndGenerateFileAfterMaterialApp() async {
   const String searchDirectory = 'lib/util/_/initial_app/ready_functions/after_material_app';
   const String targetFilePath = 'lib/util/_/initial_app/ready_functions/after_material_app/_.dart';
-  final List<AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
+  final List<_AnnotatedFunctionInfo> functions = await _findAnnotatedFunctions(searchDirectory);
 
   await _generateAndWriteReadyAfterMaterialApp(functions, targetFilePath, searchDirectory);
 }
 
-Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirectory) async {
-  final List<AnnotatedFunctionInfo> functions = [];
+Future<List<_AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirectory) async {
+  final List<_AnnotatedFunctionInfo> functions = [];
   final directory = Directory(searchDirectory);
   if (!directory.existsSync()) {
     print('Search directory does not exist.');
@@ -36,7 +36,7 @@ Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirecto
       for (final match in matches) {
         final index = match.group(2) != null ? double.parse(match.group(2)!) : null;
         final functionName = match.group(4)!;
-        functions.add(AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
+        functions.add(_AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
       }
     }
   }
@@ -44,7 +44,7 @@ Future<List<AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirecto
   return functions;
 }
 
-Future<void> _generateAndWriteReadyAfterMaterialApp(List<AnnotatedFunctionInfo> functions, String targetFilePath, String searchDirectory) async {
+Future<void> _generateAndWriteReadyAfterMaterialApp(List<_AnnotatedFunctionInfo> functions, String targetFilePath, String searchDirectory) async {
   final StringBuffer functionCalls = StringBuffer();
   final Set<String> imports = {};
 

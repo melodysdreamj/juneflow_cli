@@ -2,24 +2,24 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
 
-class AnnotatedFunctionInfo {
+class _AnnotatedFunctionInfo {
   final String filePath;
   final String functionName;
   final double? index;
 
-  AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
+  _AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
 
 Future<void> findFunctionsAndGenerateFileBuildRunApp() async {
   const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_run_app';
   const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_run_app/_.dart';
-  final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverRunAppFunctions(searchDirectory);
+  final List<_AnnotatedFunctionInfo> coverFunctions = await _findCoverRunAppFunctions(searchDirectory);
   await _generateAndWriteBuildApp(coverFunctions, targetFilePath);
 }
 
-Future<List<AnnotatedFunctionInfo>> _findCoverRunAppFunctions(String searchDirectory) async {
-  final List<AnnotatedFunctionInfo> functions = [];
+Future<List<_AnnotatedFunctionInfo>> _findCoverRunAppFunctions(String searchDirectory) async {
+  final List<_AnnotatedFunctionInfo> functions = [];
   final directory = Directory(searchDirectory);
   await for (final file in directory.list(recursive: true, followLinks: false)) {
     if (file is File && file.path.endsWith('.dart')) {
@@ -35,14 +35,14 @@ Future<List<AnnotatedFunctionInfo>> _findCoverRunAppFunctions(String searchDirec
         final double? index = match.group(1) != null ? double.tryParse(match.group(1)!) : null;
         // 함수 이름 추출 부분의 그룹 번호를 변경
         final String functionName = match.group(2)!;
-        functions.add(AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
+        functions.add(_AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
       }
     }
   }
   return functions;
 }
 
-Future<void> _generateAndWriteBuildApp(List<AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
+Future<void> _generateAndWriteBuildApp(List<_AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
   final StringBuffer coverFunctionCalls = StringBuffer();
   final Set<String> imports = Set(); // 중복을 방지하기 위해 Set 사용
 
