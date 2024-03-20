@@ -5,11 +5,6 @@ import '../check_is_right_project/function.dart';
 
 Future<void> addAssetPaths(List<String> newPaths) async {
 
-  if(!await checkIsRightProject()) {
-    print('This is not a JuneFlow project.');
-    return;
-  }
-
   const String filePath = 'pubspec.yaml';
   File file = File(filePath);
 

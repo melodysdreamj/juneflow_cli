@@ -1,5 +1,6 @@
 import '../../../../entity/model/pubspec_code/model.dart';
 import '../../../../singleton/build_info/model.dart';
+import '../add_asset_paths_in_pubspec/function.dart';
 import '../add_bloc_to_pubspec/function.dart';
 import '../add_global_export_if_not_exists/function.dart';
 import '../add_line_to_gitignore/function.dart';
@@ -12,7 +13,7 @@ import '../get_june_packages_in_project/function.dart';
 import '../pasted_all_code_files_to_temp_dir/function.dart';
 
 buildApp() async {
-  if(!await checkIsRightProject()) {
+  if (!await checkIsRightProject()) {
     print('This is not a juneflow project');
     return;
   }
@@ -21,11 +22,7 @@ buildApp() async {
 
   print(BuildInfo.instance.ModuleList);
 
-
   for (var module in BuildInfo.instance.ModuleList) {
-    // 5. check asset if exist, add to pubspec
-    await module.AddLineToPubspecAssetsBlock
-
     // 6. copy and paste the code file to the lib folder
     await pasteAllCodeFiles(module.LibraryName, module.Files);
   }
@@ -48,6 +45,11 @@ buildApp() async {
 
     // 4. add readme
     await addReadme(module.ReadMeContents);
+
+    // 5. check asset if exist, add to pubspec
+    await addAssetPaths(
+        module.AddLineToPubspecAssetsBlock.map((item) => item.toString())
+            .toList());
   }
 
   // 7. apply .tempDir to lib folder
