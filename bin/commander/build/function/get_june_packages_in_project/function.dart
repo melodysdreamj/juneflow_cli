@@ -32,7 +32,8 @@ Future<void> getJuneFlowPackagesInProject() async {
       Module? module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
-      여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를 임시폴더(복붙용)에 옮겨주자.
+      여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를
+  임시폴더(복붙용)에 옮겨주자.
 
       if (module != null) {
         BuildInfo.instance.ModuleList.add(module);

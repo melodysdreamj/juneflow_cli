@@ -108,6 +108,7 @@ class Module {
   String LibraryName = "";
   String LibraryVersion = "";
   String ReadMeContents = "";
+
   // String S003 = "";
   // String S004 = "";
   // String S005 = "";
@@ -306,6 +307,7 @@ class Module {
   List<dynamic> AddLineToGitignore = [];
   List<dynamic> AddLineToGlobalImports = [];
   List<dynamic> AddLineToPubspecAssetsBlock = [];
+
   // List<dynamic> L003 = [];
   // List<dynamic> L004 = [];
   // List<dynamic> L005 = [];
@@ -349,6 +351,7 @@ class Module {
   //
   List<FilePathAndContents> Files = [];
   List<PubspecCode> CodeBloc = [];
+
   // List<SomeModel> J002 = [];
   // List<SomeModel> J003 = [];
   // List<SomeModel> J004 = [];
@@ -390,7 +393,6 @@ class Module {
   // SomeEnum E018 = SomeEnum.NotSelected;
   // SomeEnum E019 = SomeEnum.NotSelected;
   // SomeEnum E020 = SomeEnum.NotSelected;
-
 
   @override
   String toString() {
@@ -731,7 +733,8 @@ class Module {
       // 'C019': C019.toString(),
       // 'C020': C020.toString(),
       'Files': jsonEncode(Files.map((model) => model.toString()).toList()),
-      'CodeBloc': jsonEncode(CodeBloc.map((model) => model.toString()).toList()),
+      'CodeBloc':
+          jsonEncode(CodeBloc.map((model) => model.toString()).toList()),
       // 'J002': jsonEncode(J002.map((model) => model.toString()).toList()),
       // 'J003': jsonEncode(J003.map((model) => model.toString()).toList()),
       // 'J004': jsonEncode(J004.map((model) => model.toString()).toList()),
@@ -1073,9 +1076,12 @@ class Module {
     // obj.T028 = DateTime.fromMillisecondsSinceEpoch(data['T028'] ?? 0);
     // obj.T029 = DateTime.fromMillisecondsSinceEpoch(data['T029'] ?? 0);
     // obj.T030 = DateTime.fromMillisecondsSinceEpoch(data['T030'] ?? 0);
-    obj.AddLineToGitignore = List<String>.from(data['AddLineToGitignore'] ?? []);
-    obj.AddLineToGlobalImports = List<String>.from(data['AddLineToGlobalImports'] ?? []);
-    obj.AddLineToPubspecAssetsBlock = List<String>.from(data['AddLineToPubspecAssetsBlock'] ?? []);
+    obj.AddLineToGitignore =
+        List<String>.from(data['AddLineToGitignore'] ?? []);
+    obj.AddLineToGlobalImports =
+        List<String>.from(data['AddLineToGlobalImports'] ?? []);
+    obj.AddLineToPubspecAssetsBlock =
+        List<String>.from(data['AddLineToPubspecAssetsBlock'] ?? []);
     // obj.L003 = List<String>.from(data['L003'] ?? []);
     // obj.L004 = List<String>.from(data['L004'] ?? []);
     // obj.L005 = List<String>.from(data['L005'] ?? []);
@@ -1117,8 +1123,16 @@ class Module {
     // obj.C019 = SomeModel.fromString(data['C019'] ?? SomeModel().toString());
     // obj.C020 = SomeModel.fromString(data['C020'] ?? SomeModel().toString());
 
-    obj.Files = List<String>.from(data['Files'] is String ? jsonDecode(data['Files']) : (data['Files'] ?? [])).map((item) => FilePathAndContents.fromString(item)).toList();
-    obj.CodeBloc = List<String>.from(data['CodeBloc'] is String ? jsonDecode(data['CodeBloc']) : (data['CodeBloc'] ?? [])).map((item) => PubspecCode.fromString(item)).toList();
+    obj.Files = List<String>.from(data['Files'] is String
+            ? jsonDecode(data['Files'])
+            : (data['Files'] ?? []))
+        .map((item) => FilePathAndContents.fromString(item))
+        .toList();
+    obj.CodeBloc = List<String>.from(data['CodeBloc'] is String
+            ? jsonDecode(data['CodeBloc'])
+            : (data['CodeBloc'] ?? []))
+        .map((item) => PubspecCode.fromString(item))
+        .toList();
     // obj.J002 = List<String>.from(data['J002'] is String ? jsonDecode(data['J002']) : (data['J002'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J003 = List<String>.from(data['J003'] is String ? jsonDecode(data['J003']) : (data['J003'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J004 = List<String>.from(data['J004'] is String ? jsonDecode(data['J004']) : (data['J004'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
@@ -1163,5 +1177,4 @@ class Module {
 
     return obj;
   }
-
 }
