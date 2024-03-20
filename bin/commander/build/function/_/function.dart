@@ -6,6 +6,7 @@ import '../add_line_to_gitignore/function.dart';
 import '../add_readme/function.dart';
 import '../apply_temp_dir_to_project/function.dart';
 import '../build_app_with_juneflow_style/function.dart';
+import '../check_assets_exist_and_add_folder/function.dart';
 import '../check_is_right_project/function.dart';
 import '../get_june_packages_in_project/function.dart';
 import '../pasted_all_code_files_to_temp_dir/function.dart';
@@ -22,8 +23,8 @@ buildApp() async {
 
 
   for (var module in BuildInfo.instance.ModuleList) {
-    // 5. check asset if exist, copy file and add to pubspec
-    이거 진행중입니다.
+    // 5. check asset if exist, add to pubspec
+    await module.AddLineToPubspecAssetsBlock
 
     // 6. copy and paste the code file to the lib folder
     await pasteAllCodeFiles(module.LibraryName, module.Files);

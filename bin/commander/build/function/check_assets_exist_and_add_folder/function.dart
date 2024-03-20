@@ -3,24 +3,46 @@ import 'package:path/path.dart' as p;
 
 import '../../../../entity/model/module/model.dart';
 
-Future<Module> checkAssetsHandler(Module moduleObj, String moduleAssetsPaths) async {
-  // 1. 해당 위치에 별도의 파일이 존재하는지 체크
-  if(await _isExistAssetInDirectory(moduleAssetsPaths)) {
 
+Future<Module> checkAssetsHandler(String packageAbsolutePath,
+    Module moduleObj, String moduleAssetsAbsolutePaths) async {
+  // 현재의 패키지 경로
+  String currentPath = Directory.current.path;
+
+  // targetPath 계산: packageAbsolutePath로부터 moduleAssetsAbsolutePaths의 상대 경로를 구하고, 이를 currentPath와 결합
+  String relativePath = p.relative(moduleAssetsAbsolutePaths, from: packageAbsolutePath);
+  String targetPath = p.join(currentPath, relativePath);
+
+  // 1. 해당 위치에 별도의 파일이 존재하는지 체크
+  if (await _isExistAssetInDirectory(moduleAssetsAbsolutePaths)) {
     // 2. 재귀적으로 검사하면서 모든 디렉토리 검사해서 목록으로 만들어두기
-    List<String> directories = await _findAllDirectoriesRelative(moduleAssetsPaths);
-    for(String directory in directories) {
+    List<String> directories =
+    await _findAllDirectoriesRelative(packageAbsolutePath, moduleAssetsAbsolutePaths);
+    for (String directory in directories) {
       moduleObj.AddLineToPubspecAssetsBlock.add(directory);
     }
 
+    // 소스 디렉토리의 모든 엔티티를 탐색
+    await for (var entity
+    in Directory(moduleAssetsAbsolutePaths).list(recursive: true, followLinks: false)) {
+      if (entity is File) {
+        final String newPath =
+        entity.path.replaceFirst(moduleAssetsAbsolutePaths, targetPath);
+        final File newFile = File(newPath);
 
-    이제 해야할거는 임시폴더를 만들고 거기에 모든파일을 넣어두는것.
+        // 새 파일의 디렉토리가 존재하지 않으면 생성
+        if (!await newFile.parent.exists()) {
+          await newFile.parent.create(recursive: true);
+        }
 
+        // 파일 복사
+        await entity.copy(newPath);
+      }
+    }
   }
 
   return moduleObj;
 }
-
 
 // 디렉토리 내에 .gitkeep 외에 다른 파일이나 폴더가 없는지 확인
 Future<bool> _isExistAssetInDirectory(String directoryPath) async {
@@ -49,21 +71,20 @@ Future<bool> _isExistAssetInDirectory(String directoryPath) async {
   return false;
 }
 
-Future<List<String>> _findAllDirectoriesRelative(String assetFolderPath) async {
-  String basePath = '${Directory.current.path}/$assetFolderPath';
-  Directory baseDir = Directory(basePath);
+Future<List<String>> _findAllDirectoriesRelative(String packageAbsolutePath, String assetFolderPath) async {
+  Directory assetsDir = Directory(assetFolderPath);
   List<String> directories = [assetFolderPath];
 
-  if (!(await baseDir.exists())) {
-    print('The specified base path does not exist.');
-    return directories;
-  }
+  // if (!(await baseDir.exists())) {
+  //   print('The specified base path does not exist.');
+  //   return directories;
+  // }
 
-  await for (var entity in baseDir.list(recursive: true, followLinks: false)) {
+  await for (var entity in assetsDir.list(recursive: true, followLinks: false)) {
     if (entity is Directory) {
       // 절대 경로로부터 basePath 까지의 상대 경로를 계산
-      String relativePath = p.relative(entity.path, from: basePath);
-      directories.add('$assetFolderPath/$relativePath');
+      String relativePath = p.relative(entity.path, from: packageAbsolutePath);
+      directories.add(relativePath);
     }
   }
 

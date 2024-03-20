@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
 import '../../../../singleton/build_info/model.dart';
+import '../check_assets_exist_and_add_folder/function.dart';
 import 'usage.dart';
 
 Future<void> getJuneFlowPackagesInProject() async {
@@ -32,10 +33,11 @@ Future<void> getJuneFlowPackagesInProject() async {
       Module? module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
-      여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를
-  임시폴더(복붙용)에 옮겨주자.
-
       if (module != null) {
+        //   여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를
+        //   임시폴더(복붙용)에 옮겨주자.
+        module = await checkAssetsHandler(packagePath, module, '$packagePath/assets');
+
         BuildInfo.instance.ModuleList.add(module);
       }
     }
@@ -119,10 +121,10 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     bool doesNotEndWithGitkeep = !path.endsWith('.gitkeep');
 
     // 'lib/util'로 시작하지 않거나, 'lib/util'로 시작하며 'libraryName'으로 끝나며, 동시에 'assets/'로 시작하지 않고, '.gitkeep'으로 끝나지 않는 경우 true를 반환
-    return doesNotStartWithAssets && doesNotEndWithGitkeep && (!startsWithUtil || (startsWithUtil && endsWithLibraryName));
+    return doesNotStartWithAssets &&
+        doesNotEndWithGitkeep &&
+        (!startsWithUtil || (startsWithUtil && endsWithLibraryName));
   }).toList();
-
-
 
   List<FilePathAndContents> files = [];
 
@@ -206,13 +208,20 @@ Future<List<PubspecCode>> _getCodeBlocksFromPubspec(String projectPath) async {
 
       for (var match in blockMatches) {
         String key = match.group(1)!.trim();
-        String value = match.group(2)!.trim().replaceAll(RegExp(r'\n\s+'), '\n'); // 들여쓰기 최소화
+        String value = match
+            .group(2)!
+            .trim()
+            .replaceAll(RegExp(r'\n\s+'), '\n'); // 들여쓰기 최소화
         // 값이 바로 뒤에 오는 경우를 위해 조건 추가
         if (value.startsWith('|')) {
           value = value.substring(1).trim();
-          codeBlocksToCheck.add(PubspecCode()..Title = key..CodeBloc = value);
+          codeBlocksToCheck.add(PubspecCode()
+            ..Title = key
+            ..CodeBloc = value);
         } else {
-          codeBlocksToCheck.add(PubspecCode()..Title = key..CodeBloc = "\n$value");
+          codeBlocksToCheck.add(PubspecCode()
+            ..Title = key
+            ..CodeBloc = "\n$value");
         }
       }
     }
