@@ -108,14 +108,19 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
   /// 만약 문자열이 lib/util 로 시작할경우, 끝이 libraryName 로 끝나는 경우를 제외하고는 지우기
   // lib/util로 시작하며, libraryName으로 끝나지 않는 경로를 필터링
   List<String> filteredCopyPaths = copyPaths.where((path) {
-    // lib/util로 시작하는지 확인
+    // 'lib/util'로 시작하는지 확인
     bool startsWithUtil = path.startsWith('lib/util');
-    // libraryName으로 끝나는지 확인
+    // 'libraryName'으로 끝나는지 확인
     bool endsWithLibraryName = path.endsWith(libraryName);
+    // 'assets/'로 시작하지 않는지 확인
+    bool doesNotStartWithAssets = !path.startsWith('assets/');
+    // 파일 이름이 '.gitkeep'으로 끝나지 않는지 확인
+    bool doesNotEndWithGitkeep = !path.endsWith('.gitkeep');
 
-    // lib/util로 시작하지 않거나, lib/util로 시작하며 libraryName으로 끝나는 경우 true를 반환
-    return !startsWithUtil || (startsWithUtil && endsWithLibraryName);
+    // 'lib/util'로 시작하지 않거나, 'lib/util'로 시작하며 'libraryName'으로 끝나며, 동시에 'assets/'로 시작하지 않고, '.gitkeep'으로 끝나지 않는 경우 true를 반환
+    return doesNotStartWithAssets && doesNotEndWithGitkeep && (!startsWithUtil || (startsWithUtil && endsWithLibraryName));
   }).toList();
+
 
 
   List<FilePathAndContents> files = [];
@@ -164,7 +169,7 @@ Future<Module?> generateModuleObjFromPackage(
     moduleObj.Files = await _generateFilePathAndContentsList(
         libraryName, projectPath, _parseYamlList(yamlContent, 'copy_path'));
 
-    moduleObj.CodeBloc = await _getCodeBlocksFromPubspec(projectPath);
+    moduleObj.PubspecCodeBloc = await _getCodeBlocksFromPubspec(projectPath);
 
     return moduleObj;
   } else {

@@ -4,14 +4,30 @@ import '../add_bloc_to_pubspec/function.dart';
 import '../add_global_export_if_not_exists/function.dart';
 import '../add_line_to_gitignore/function.dart';
 import '../add_readme/function.dart';
+import '../apply_temp_dir_to_project/function.dart';
+import '../build_app_with_juneflow_style/function.dart';
+import '../check_is_right_project/function.dart';
 import '../get_june_packages_in_project/function.dart';
+import '../pasted_all_code_files_to_temp_dir/function.dart';
 
 buildApp() async {
+  if(!await checkIsRightProject()) {
+    print('This is not a juneflow project');
+    return;
+  }
+
   await getJuneFlowPackagesInProject();
 
   print(BuildInfo.instance.ModuleList);
 
-  // 5개(global_imports, pubspec(code bloc), pubspec(assets), readme, gitignore)의 파일을 수정한다.
+
+  for (var module in BuildInfo.instance.ModuleList) {
+    // 5. check asset if exist, copy file and add to pubspec
+    이거 진행중입니다.
+
+    // 6. copy and paste the code file to the lib folder
+    await pasteAllCodeFiles(module.LibraryName, module.Files);
+  }
 
   for (var module in BuildInfo.instance.ModuleList) {
     // 1. global_imports.dart 수정
@@ -27,17 +43,15 @@ buildApp() async {
     }
 
     // 3. add code block to pubspec
-    await updatePubspecWithCodeBlocks(module.CodeBloc);
+    await updatePubspecWithCodeBlocks(module.PubspecCodeBloc);
 
     // 4. add readme
     await addReadme(module.ReadMeContents);
-
-    // 5. check asset if exist, copy file and add to pubspec
-
-
-    // 6. copy and paste the file to the lib folder
-
-
-
   }
+
+  // 7. apply .tempDir to lib folder
+  await applyTempDirToProject();
+
+  // 8. build project with juneflow style
+  await buildAppWithJuneFlowStyle();
 }

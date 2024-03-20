@@ -2,23 +2,23 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
 
-class AnnotatedFunctionInfo {
+class _AnnotatedFunctionInfo {
   final String filePath;
   final String functionName;
   final double? index;
 
-  AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
+  _AnnotatedFunctionInfo({required this.filePath, required this.functionName, this.index});
 }
 
 Future<void> findFunctionsAndGenerateFileMaterialApp() async {
   const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_material_app';
   const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_material_app/_.dart';
-  final List<AnnotatedFunctionInfo> coverFunctions = await _findCoverMaterialAppFunctions(searchDirectory);
+  final List<_AnnotatedFunctionInfo> coverFunctions = await _findCoverMaterialAppFunctions(searchDirectory);
   await _generateAndWriteMaterialAppInsideBuilder(coverFunctions, targetFilePath);
 }
 
-Future<List<AnnotatedFunctionInfo>> _findCoverMaterialAppFunctions(String searchDirectory) async {
-  final List<AnnotatedFunctionInfo> functions = [];
+Future<List<_AnnotatedFunctionInfo>> _findCoverMaterialAppFunctions(String searchDirectory) async {
+  final List<_AnnotatedFunctionInfo> functions = [];
   final directory = Directory(searchDirectory);
   await for (final file in directory.list(recursive: true, followLinks: false)) {
     if (file is File && file.path.endsWith('.dart')) {
@@ -34,17 +34,17 @@ Future<List<AnnotatedFunctionInfo>> _findCoverMaterialAppFunctions(String search
         final double? index = match.group(2) != null ? double.tryParse(match.group(2)!) : null;
         // 함수 이름 추출
         final String functionName = match.group(4)!; // 함수 이름에 해당하는 그룹 번호를 조정
-        functions.add(AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
+        functions.add(_AnnotatedFunctionInfo(filePath: file.path, functionName: functionName, index: index));
       }
     }
   }
   return functions;
 }
 
-Future<void> _generateAndWriteMaterialAppInsideBuilder(List<AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
+Future<void> _generateAndWriteMaterialAppInsideBuilder(List<_AnnotatedFunctionInfo> coverFunctions, String targetFilePath) async {
   // 인덱스 값이 있는 함수들과 없는 함수들을 분리하여 저장할 리스트
-  List<AnnotatedFunctionInfo> indexedFunctions = [];
-  List<AnnotatedFunctionInfo> nonIndexedFunctions = [];
+  List<_AnnotatedFunctionInfo> indexedFunctions = [];
+  List<_AnnotatedFunctionInfo> nonIndexedFunctions = [];
 
   // 인덱스 값의 유무에 따라 함수를 분류
   for (final function in coverFunctions) {
@@ -59,7 +59,7 @@ Future<void> _generateAndWriteMaterialAppInsideBuilder(List<AnnotatedFunctionInf
   indexedFunctions.sort((a, b) => a.index!.compareTo(b.index!));
 
   // 최종 함수 목록 생성: 인덱스가 있는 함수들 다음에 인덱스가 없는 함수들이 위치
-  final List<AnnotatedFunctionInfo> finalFunctions = []
+  final List<_AnnotatedFunctionInfo> finalFunctions = []
     ..addAll(indexedFunctions)
     ..addAll(nonIndexedFunctions);
 
