@@ -4,6 +4,7 @@ import '../add_asset_paths_in_pubspec/function.dart';
 import '../add_bloc_to_pubspec/function.dart';
 import '../add_global_export_if_not_exists/function.dart';
 import '../add_line_to_gitignore/function.dart';
+import '../add_package_in_modules/function.dart';
 import '../add_readme/function.dart';
 import '../apply_temp_dir_to_project/function.dart';
 import '../build_app_with_juneflow_style/function.dart';
@@ -50,6 +51,9 @@ buildApp() async {
     await addAssetPaths(
         module.AddLineToPubspecAssetsBlock.map((item) => item.toString())
             .toList());
+
+    // 7. add package to pubspec
+    await addPackageInModules(module.Packages);
   }
 
   // 7. apply .tempDir to lib folder

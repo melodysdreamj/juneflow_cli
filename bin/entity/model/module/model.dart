@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../file_path_and_contents/model.dart';
+import '../package_info/model.dart';
 import '../pubspec_code/model.dart';
 
 class Module {
@@ -352,7 +353,7 @@ class Module {
   List<FilePathAndContents> Files = [];
   List<PubspecCode> PubspecCodeBloc = [];
 
-  // List<SomeModel> J002 = [];
+  List<PackageInfo> Packages = [];
   // List<SomeModel> J003 = [];
   // List<SomeModel> J004 = [];
   // List<SomeModel> J005 = [];
@@ -735,7 +736,7 @@ class Module {
       'Files': jsonEncode(Files.map((model) => model.toString()).toList()),
       'PubspecCodeBloc':
           jsonEncode(PubspecCodeBloc.map((model) => model.toString()).toList()),
-      // 'J002': jsonEncode(J002.map((model) => model.toString()).toList()),
+      'Packages': jsonEncode(Packages.map((model) => model.toString()).toList()),
       // 'J003': jsonEncode(J003.map((model) => model.toString()).toList()),
       // 'J004': jsonEncode(J004.map((model) => model.toString()).toList()),
       // 'J005': jsonEncode(J005.map((model) => model.toString()).toList()),
@@ -1133,7 +1134,7 @@ class Module {
             : (data['PubspecCodeBloc'] ?? []))
         .map((item) => PubspecCode.fromString(item))
         .toList();
-    // obj.J002 = List<String>.from(data['J002'] is String ? jsonDecode(data['J002']) : (data['J002'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
+    obj.Packages = List<String>.from(data['Packages'] is String ? jsonDecode(data['Packages']) : (data['Packages'] ?? [])).map((item) => PackageInfo.fromString(item)).toList();
     // obj.J003 = List<String>.from(data['J003'] is String ? jsonDecode(data['J003']) : (data['J003'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J004 = List<String>.from(data['J004'] is String ? jsonDecode(data['J004']) : (data['J004'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J005 = List<String>.from(data['J005'] is String ? jsonDecode(data['J005']) : (data['J005'] ?? [])).map((item) => SomeModel.fromString(item)).toList();

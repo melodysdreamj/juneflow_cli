@@ -15,5 +15,5 @@ Future<void> addFlutterPackage(String packageName, {String? version}) async {
     print('error: ${result.stderr}');
   }
 
-  print("installed $packageName");
+  // print("installed $packageName");
 }

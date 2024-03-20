@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import '../../../../entity/model/pubspec_code/model.dart';
-import '../../../../util/run_flutter_pub_get/function.dart';
 import '../../../../entity/model/file_path_and_contents/model.dart';
 import '../../../../entity/model/module/model.dart';
 import '../../../../entity/model/package_info/model.dart';
@@ -10,6 +9,8 @@ import 'package:yaml/yaml.dart';
 
 import '../../../../singleton/build_info/model.dart';
 import '../check_assets_exist_and_add_folder/function.dart';
+import '../flutter_pub_get/function.dart';
+import '../get_direct_dependencies_with_versions/function.dart';
 import 'usage.dart';
 
 Future<void> getJuneFlowPackagesInProject() async {
@@ -37,6 +38,9 @@ Future<void> getJuneFlowPackagesInProject() async {
         //   여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를
         //   임시폴더(복붙용)에 옮겨주자.
         module = await checkAssetsHandler(packagePath, module, '$packagePath/assets');
+
+        // 패키지 어떤게 있는지도 챙겨서 넣어주자.
+        module.Packages = await getDirectDependenciesWithVersions();
 
         BuildInfo.instance.ModuleList.add(module);
       }
