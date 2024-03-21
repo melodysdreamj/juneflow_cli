@@ -16,7 +16,7 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions(String packagePath) 
       inDependenciesSection = true;
     } else if (inDependenciesSection && line.trim().isEmpty) {
       inDependenciesSection = false; // End of dependencies section
-    } else if (inDependenciesSection && line.contains('//@add')) {
+    } else if (inDependenciesSection && line.contains('#@add')) {
       final dependencyName = line.split(':')[0].trim();
       directDependenciesWithComments[dependencyName] = true;
     }
@@ -51,7 +51,7 @@ Future<List<PackageInfo>> getDirectDevDependenciesWithVersions(String packagePat
       inDependenciesSection = true;
     } else if (inDependenciesSection && line.trim().isEmpty) {
       inDependenciesSection = false; // End of dependencies section
-    } else if (inDependenciesSection && line.contains('//@add')) {
+    } else if (inDependenciesSection && line.contains('#@add')) {
       final dependencyName = line.split(':')[0].trim();
       directDependenciesWithComments[dependencyName] = true;
     }
