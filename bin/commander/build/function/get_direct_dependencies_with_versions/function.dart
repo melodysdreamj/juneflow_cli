@@ -10,6 +10,7 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions() async {
 
   // `pubspec.yaml`에서 직접 의존성 이름 추출
   final pubspecContents = await pubspecYaml.readAsString();
+  print('pubspecContents: $pubspecContents');
   final pubspec = loadYaml(pubspecContents);
   print("pubspec['dependencies']: ${pubspec['dependencies']}");
   final directDependencies = pubspec['dependencies'] as YamlMap;
