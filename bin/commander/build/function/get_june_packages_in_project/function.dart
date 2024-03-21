@@ -16,7 +16,6 @@ import 'usage.dart';
 Future<void> getJuneFlowPackagesInProject() async {
   await runFlutterPubGet();
 
-  print('Getting JuneFlow packages in project...');
 
   // pubspec.lock 파일 읽기
   var lockFile = File('pubspec.lock');
@@ -25,6 +24,8 @@ Future<void> getJuneFlowPackagesInProject() async {
 
   // 디펜던시 목록 추출
   var dependencies = yamlContent['packages'] as Map;
+
+  print('dependencies: $dependencies');
 
   for (var entry in dependencies.entries) {
     String name = entry.key;
