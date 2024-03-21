@@ -2,7 +2,7 @@ import 'dart:io';
 
 Future<void> addFlutterPackage(String packageName, {String? version}) async {
   final packageArgument =
-      version != null ? '$packageName:$version' : packageName;
+      version != null ? '$packageName:^$version' : packageName;
   final result = await Process.run('flutter', ['pub', 'add', packageArgument],
       workingDirectory: Directory.current.path // 현재 작업 중인 디렉토리를 사용합니다.
       );
