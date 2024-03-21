@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../check_is_right_project/function.dart';
-
 Future<void> addAssetPaths(List<String> newPaths) async {
-
   const String filePath = 'pubspec.yaml';
   File file = File(filePath);
 
@@ -14,24 +11,29 @@ Future<void> addAssetPaths(List<String> newPaths) async {
 
     int flutterSectionIndex = lines.indexWhere((line) => line.trim() == 'flutter:');
     if (flutterSectionIndex != -1) {
-      int assetsIndex = lines.indexWhere((line) => line.trim() == 'assets:', flutterSectionIndex);
+      // `flutter:` 섹션 내에서 `assets:` 섹션을 찾습니다.
+      int assetsIndex = -1;
+      for (int i = flutterSectionIndex + 1; i < lines.length; i++) {
+        if (lines[i].startsWith('  assets:')) {
+          assetsIndex = i;
+          break;
+        }
+        // 다른 섹션의 시작을 만난 경우
+        if (lines[i].startsWith(' ')) break;
+      }
+
       if (assetsIndex == -1) {
         // 'assets:' 섹션이 없는 경우, 생성합니다.
         lines.insert(flutterSectionIndex + 1, '  assets:');
-        assetsIndex = flutterSectionIndex + 1; // 새로운 assetsIndex 업데이트
+        assetsIndex = flutterSectionIndex + 1;
       }
 
       for (String newPath in newPaths) {
         bool pathExists = false;
         // 이미 'assets:' 섹션이 있는 경우, 새 경로가 이미 존재하는지 확인합니다.
-        for (int i = assetsIndex + 1; i < lines.length; i++) {
-          if (lines[i].trim().startsWith('-')) {
-            if (lines[i].trim() == '- $newPath') {
-              pathExists = true;
-              break;
-            }
-          } else {
-            // 다른 섹션의 시작을 만난 경우
+        for (int i = assetsIndex + 1; i < lines.length && lines[i].startsWith('    -'); i++) {
+          if (lines[i].trim() == '- $newPath') {
+            pathExists = true;
             break;
           }
         }
