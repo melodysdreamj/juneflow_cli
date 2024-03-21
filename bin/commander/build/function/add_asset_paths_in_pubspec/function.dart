@@ -35,16 +35,16 @@ Future<void> addAssetPaths(List<String> newPaths) async {
           print('Added asset path: $newPath');
         } else if (pathExists) {
           // 경로가 이미 존재하는 경우, 사용자에게 알립니다.
-          print('Asset path already exists and was not added: $newPath');
+          // print('Asset path already exists and was not added: $newPath');
         }
       }
 
       if (newPaths.isNotEmpty) {
         // 파일에 쓰기
         await file.writeAsString(lines.join('\n'));
-        print('Asset paths processing completed.');
+        // print('Asset paths processing completed.');
       } else if (assetsIndex == -1) {
-        print('No new asset paths to add and no existing "assets:" section to update.');
+        // print('No new asset paths to add and no existing "assets:" section to update.');
       }
     } else {
       print('Flutter section not found in pubspec.yaml');

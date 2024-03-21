@@ -51,7 +51,7 @@ Future<bool> _isExistAssetInDirectory(String directoryPath) async {
 
   // 디렉토리가 존재하는지 확인
   if (!await directory.exists()) {
-    print('Directory does not exist.');
+    // print('Directory does not exist.');
     return false;
   }
 

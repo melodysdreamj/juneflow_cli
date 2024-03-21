@@ -21,7 +21,7 @@ buildApp() async {
 
   await getJuneFlowPackagesInProject();
 
-  print(BuildInfo.instance.ModuleList);
+  // print(BuildInfo.instance.ModuleList);
 
   for (var module in BuildInfo.instance.ModuleList) {
     // 6. copy and paste the code file to the lib folder
