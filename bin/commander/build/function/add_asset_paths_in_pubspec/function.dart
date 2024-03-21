@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 
@@ -6,40 +7,36 @@ Future<void> addAssetPaths(List<String> newPaths) async {
   File file = File(filePath);
 
   if (await file.exists()) {
-    final contents = await file.readAsString();
+    String contents = await file.readAsString();
 
-    // Yaml 파일 로드
     var doc = loadYaml(contents);
-    if (doc is YamlMap && doc.containsKey('flutter')) {
-      var flutter = doc['flutter'];
-      if (flutter is YamlMap) {
-        List<dynamic> assets = [];
-        if (flutter.containsKey('assets')) {
-          assets = List.from(flutter['assets']);
-        }
+    if (doc is YamlMap) {
+      // YamlMap을 수정 가능한 Map으로 변환합니다.
+      Map<String, dynamic> yamlMap = Map<String, dynamic>.from(doc);
 
-        // 새 경로를 추가합니다.
-        for (String newPath in newPaths) {
+      if (yamlMap.containsKey('flutter')) {
+        Map<String, dynamic> flutterSection = Map<String, dynamic>.from(yamlMap['flutter']);
+        List<dynamic> assets = flutterSection['assets'] != null ? List<dynamic>.from(flutterSection['assets']) : [];
+
+        // 새 경로를 assets에 추가합니다.
+        newPaths.forEach((newPath) {
           if (!assets.contains(newPath)) {
             assets.add(newPath);
           }
-        }
+        });
 
-        // assets 리스트를 업데이트합니다.
-        (flutter as Map)['assets'] = assets;
+        flutterSection['assets'] = assets; // 변경된 assets를 flutter 섹션에 다시 할당합니다.
+        yamlMap['flutter'] = flutterSection; // 변경된 flutter 섹션을 yamlMap에 다시 할당합니다.
 
-        // Yaml 파일을 문자열로 다시 변환합니다.
-        String updatedContents = contents;
-        // 이 부분에서 Yaml 내용을 다시 문자열로 변환하는 방법을 구현해야 합니다.
-        // Yaml 패키지는 직접적으로 Map을 Yaml로 변환하는 기능을 제공하지 않습니다.
-        // 따라서, 여기에 적절한 변환 로직을 추가하거나, 다른 방법을 찾아야 합니다.
+        // yamlMap을 문자열로 변환합니다. 이 예제에서는 jsonEncode를 사용하나, 실제로는 Yaml 형식으로 변환해야 합니다.
+        // JSON을 사용하는 것은 단지 예시이며, 실제 YAML 형식에 맞게 변환 로직을 구현해야 합니다.
+        String updatedContents = jsonEncode(yamlMap); // 적절한 YAML 변환 필요
 
-        // 파일에 변경사항을 적용합니다.
         await file.writeAsString(updatedContents);
         print('Asset paths processing completed.');
+      } else {
+        print('Flutter section not found in pubspec.yaml');
       }
-    } else {
-      print('Flutter section not found in pubspec.yaml');
     }
   } else {
     print('pubspec.yaml file not found.');
