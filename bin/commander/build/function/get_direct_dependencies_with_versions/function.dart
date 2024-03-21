@@ -20,14 +20,11 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions() async {
 
   final List<PackageInfo> dependenciesWithVersions = [];
   for (var packageName in directDependencies.keys) {
-    if (packages.containsKey(packageName)) {
-      final packageInfo = packages[packageName] as YamlMap;
-      final version = packageInfo['version'] as String;
+    if (!directDependencies[packageName] is YamlMap) { // 단순 문자열 또는 버전 정보가 없는 경우
+      final version = packages.containsKey(packageName) ? (packages[packageName] as YamlMap)['version'] as String : 'Unknown Version';
       dependenciesWithVersions.add(PackageInfo()..Name = packageName..Version = version);
     }
   }
 
   return dependenciesWithVersions;
 }
-
-
