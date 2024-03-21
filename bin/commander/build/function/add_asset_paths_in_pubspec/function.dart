@@ -1,42 +1,54 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:yaml/yaml.dart';
 
 Future<void> addAssetPaths(List<String> newPaths) async {
   const String filePath = 'pubspec.yaml';
   File file = File(filePath);
 
   if (await file.exists()) {
-    String contents = await file.readAsString();
+    final contents = await file.readAsString();
+    List<String> lines = const LineSplitter().convert(contents);
 
-    var doc = loadYaml(contents);
-    if (doc is YamlMap) {
-      // YamlMap을 수정 가능한 Map으로 변환합니다.
-      Map<String, dynamic> yamlMap = Map<String, dynamic>.from(doc);
-
-      if (yamlMap.containsKey('flutter')) {
-        Map<String, dynamic> flutterSection = Map<String, dynamic>.from(yamlMap['flutter']);
-        List<dynamic> assets = flutterSection['assets'] != null ? List<dynamic>.from(flutterSection['assets']) : [];
-
-        // 새 경로를 assets에 추가합니다.
-        newPaths.forEach((newPath) {
-          if (!assets.contains(newPath)) {
-            assets.add(newPath);
-          }
-        });
-
-        flutterSection['assets'] = assets; // 변경된 assets를 flutter 섹션에 다시 할당합니다.
-        yamlMap['flutter'] = flutterSection; // 변경된 flutter 섹션을 yamlMap에 다시 할당합니다.
-
-        // yamlMap을 문자열로 변환합니다. 이 예제에서는 jsonEncode를 사용하나, 실제로는 Yaml 형식으로 변환해야 합니다.
-        // JSON을 사용하는 것은 단지 예시이며, 실제 YAML 형식에 맞게 변환 로직을 구현해야 합니다.
-        String updatedContents = jsonEncode(yamlMap); // 적절한 YAML 변환 필요
-
-        await file.writeAsString(updatedContents);
-        print('Asset paths processing completed.');
-      } else {
-        print('Flutter section not found in pubspec.yaml');
+    // 'flutter:' 섹션을 공백 없이 시작하는 조건으로 찾습니다.
+    int flutterSectionIndex = lines.indexWhere((line) => line.startsWith('flutter:'));
+    if (flutterSectionIndex != -1) {
+      int assetsIndex = lines.indexWhere((line) => line.trim() == 'assets:', flutterSectionIndex);
+      if (assetsIndex == -1) {
+        // 'assets:' 섹션이 없는 경우, 생성합니다.
+        lines.insert(flutterSectionIndex + 1, '  assets:');
+        assetsIndex = flutterSectionIndex + 1; // 새로운 assetsIndex 업데이트
       }
+
+      for (String newPath in newPaths) {
+        bool pathExists = false;
+        // 이미 'assets:' 섹션이 있는 경우, 새 경로가 이미 존재하는지 확인합니다.
+        for (int i = assetsIndex + 1; i < lines.length; i++) {
+          if (lines[i].trim().startsWith('-')) {
+            if (lines[i].trim() == '- $newPath') {
+              pathExists = true;
+              break;
+            }
+          } else {
+            // 다른 섹션의 시작을 만난 경우
+            break;
+          }
+        }
+
+        if (!pathExists) {
+          // 새 경로가 존재하지 않는 경우, 추가합니다.
+          lines.insert(assetsIndex + 1, '    - $newPath');
+          print('Added asset path: $newPath');
+        } else {
+          // 경로가 이미 존재하는 경우, 사용자에게 알립니다.
+          print('Asset path already exists and was not added: $newPath');
+        }
+      }
+
+      // 파일에 쓰기
+      await file.writeAsString(lines.join('\n'));
+      print('Asset paths processing completed.');
+    } else {
+      print('Flutter section not found in pubspec.yaml');
     }
   } else {
     print('pubspec.yaml file not found.');
