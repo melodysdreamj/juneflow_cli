@@ -1,8 +1,10 @@
 import 'dart:io';
 
 Future<void> addFlutterPackage(String packageName, {String? version, bool? devPackage = false}) async {
-  // 패키지 이름과 버전을 조합합니다. 버전이 지정되었으면 해당 버전을, 아니면 최신 버전을 사용합니다.
-  final packageArgument = version != null ? '$packageName:^$version' : packageName;
+  // 패키지 이름과 버전을 조합합니다. 유효한 버전이 제공되면 해당 버전을 사용하고, 그렇지 않으면 패키지 이름만 사용합니다.
+  // 여기서는 버전이 명시적으로 제공되었을 때만 버전 정보를 추가하며, '^' 기호는 포함하지 않습니다.
+  final packageArgument = (version != null && version.isNotEmpty) ? '$packageName:^$version' : packageName;
+
   // devPackage가 true일 경우 '--dev' 옵션을 추가합니다.
   final List<String> command = ['pub', 'add', packageArgument];
   if (devPackage == true) {
