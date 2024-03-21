@@ -178,6 +178,8 @@ Future<Module?> generateModuleObjFromPackage(
     String content = await yamlFile.readAsString();
     var yamlContent = loadYaml(content);
 
+    print('yamlContent: $yamlContent');
+
     // 여기서부터 YAML 파일로부터 필요한 정보를 추출하여 TableModule 객체를 생성하는 로직 구현
     moduleObj.AddLineToGitignore =
         _parseYamlList(yamlContent, 'add_line_to_gitignore');
