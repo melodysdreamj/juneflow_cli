@@ -43,7 +43,8 @@ Future<void> getJuneFlowPackagesInProject() async {
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
       module.DevPackage = await getDirectDevDependenciesWithVersions(packagePath);
 
-      // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
+      print("module.Packages: ${module.Packages} name:${module.LibraryName}");
+      print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
 
       BuildInfo.instance.ModuleList.add(module);
     }
