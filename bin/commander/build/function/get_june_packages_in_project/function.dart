@@ -56,27 +56,29 @@ Future<bool> _checkJuneFlowModule(
   File file = File('$packagePath/juneflow_module.yaml');
 
   if (await file.exists()) {
-    String contents = await file.readAsString();
-    // 정규식을 사용하여 각 섹션의 존재 여부 확인
-    final RegExp copyPathRegexp =
-        RegExp(r'^copy_path:\s*\n(?!#)-', multiLine: true);
-    final RegExp gitignoreRegexp =
-        RegExp(r'^add_line_to_gitignore:\s*\n(?!#)-', multiLine: true);
-    final RegExp pubspecRegexp =
-        RegExp(r'^add_code_block_to_pubspec:\s*\n(?!#)-', multiLine: true);
-    final RegExp globalImportsRegexp =
-        RegExp(r'^add_line_to_global_imports:\s*\n(?!#)-', multiLine: true);
+    return true;
 
-    print('Found valid juneflow_module.yaml in $packagePath');
-
-    // 하나라도 주석이 아닌 항목이 있는지 검사
-    if (copyPathRegexp.hasMatch(contents) ||
-        gitignoreRegexp.hasMatch(contents) ||
-        pubspecRegexp.hasMatch(contents) ||
-        globalImportsRegexp.hasMatch(contents)) {
-      print('Found valid juneflow_module.yaml in $packagePath');
-      return true;
-    }
+    // String contents = await file.readAsString();
+    // // 정규식을 사용하여 각 섹션의 존재 여부 확인
+    // final RegExp copyPathRegexp =
+    //     RegExp(r'^copy_path:\s*\n(?!#)-', multiLine: true);
+    // final RegExp gitignoreRegexp =
+    //     RegExp(r'^add_line_to_gitignore:\s*\n(?!#)-', multiLine: true);
+    // final RegExp pubspecRegexp =
+    //     RegExp(r'^add_code_block_to_pubspec:\s*\n(?!#)-', multiLine: true);
+    // final RegExp globalImportsRegexp =
+    //     RegExp(r'^add_line_to_global_imports:\s*\n(?!#)-', multiLine: true);
+    //
+    // print('Found valid juneflow_module.yaml in $packagePath');
+    //
+    // // 하나라도 주석이 아닌 항목이 있는지 검사
+    // if (copyPathRegexp.hasMatch(contents) ||
+    //     gitignoreRegexp.hasMatch(contents) ||
+    //     pubspecRegexp.hasMatch(contents) ||
+    //     globalImportsRegexp.hasMatch(contents)) {
+    //   print('Found valid juneflow_module.yaml in $packagePath');
+    //   return true;
+    // }
   }
   // 파일이 없거나 모든 항목이 주석 처리된 경우
   print('No valid juneflow_module.yaml found in $packagePath');
