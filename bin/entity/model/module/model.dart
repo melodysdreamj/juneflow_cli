@@ -354,7 +354,7 @@ class Module {
   List<PubspecCode> PubspecCodeBloc = [];
 
   List<PackageInfo> Packages = [];
-  // List<SomeModel> J003 = [];
+  List<PackageInfo> DevPackage = [];
   // List<SomeModel> J004 = [];
   // List<SomeModel> J005 = [];
   // List<SomeModel> J006 = [];
@@ -737,7 +737,7 @@ class Module {
       'PubspecCodeBloc':
           jsonEncode(PubspecCodeBloc.map((model) => model.toString()).toList()),
       'Packages': jsonEncode(Packages.map((model) => model.toString()).toList()),
-      // 'J003': jsonEncode(J003.map((model) => model.toString()).toList()),
+      'DevPackage': jsonEncode(DevPackage.map((model) => model.toString()).toList()),
       // 'J004': jsonEncode(J004.map((model) => model.toString()).toList()),
       // 'J005': jsonEncode(J005.map((model) => model.toString()).toList()),
       // 'J006': jsonEncode(J006.map((model) => model.toString()).toList()),
@@ -1135,7 +1135,7 @@ class Module {
         .map((item) => PubspecCode.fromString(item))
         .toList();
     obj.Packages = List<String>.from(data['Packages'] is String ? jsonDecode(data['Packages']) : (data['Packages'] ?? [])).map((item) => PackageInfo.fromString(item)).toList();
-    // obj.J003 = List<String>.from(data['J003'] is String ? jsonDecode(data['J003']) : (data['J003'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
+    obj.DevPackage = List<String>.from(data['DevPackage'] is String ? jsonDecode(data['DevPackage']) : (data['DevPackage'] ?? [])).map((item) => PackageInfo.fromString(item)).toList();
     // obj.J004 = List<String>.from(data['J004'] is String ? jsonDecode(data['J004']) : (data['J004'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J005 = List<String>.from(data['J005'] is String ? jsonDecode(data['J005']) : (data['J005'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J006 = List<String>.from(data['J006'] is String ? jsonDecode(data['J006']) : (data['J006'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
