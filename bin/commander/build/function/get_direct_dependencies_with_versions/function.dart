@@ -3,10 +3,10 @@ import 'package:yaml/yaml.dart';
 
 import '../../../../entity/model/package_info/model.dart';
 
-Future<List<PackageInfo>> getDirectDependenciesWithVersions() async {
+Future<List<PackageInfo>> getDirectDependenciesWithVersions(String packagePath) async {
   print('Getting direct dependencies with versions...');
-  final pubspecYaml = File('pubspec.yaml');
-  final pubspecLock = File('pubspec.lock');
+  final pubspecYaml = File('$packagePath/pubspec.yaml');
+  final pubspecLock = File('$packagePath/pubspec.lock');
 
   // `pubspec.yaml`에서 직접 의존성 이름 추출
   final pubspecContents = await pubspecYaml.readAsString();
