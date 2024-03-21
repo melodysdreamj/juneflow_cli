@@ -30,7 +30,7 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
     await pubspecFile.writeAsString(pubspecContent);
     print('pubspec.yaml has been updated with new blocks.');
   } else {
-    print('No new blocks were added to pubspec.yaml.');
+    // print('No new blocks were added to pubspec.yaml.');
   }
 }
 
