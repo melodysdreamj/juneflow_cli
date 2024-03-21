@@ -54,7 +54,7 @@ Future<void> getJuneFlowPackagesInProject() async {
 Future<bool> _checkJuneFlowModule(
     String packagePath, String packageName, String packageVersion) async {
   File file = File('$packagePath/juneflow_module.yaml');
-  print('path: ${file.path}');
+
   if (await file.exists()) {
     String contents = await file.readAsString();
     // 정규식을 사용하여 각 섹션의 존재 여부 확인
@@ -66,6 +66,8 @@ Future<bool> _checkJuneFlowModule(
         RegExp(r'^add_code_block_to_pubspec:\s*\n(?!#)-', multiLine: true);
     final RegExp globalImportsRegexp =
         RegExp(r'^add_line_to_global_imports:\s*\n(?!#)-', multiLine: true);
+
+    print('Found valid juneflow_module.yaml in $packagePath');
 
     // 하나라도 주석이 아닌 항목이 있는지 검사
     if (copyPathRegexp.hasMatch(contents) ||
