@@ -54,6 +54,7 @@ Future<bool> _checkJuneFlowModule(
   File file = File('$packagePath/juneflow_module.yaml');
 
   if (await file.exists()) {
+    print('Found valid juneflow_module.yaml in $packagePath');
     return true;
 
     // String contents = await file.readAsString();
@@ -79,7 +80,7 @@ Future<bool> _checkJuneFlowModule(
     // }
   }
   // 파일이 없거나 모든 항목이 주석 처리된 경우
-  print('No valid juneflow_module.yaml found in $packagePath');
+  // print('No valid juneflow_module.yaml found in $packagePath');
   return false;
 }
 
