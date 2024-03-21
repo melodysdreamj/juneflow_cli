@@ -42,7 +42,7 @@ Future<void> getJuneFlowPackagesInProject() async {
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions();
 
-      print("module.Packages: ${module.Packages}");
+      print("module.Packages: ${module.Packages} name:${module.LibraryName}");
 
       BuildInfo.instance.ModuleList.add(module);
     }
