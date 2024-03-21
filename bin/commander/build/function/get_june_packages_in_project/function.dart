@@ -25,7 +25,6 @@ Future<void> getJuneFlowPackagesInProject() async {
   // 디펜던시 목록 추출
   var dependencies = yamlContent['packages'] as Map;
 
-  print('dependencies: $dependencies');
 
   for (var entry in dependencies.entries) {
     String name = entry.key;
@@ -72,10 +71,12 @@ Future<bool> _checkJuneFlowModule(
         gitignoreRegexp.hasMatch(contents) ||
         pubspecRegexp.hasMatch(contents) ||
         globalImportsRegexp.hasMatch(contents)) {
+      print('Found valid juneflow_module.yaml in $packagePath');
       return true;
     }
   }
   // 파일이 없거나 모든 항목이 주석 처리된 경우
+  print('No valid juneflow_module.yaml found in $packagePath');
   return false;
 }
 
