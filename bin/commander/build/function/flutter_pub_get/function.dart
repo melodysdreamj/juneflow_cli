@@ -9,7 +9,7 @@ Future<void> runFlutterPubGet() async {
   var result = await Process.run('flutter', ['pub', 'get'], workingDirectory: currentDirectory);
 
   // 실행 결과를 출력합니다.
-  print(result.stdout);
+  // print(result.stdout);
   // 에러가 있다면 에러도 출력합니다.
   if (result.stderr.isNotEmpty) {
     print('Error: ${result.stderr}');
