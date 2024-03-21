@@ -34,19 +34,17 @@ Future<void> getJuneFlowPackagesInProject() async {
     if (packagePath == null) continue;
 
     if (await _checkJuneFlowModule(packagePath, name, details['version'])) {
-      Module? module = await generateModuleObjFromPackage(
+      Module module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
-      if (module != null) {
-        //   여기서 assets에 파일이 있는지 확인후, 있을경우 해당 경로 추가하고, assets파일자체들 자체를
-        //   임시폴더(복붙용)에 옮겨주자.
-        module = await checkAssetsHandler(packagePath, module, '$packagePath/assets');
+      module = await checkAssetsHandler(packagePath, module, '$packagePath/assets');
 
-        // 패키지 어떤게 있는지도 챙겨서 넣어주자.
-        module.Packages = await getDirectDependenciesWithVersions();
+      // 패키지 어떤게 있는지도 챙겨서 넣어주자.
+      module.Packages = await getDirectDependenciesWithVersions();
 
-        BuildInfo.instance.ModuleList.add(module);
-      }
+      print("module.Packages: ${module.Packages}");
+
+      BuildInfo.instance.ModuleList.add(module);
     }
   }
 }
@@ -161,7 +159,7 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
   return files;
 }
 
-Future<Module?> generateModuleObjFromPackage(
+Future<Module> generateModuleObjFromPackage(
   String projectPath,
   String libraryName,
   String libraryVersion,
@@ -173,17 +171,15 @@ Future<Module?> generateModuleObjFromPackage(
   moduleObj.LibraryName = libraryName;
   moduleObj.LibraryVersion = libraryVersion;
 
-  print('projectPath: $projectPath');
 
   File yamlFile = File('$projectPath/juneflow_module.yaml');
   if (await yamlFile.exists()) {
     String content = await yamlFile.readAsString();
-    print('content: $content');
-    var yamlContent = loadYaml(content);
+    YamlMap? yamlContent = loadYaml(content);
 
-    print('yamlContent: $yamlContent');
 
     // 여기서부터 YAML 파일로부터 필요한 정보를 추출하여 TableModule 객체를 생성하는 로직 구현
+    if(yamlContent == null) return moduleObj;
     moduleObj.AddLineToGitignore =
         _parseYamlList(yamlContent, 'add_line_to_gitignore');
     moduleObj.AddLineToGlobalImports =
@@ -196,7 +192,7 @@ Future<Module?> generateModuleObjFromPackage(
     return moduleObj;
   } else {
     print('File not found: ${yamlFile.path}');
-    return null;
+    return moduleObj;
   }
 }
 
