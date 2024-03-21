@@ -173,6 +173,8 @@ Future<Module?> generateModuleObjFromPackage(
   moduleObj.LibraryName = libraryName;
   moduleObj.LibraryVersion = libraryVersion;
 
+  print('projectPath: $projectPath');
+
   File yamlFile = File('$projectPath/juneflow_module.yaml');
   if (await yamlFile.exists()) {
     String content = await yamlFile.readAsString();
