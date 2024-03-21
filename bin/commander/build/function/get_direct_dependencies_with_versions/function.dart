@@ -4,6 +4,7 @@ import 'package:yaml/yaml.dart';
 import '../../../../entity/model/package_info/model.dart';
 
 Future<List<PackageInfo>> getDirectDependenciesWithVersions() async {
+  print('Getting direct dependencies with versions...');
   final pubspecYaml = File('pubspec.yaml');
   final pubspecLock = File('pubspec.lock');
 

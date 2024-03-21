@@ -71,9 +71,9 @@ Future<String?> _getName() async {
   String? name;
   while (true) {
     print(
-        'Enter the name for your project (e.g., my_app), or type "cancel" to exit:');
-    print(
-        'The name should be all lowercase and may include underscores (_) to separate words.');
+        'Enter the name for your project (e.g., my_app):'); //  or type "cancel" to exit
+    // print(
+    //     'The name should be all lowercase and may include underscores (_) to separate words.');
     name = await readLine();
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
@@ -92,7 +92,7 @@ Future<String?> _getPackageName() async {
   String? packageName;
   while (true) {
     print(
-        'Enter the package name for your project (e.g., com.example.myapp), or type "cancel" to exit:');
+        'Enter the package name for your project (e.g., com.example.myapp):');//, or type "cancel" to exit
     packageName = await readLine();
     if (packageName?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
