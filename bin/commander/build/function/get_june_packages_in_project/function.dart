@@ -16,7 +16,7 @@ import 'usage.dart';
 Future<void> getJuneFlowPackagesInProject() async {
   await runFlutterPubGet();
 
-  print('Getting JuneFlow packages in project...')
+  print('Getting JuneFlow packages in project...');
 
   // pubspec.lock 파일 읽기
   var lockFile = File('pubspec.lock');
