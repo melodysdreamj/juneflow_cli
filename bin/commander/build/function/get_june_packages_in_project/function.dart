@@ -54,6 +54,7 @@ Future<void> getJuneFlowPackagesInProject() async {
 Future<bool> _checkJuneFlowModule(
     String packagePath, String packageName, String packageVersion) async {
   File file = File('$packagePath/juneflow_module.yaml');
+  print('path: ${file.path}');
   if (await file.exists()) {
     String contents = await file.readAsString();
     // 정규식을 사용하여 각 섹션의 존재 여부 확인
