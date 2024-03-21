@@ -6,7 +6,7 @@ Future<bool> checkIsRightProject() async {
     '$currentPath/lib/util/_/initial_app/build_app_widget/build_run_app/_.dart',
     '$currentPath/lib/util/config/_/global_imports.dart',
     '$currentPath/lib/util/_/initial_app/ready_functions/before_run_app/_.dart',
-    '$currentPath/pubspec.lock',
+    '$currentPath/pubspec.module',
   ];
 
   for (String path in filePaths) {
