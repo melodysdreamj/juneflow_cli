@@ -20,6 +20,7 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions() async {
 
   final List<PackageInfo> dependenciesWithVersions = [];
   for (var packageName in directDependencies.keys) {
+    print('packageName: $packageName');
     if (directDependencies[packageName] is! YamlMap) {
       final version = packages.containsKey(packageName) ? (packages[packageName] as YamlMap)['version'] as String : 'Unknown Version';
       dependenciesWithVersions.add(PackageInfo()..Name = packageName..Version = version);
