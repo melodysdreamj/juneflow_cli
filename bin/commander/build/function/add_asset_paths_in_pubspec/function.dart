@@ -11,44 +11,44 @@ Future<void> addAssetPaths(List<String> newPaths) async {
 
     int flutterSectionIndex = lines.indexWhere((line) => line.trim() == 'flutter:');
     if (flutterSectionIndex != -1) {
-      // `flutter:` 섹션 내에서 `assets:` 섹션을 찾습니다.
+      // 'flutter:' 섹션 뒤의 내용을 처리합니다.
       int assetsIndex = -1;
+      // 'flutter:' 섹션 바로 다음부터 시작하여 'assets:' 섹션을 찾습니다.
       for (int i = flutterSectionIndex + 1; i < lines.length; i++) {
-        if (lines[i].startsWith('  assets:')) {
+        if (lines[i].contains('assets:')) {
           assetsIndex = i;
           break;
         }
-        // 다른 섹션의 시작을 만난 경우
-        if (lines[i].startsWith(' ')) break;
+        if (!lines[i].startsWith('  ')) {
+          // 다음 메인 섹션을 만나면 중지합니다.
+          break;
+        }
       }
 
       if (assetsIndex == -1) {
-        // 'assets:' 섹션이 없는 경우, 생성합니다.
-        lines.insert(flutterSectionIndex + 1, '  assets:');
+        // 'assets:' 섹션이 없으면, 'flutter:' 섹션 바로 아래에 추가합니다.
         assetsIndex = flutterSectionIndex + 1;
+        lines.insert(assetsIndex, '  assets:');
       }
 
+      // 'assets:' 섹션에 새 경로를 추가합니다.
       for (String newPath in newPaths) {
         bool pathExists = false;
-        // 이미 'assets:' 섹션이 있는 경우, 새 경로가 이미 존재하는지 확인합니다.
         for (int i = assetsIndex + 1; i < lines.length && lines[i].startsWith('    -'); i++) {
           if (lines[i].trim() == '- $newPath') {
             pathExists = true;
             break;
           }
         }
-
         if (!pathExists) {
-          // 새 경로가 존재하지 않는 경우, 추가합니다.
           lines.insert(assetsIndex + 1, '    - $newPath');
           print('Added asset path: $newPath');
         } else {
-          // 경로가 이미 존재하는 경우, 사용자에게 알립니다.
           print('Asset path already exists and was not added: $newPath');
         }
       }
 
-      // 파일에 쓰기
+      // 수정된 내용을 파일에 다시 씁니다.
       await file.writeAsString(lines.join('\n'));
       print('Asset paths processing completed.');
     } else {
