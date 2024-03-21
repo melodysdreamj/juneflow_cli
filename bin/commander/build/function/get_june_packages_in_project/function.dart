@@ -42,7 +42,7 @@ Future<void> getJuneFlowPackagesInProject() async {
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
 
-      print("module.Packages: ${module.Packages} name:${module.LibraryName}");
+      // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
 
       BuildInfo.instance.ModuleList.add(module);
     }
@@ -54,7 +54,7 @@ Future<bool> _checkJuneFlowModule(
   File file = File('$packagePath/juneflow_module.yaml');
 
   if (await file.exists()) {
-    print('Found valid juneflow_module.yaml in $packagePath');
+    // print('Found valid juneflow_module.yaml in $packagePath');
     return true;
 
     // String contents = await file.readAsString();
