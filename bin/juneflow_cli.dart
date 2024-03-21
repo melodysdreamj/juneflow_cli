@@ -1,5 +1,6 @@
 import 'package:args/args.dart';
 
+import 'commander/add/function/_/function.dart';
 import 'commander/build/function/_/function.dart';
 import 'commander/build/function/get_june_packages_in_project/function.dart';
 import 'commander/create-app/function/_/function.dart';
@@ -37,6 +38,13 @@ ArgParser buildParser() {
       negatable: false,
       help: 'initialize the project.',
     )
+
+
+    ..addOption(
+      'add',
+      help: 'Add a module to the project.',
+      valueHelp: 'moduleName',
+    );
 
       // ..addFlag(
       //   'practice',
@@ -87,6 +95,16 @@ void main(List<String> arguments) {
         case 'build':
           print('Project initialization process initiated.');
           buildApp();
+          break;
+        case 'add':
+          if (results.rest.length > 1) {
+            // 'add' 명령어와 함께 패키지명 처리
+            String moduleName = results.rest[1];
+            print('Adding module: $moduleName');
+            addModule(moduleName);
+          } else {
+            print('Package name is missing.');
+          }
           break;
         default:
           print('Unknown command: ${results.rest.first}');
