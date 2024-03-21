@@ -176,6 +176,7 @@ Future<Module?> generateModuleObjFromPackage(
   File yamlFile = File('$projectPath/juneflow_module.yaml');
   if (await yamlFile.exists()) {
     String content = await yamlFile.readAsString();
+    print('content: $content');
     var yamlContent = loadYaml(content);
 
     print('yamlContent: $yamlContent');
