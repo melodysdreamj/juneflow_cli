@@ -224,7 +224,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
           }
         } catch (e) {
           // 파일 읽기 중 발생하는 에러를 잡아서 그냥 넘어갑니다. 처리를 계속합니다.
-          // print("Error reading file: ${entity.path}, error: $e");
+          print("Error reading file: ${entity.path}, error: $e");
         }
       }
     }
