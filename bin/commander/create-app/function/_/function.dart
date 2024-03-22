@@ -44,6 +44,8 @@ createApp() async {
   }
 
   print('\nCongratulations! Your project has been created successfully!');
+  print('Please change your current directory to the project directory by executing the following command:');
+  print('cd ${result.Name}');
 }
 
 String _toPascalCase(String text) {
