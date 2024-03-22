@@ -84,12 +84,9 @@ Future<void> _generateAndWriteReadyBeforeRunApp(List<_AnnotatedFunctionInfo> fun
   final String readyBeforeRunAppFunction = '''
 import 'package:flutter/material.dart';
 import '../../../../../main.dart';
-import 'web_url_strategy/none.dart'
-    if (dart.library.html) 'web_url_strategy/_.dart' as url_strategy;
 $importStatements
 
 Future<void> readyBeforeRunApp() async {
-  url_strategy.readyForWebUrlStrategy();
 ${functionCalls.toString()}
 }
 ''';
