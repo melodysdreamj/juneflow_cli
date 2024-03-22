@@ -6,7 +6,7 @@ Future<void> addReadme(String ReadmeContent) async {
     return;
   }
   String currentPath = Directory.current.path;
-  String filePath = '$currentPath/lib/util/usage/logger_module/README.md';
+  String filePath = 'lib/util/usage/logger_module/README.md';
   // print('filePath: $filePath');
 
   // 해당위치로 README.md 파일을 생성하거나 있을경우 덮어씌운다.
