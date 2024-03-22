@@ -205,6 +205,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
               .readAsLines()
               .then((lines) => lines.isNotEmpty ? lines.first : '');
           if (entity.path.endsWith('.gitkeep')) {
+            print("이거도있음?");
             if (firstLine.startsWith('@add')) {
               await for (FileSystemEntity fileEntity
                   in entity.parent.list(recursive: false, followLinks: false)) {
@@ -224,7 +225,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
           }
         } catch (e) {
           // 파일 읽기 중 발생하는 에러를 잡아서 그냥 넘어갑니다. 처리를 계속합니다.
-          print("Error reading file: ${entity.path}, error: $e");
+          // print("Error reading file: ${entity.path}, error: $e");
         }
       }
     }
