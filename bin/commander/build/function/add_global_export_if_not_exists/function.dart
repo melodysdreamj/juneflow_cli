@@ -17,7 +17,7 @@ Future<void> addExportIfNotExists(String exportPath) async {
   } else {
     // Export 구문 추가
     final fileSink = file.openWrite(mode: FileMode.append);
-    fileSink.write("\nexport '$exportPath';\n");
+    fileSink.write("\n$exportPath\n");
     await fileSink.flush();
     await fileSink.close();
     print('Export added: $exportPath');
