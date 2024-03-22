@@ -194,6 +194,8 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   Directory directory = Directory(directoryPath);
   List<String> filesWithAddTag = [];
 
+  print("이거도있음?:${directory} ${directoryPath}");
+
   Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
     await for (FileSystemEntity entity
         in dir.list(recursive: false, followLinks: false)) {
@@ -205,7 +207,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
               .readAsLines()
               .then((lines) => lines.isNotEmpty ? lines.first : '');
           if (entity.path.endsWith('.gitkeep')) {
-            print("이거도있음?");
+
             if (firstLine.startsWith('@add')) {
               await for (FileSystemEntity fileEntity
                   in entity.parent.list(recursive: false, followLinks: false)) {
