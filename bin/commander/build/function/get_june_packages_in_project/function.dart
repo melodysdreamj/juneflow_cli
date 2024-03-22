@@ -36,7 +36,7 @@ Future<void> getJuneFlowPackagesInProject() async {
           packagePath, name, details['version']);
 
       module =
-          await checkAssetsHandler(packagePath, module, '$packagePath/assets');
+          await checkAssetsHandler(packagePath, module, '$packagePath/assets/mmodule/${module.LibraryName}');
 
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
@@ -205,7 +205,6 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
       if (entity is Directory) {
         await searchGitkeepFiles(entity, basePath);
       } else if (entity is File) {
-        print("이거도있음?:${entity}");
         try {
           String firstLine = await entity
               .readAsLines()
