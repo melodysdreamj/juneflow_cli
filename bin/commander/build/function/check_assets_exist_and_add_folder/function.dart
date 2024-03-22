@@ -44,7 +44,7 @@ Future<Module> checkAssetsHandler(String packageAbsolutePath,
   return moduleObj;
 }
 
-// 디렉토리 내에 .gitkeep 외에 다른 파일이나 폴더가 없는지 확인
+// 디렉토리 내에 add.june 외에 다른 파일이나 폴더가 없는지 확인
 Future<bool> _isExistAssetInDirectory(String directoryPath) async {
   // Directory 객체 생성
   final directory = Directory(directoryPath);
@@ -57,8 +57,8 @@ Future<bool> _isExistAssetInDirectory(String directoryPath) async {
 
   // 디렉토리 내의 모든 항목을 async* 스트림으로 반환
   await for (final entity in directory.list()) {
-    // entity가 파일이면서 .gitkeep가 아닌 경우 true 반환
-    if (entity is File && !entity.path.endsWith('/.gitkeep')) {
+    // entity가 파일이면서 add.june가 아닌 경우 true 반환
+    if (entity is File && !entity.path.endsWith('/add.june')) {
       return true;
     }
     // entity가 디렉토리인 경우(하위 디렉토리 탐색은 여기서 수행하지 않음)
@@ -67,7 +67,7 @@ Future<bool> _isExistAssetInDirectory(String directoryPath) async {
     }
   }
 
-  // .gitkeep 이외에 다른 파일이나 폴더가 없는 경우 false 반환
+  // add.june 이외에 다른 파일이나 폴더가 없는 경우 false 반환
   return false;
 }
 

@@ -106,8 +106,8 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     bool containsLibraryName = copyPath.contains('/$libraryName');
     // 'assets/'로 시작하지 않는지 확인
     bool doesNotStartWithAssets = !copyPath.startsWith('assets/');
-    // 파일 이름이 '.gitkeep'으로 끝나지 않는지 확인
-    bool doesNotEndWithGitkeep = !copyPath.endsWith('.gitkeep');
+    // 파일 이름이 'add.june'으로 끝나지 않는지 확인
+    bool doesNotEndWithGitkeep = !copyPath.endsWith('add.june');
 
     return doesNotStartWithAssets &&
         doesNotEndWithGitkeep &&
@@ -210,7 +210,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
           String firstLine = await entity
               .readAsLines()
               .then((lines) => lines.isNotEmpty ? lines.first : '');
-          if (entity.path.endsWith('.gitkeep')) {
+          if (entity.path.endsWith('add.june')) {
 
             if (firstLine.startsWith('@add')) {
               await for (FileSystemEntity fileEntity
