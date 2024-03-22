@@ -174,12 +174,12 @@ Future<Module> generateModuleObjFromPackage(
   moduleObj.LibraryName = libraryName;
   moduleObj.LibraryVersion = libraryVersion;
 
-  moduleObj.AddLineToGitignore =
-      await _collectLinesWithAddTag('$projectPath/.gitignore', '#@add');
+  // moduleObj.AddLineToGitignore =
+  //     await _collectLinesWithAddTag('$projectPath/.gitignore', '#@add');
   moduleObj.AddLineToGlobalImports = await _collectLinesWithAddTag(
       '$projectPath/lib/util/config/_/global_imports.dart', '//@add');
-  moduleObj.AddLineToGitAttributes =
-      await _collectLinesWithAddTag('$projectPath/.gitattributes', '#@add');
+  // moduleObj.AddLineToGitAttributes =
+  //     await _collectLinesWithAddTag('$projectPath/.gitattributes', '#@add');
   moduleObj.Files = await _generateFilePathAndContentsList(libraryName,
       projectPath, await _findFilesInDirectoriesWithGitkeepForAdd(projectPath));
 
