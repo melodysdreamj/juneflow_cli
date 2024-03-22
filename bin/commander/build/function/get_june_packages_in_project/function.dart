@@ -98,45 +98,55 @@ String? _getPackagePath(String packageName, String packageVersion) {
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
-  /// 여기서 copyPaths 를 수정해야하는데, 왜냐하면 util쪽은 함부로 건들면 안되고 정해진대로 해야하기때문. 그외는 상관없음.
-  /// 만약 문자열이 lib/util 로 시작할경우, 끝이 libraryName 로 끝나는 경우를 제외하고는 지우기
-  // lib/util로 시작하며, libraryName으로 끝나지 않는 경로를 필터링
-  List<String> filteredCopyPaths = copyPaths.where((path) {
+  List<String> filteredCopyPaths = copyPaths.where((copyPath) {
     // 'lib/util'로 시작하는지 확인
-    bool startsWithUtil = path.startsWith('lib/util');
-    // 'libraryName'으로 끝나는지 확인
-    bool endsWithLibraryName = path.endsWith(libraryName);
+    bool startsWithUtil = copyPath.startsWith('lib/util');
+    // 경로 중간과 끝에 'libraryName'이 포함되어 있는지 확인 (더 넓은 범위를 위해 수정됨)
+    bool containsLibraryName = copyPath.contains('/$libraryName');
     // 'assets/'로 시작하지 않는지 확인
-    bool doesNotStartWithAssets = !path.startsWith('assets/');
+    bool doesNotStartWithAssets = !copyPath.startsWith('assets/');
     // 파일 이름이 '.gitkeep'으로 끝나지 않는지 확인
-    bool doesNotEndWithGitkeep = !path.endsWith('.gitkeep');
+    bool doesNotEndWithGitkeep = !copyPath.endsWith('.gitkeep');
 
-    // 'lib/util'로 시작하지 않거나, 'lib/util'로 시작하며 'libraryName'으로 끝나며, 동시에 'assets/'로 시작하지 않고, '.gitkeep'으로 끝나지 않는 경우 true를 반환
     return doesNotStartWithAssets &&
         doesNotEndWithGitkeep &&
-        (!startsWithUtil || (startsWithUtil && endsWithLibraryName));
+        (!startsWithUtil || (startsWithUtil && containsLibraryName));
   }).toList();
 
   List<FilePathAndContents> files = [];
 
   for (String relativePath in filteredCopyPaths) {
-    String fullPath = '$projectPath/$relativePath';
+    String fullPath = path.join(projectPath, relativePath);
     FileSystemEntityType entityType =
-        await FileSystemEntity.type(fullPath, followLinks: false);
+    await FileSystemEntity.type(fullPath, followLinks: false);
 
     if (entityType == FileSystemEntityType.file) {
       File file = File(fullPath);
       String content = await file.readAsString();
+      // 파일 내용의 첫 줄이 //@add 또는 #@add 로 시작하는 경우 그 줄을 제거
+      List<String> lines = content.split('\n');
+      if (lines.isNotEmpty && (lines.first.startsWith('//@add') || lines.first.startsWith('#@add'))) {
+        lines.removeAt(0); // 첫 줄 제거
+      }
+      content = lines.join('\n'); // 수정된 내용으로 다시 합치기
+
       files.add(FilePathAndContents()
         ..Path = relativePath
         ..CodeBloc = content);
     } else if (entityType == FileSystemEntityType.directory) {
       Directory directory = Directory(fullPath);
       await for (FileSystemEntity entity
-          in directory.list(recursive: true, followLinks: false)) {
+      in directory.list(recursive: true, followLinks: false)) {
         if (entity is File) {
           String entityPath = entity.path.replaceFirst('$projectPath/', '');
           String content = await entity.readAsString();
+          // 파일 내용의 첫 줄이 //@add 또는 #@add 로 시작하는 경우 그 줄을 제거
+          List<String> lines = content.split('\n');
+          if (lines.isNotEmpty && (lines.first.startsWith('//@add') || lines.first.startsWith('#@add'))) {
+            lines.removeAt(0); // 첫 줄 제거
+          }
+          content = lines.join('\n'); // 수정된 내용으로 다시 합치기
+
           files.add(FilePathAndContents()
             ..Path = entityPath
             ..CodeBloc = content);
@@ -147,7 +157,6 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
 
   return files;
 }
-
 Future<Module> generateModuleObjFromPackage(
   String projectPath,
   String libraryName,
@@ -179,27 +188,38 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   Directory directory = Directory(directoryPath);
   List<String> filesWithAddTag = [];
 
-  // 비동기 재귀 함수로 디렉토리 내의 모든 .gitkeep 파일 탐색
+  // 비동기 재귀 함수로 디렉토리 내의 모든 .gitkeep 파일 및 조건에 맞는 파일 탐색
   Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
     await for (FileSystemEntity entity
-        in dir.list(recursive: false, followLinks: false)) {
+    in dir.list(recursive: false, followLinks: false)) {
       if (entity is Directory) {
         // 하위 디렉토리를 재귀적으로 탐색
         await searchGitkeepFiles(entity, basePath);
-      } else if (entity is File && entity.path.endsWith('.gitkeep')) {
-        // .gitkeep 파일이면 내용의 첫 번째 라인만 확인
-        String firstLine = await entity
-            .readAsLines()
-            .then((lines) => lines.isNotEmpty ? lines.first : '');
-        if (firstLine.startsWith('@add')) {
-          // 첫 번째 라인이 '@add'로 시작하면 해당하는 폴더 내의 모든 파일의 경로를 수집 (단, .gitkeep 파일은 제외)
-          await for (FileSystemEntity fileEntity
-              in entity.parent.list(recursive: false, followLinks: false)) {
-            if (fileEntity is File && fileEntity.path != entity.path) {
-              // .gitkeep 파일 자체는 제외
-              String relativePath = path.relative(fileEntity.path, from: basePath);
-              filesWithAddTag.add(relativePath);
+      } else if (entity is File) {
+        if (entity.path.endsWith('.gitkeep')) {
+          // .gitkeep 파일이면 내용의 첫 번째 라인만 확인
+          String firstLine = await entity
+              .readAsLines()
+              .then((lines) => lines.isNotEmpty ? lines.first : '');
+          if (firstLine.startsWith('@add')) {
+            // 첫 번째 라인이 '@add'로 시작하면 해당하는 폴더 내의 모든 파일의 경로를 수집 (단, .gitkeep 파일은 제외)
+            await for (FileSystemEntity fileEntity
+            in entity.parent.list(recursive: false, followLinks: false)) {
+              if (fileEntity is File && fileEntity.path != entity.path) {
+                String relativePath = path.relative(fileEntity.path, from: basePath);
+                filesWithAddTag.add(relativePath);
+              }
             }
+          }
+        } else {
+          // .gitkeep 이 아닌 파일의 첫 줄 확인
+          String firstLine = await entity
+              .readAsLines()
+              .then((lines) => lines.isNotEmpty ? lines.first : '');
+          if (firstLine.startsWith('#@add') || firstLine.startsWith('//@add')) {
+            // 조건에 맞는 경우 파일의 상대경로 추가
+            String relativePath = path.relative(entity.path, from: basePath);
+            filesWithAddTag.add(relativePath);
           }
         }
       }
@@ -210,7 +230,6 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
 
   return filesWithAddTag;
 }
-
 Future<List<String>> _collectLinesWithAddTag(
     String filePath, String filterKeyword) async {
   var file = File(filePath);
