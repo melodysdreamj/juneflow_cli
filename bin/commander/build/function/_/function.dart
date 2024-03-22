@@ -59,8 +59,11 @@ buildApp() async {
             .toList());
 
     // 7. add package to pubspec
-    await checkAndAddModules(module.Packages, devPackages: false);
-    await checkAndAddModules(module.DevPackage, devPackages: true);
+    await addPackageInModules(module.Packages);
+    await addDevPackageInModules(module.DevPackage);
+
+    // await checkAndAddModules(module.Packages, devPackages: false);
+    // await checkAndAddModules(module.DevPackage, devPackages: true);
   }
 
   // 7. apply .tempDir to lib folder
