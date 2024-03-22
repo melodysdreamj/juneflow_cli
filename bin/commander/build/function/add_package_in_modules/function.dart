@@ -23,6 +23,8 @@ Future<void> checkAndAddModules(List<PackageInfo> packages,
     {bool devPackages = false}) async {
   var yamlDoc = loadYaml(await File('pubspec.yaml').readAsString());
 
+  print('pubspec.yaml: $yamlDoc');
+
   Map<dynamic, dynamic> dependencies = devPackages
       ? yamlDoc['dev_dependencies'] ?? {}
       : yamlDoc['dependencies'] ?? {};

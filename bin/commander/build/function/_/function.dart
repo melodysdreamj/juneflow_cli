@@ -62,8 +62,8 @@ buildApp() async {
     await addPackageInModules(module.Packages);
     await addDevPackageInModules(module.DevPackage);
 
-    // await checkAndAddModules(module.Packages, devPackages: false);
-    // await checkAndAddModules(module.DevPackage, devPackages: true);
+    await checkAndAddModules(module.Packages, devPackages: false);
+    await checkAndAddModules(module.DevPackage, devPackages: true);
   }
 
   // 7. apply .tempDir to lib folder
