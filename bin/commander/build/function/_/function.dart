@@ -14,6 +14,7 @@ import '../check_assets_exist_and_add_folder/function.dart';
 import '../check_is_right_project/function.dart';
 import '../get_june_packages_in_project/function.dart';
 import '../pasted_all_code_files_to_temp_dir/function.dart';
+import '../reset_temp_dir/function.dart';
 
 buildApp() async {
   if (!await checkIsRightProject()) {
@@ -26,7 +27,8 @@ buildApp() async {
   // print(BuildInfo.instance.ModuleList);
 
   // 시작전 초기화하고 진행
-  await Directory('.tempDir').delete(recursive: true);
+  await resetTempDir();
+
 
   for (var module in BuildInfo.instance.ModuleList) {
     // 6. copy and paste the code file to the lib folder
