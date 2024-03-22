@@ -20,6 +20,6 @@ Future<void> addExportIfNotExists(String exportPath) async {
     fileSink.write("\n$exportPath\n");
     await fileSink.flush();
     await fileSink.close();
-    print('Export added: $exportPath');
+    // print('Export added: $exportPath');
   }
 }

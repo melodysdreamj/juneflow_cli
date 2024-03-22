@@ -7,7 +7,6 @@ Future<void> pasteAllCodeFiles(
   String currentDirectory = Directory.current.path;
 
   for (FilePathAndContents fileObj in files) {
-    print('fileObj.Path : ${fileObj.Path}');
     String filePath = '$currentDirectory/.tempDir/${fileObj.Path}';
     File newFile = File(filePath);
 
