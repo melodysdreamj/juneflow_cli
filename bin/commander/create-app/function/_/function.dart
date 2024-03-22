@@ -41,11 +41,6 @@ createApp() async {
 
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
-
-    await replaceStringInFile(
-        '${Directory.current.path}/${result.Name}/juneflow_module.yaml',
-        '_new',
-        result.Name);
   }
 
   print('\nCongratulations! Your project has been created successfully!');

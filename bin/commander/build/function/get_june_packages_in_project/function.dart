@@ -16,7 +16,6 @@ import 'usage.dart';
 Future<void> getJuneFlowPackagesInProject() async {
   await runFlutterPubGet();
 
-
   // pubspec.lock 파일 읽기
   var lockFile = File('pubspec.lock');
   var content = await lockFile.readAsString();
@@ -24,7 +23,6 @@ Future<void> getJuneFlowPackagesInProject() async {
 
   // 디펜던시 목록 추출
   var dependencies = yamlContent['packages'] as Map;
-
 
   for (var entry in dependencies.entries) {
     String name = entry.key;
@@ -37,11 +35,13 @@ Future<void> getJuneFlowPackagesInProject() async {
       Module module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
-      module = await checkAssetsHandler(packagePath, module, '$packagePath/assets');
+      module =
+          await checkAssetsHandler(packagePath, module, '$packagePath/assets');
 
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
-      module.DevPackage = await getDirectDevDependenciesWithVersions(packagePath);
+      module.DevPackage =
+          await getDirectDevDependenciesWithVersions(packagePath);
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
@@ -53,36 +53,12 @@ Future<void> getJuneFlowPackagesInProject() async {
 
 Future<bool> _checkJuneFlowModule(
     String packagePath, String packageName, String packageVersion) async {
-  File file = File('$packagePath/juneflow_module.yaml');
+  File file = File(
+      '$packagePath/lib/util/_/initial_app/build_app_widget/build_run_app/_.dart');
 
   if (await file.exists()) {
-    // print('Found valid juneflow_module.yaml in $packagePath');
     return true;
-
-    // String contents = await file.readAsString();
-    // // 정규식을 사용하여 각 섹션의 존재 여부 확인
-    // final RegExp copyPathRegexp =
-    //     RegExp(r'^copy_path:\s*\n(?!#)-', multiLine: true);
-    // final RegExp gitignoreRegexp =
-    //     RegExp(r'^add_line_to_gitignore:\s*\n(?!#)-', multiLine: true);
-    // final RegExp pubspecRegexp =
-    //     RegExp(r'^add_code_block_to_pubspec:\s*\n(?!#)-', multiLine: true);
-    // final RegExp globalImportsRegexp =
-    //     RegExp(r'^add_line_to_global_imports:\s*\n(?!#)-', multiLine: true);
-    //
-    // print('Found valid juneflow_module.yaml in $packagePath');
-    //
-    // // 하나라도 주석이 아닌 항목이 있는지 검사
-    // if (copyPathRegexp.hasMatch(contents) ||
-    //     gitignoreRegexp.hasMatch(contents) ||
-    //     pubspecRegexp.hasMatch(contents) ||
-    //     globalImportsRegexp.hasMatch(contents)) {
-    //   print('Found valid juneflow_module.yaml in $packagePath');
-    //   return true;
-    // }
   }
-  // 파일이 없거나 모든 항목이 주석 처리된 경우
-  // print('No valid juneflow_module.yaml found in $packagePath');
   return false;
 }
 
@@ -145,7 +121,8 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
 
   for (String relativePath in filteredCopyPaths) {
     String fullPath = '$projectPath/$relativePath';
-    FileSystemEntityType entityType = await FileSystemEntity.type(fullPath, followLinks: false);
+    FileSystemEntityType entityType =
+        await FileSystemEntity.type(fullPath, followLinks: false);
 
     if (entityType == FileSystemEntityType.file) {
       File file = File(fullPath);
@@ -155,7 +132,8 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
         ..CodeBloc = content);
     } else if (entityType == FileSystemEntityType.directory) {
       Directory directory = Directory(fullPath);
-      await for (FileSystemEntity entity in directory.list(recursive: true, followLinks: false)) {
+      await for (FileSystemEntity entity
+          in directory.list(recursive: true, followLinks: false)) {
         if (entity is File) {
           String entityPath = entity.path.replaceFirst('$projectPath/', '');
           String content = await entity.readAsString();
@@ -182,29 +160,78 @@ Future<Module> generateModuleObjFromPackage(
   moduleObj.LibraryName = libraryName;
   moduleObj.LibraryVersion = libraryVersion;
 
+  moduleObj.AddLineToGitignore =
+      await _collectLinesWithAddTag('$projectPath/.gitignore', '#@add');
+  moduleObj.AddLineToGlobalImports = await _collectLinesWithAddTag(
+      '$projectPath/lib/util/config/_/global_imports.dart', '//@add');
+  moduleObj.AddLineToGitAttributes =
+      await _collectLinesWithAddTag('$projectPath/.gitattributes', '#@add');
+  moduleObj.Files = await _generateFilePathAndContentsList(libraryName,
+      projectPath, await _findFilesInDirectoriesWithGitkeepForAdd(projectPath));
 
-  File yamlFile = File('$projectPath/juneflow_module.yaml');
-  if (await yamlFile.exists()) {
-    String content = await yamlFile.readAsString();
-    YamlMap? yamlContent = loadYaml(content);
+  moduleObj.PubspecCodeBloc = await _extractPubspecCodes(projectPath);
 
+  return moduleObj;
+}
 
-    // 여기서부터 YAML 파일로부터 필요한 정보를 추출하여 TableModule 객체를 생성하는 로직 구현
-    if(yamlContent == null) return moduleObj;
-    moduleObj.AddLineToGitignore =
-        _parseYamlList(yamlContent, 'add_line_to_gitignore');
-    moduleObj.AddLineToGlobalImports =
-        _parseYamlList(yamlContent, 'add_line_to_global_imports');
-    moduleObj.Files = await _generateFilePathAndContentsList(
-        libraryName, projectPath, _parseYamlList(yamlContent, 'copy_path'));
+Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
+    String directoryPath) async {
+  Directory directory = Directory(directoryPath);
+  List<String> filesWithAddTag = [];
 
-    moduleObj.PubspecCodeBloc = await _getCodeBlocksFromPubspec(projectPath);
-
-    return moduleObj;
-  } else {
-    print('File not found: ${yamlFile.path}');
-    return moduleObj;
+  // 비동기 재귀 함수로 디렉토리 내의 모든 .gitkeep 파일 탐색
+  Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
+    await for (FileSystemEntity entity
+        in dir.list(recursive: false, followLinks: false)) {
+      if (entity is Directory) {
+        // 하위 디렉토리를 재귀적으로 탐색
+        await searchGitkeepFiles(entity, basePath);
+      } else if (entity is File && entity.path.endsWith('.gitkeep')) {
+        // .gitkeep 파일이면 내용의 첫 번째 라인만 확인
+        String firstLine = await entity
+            .readAsLines()
+            .then((lines) => lines.isNotEmpty ? lines.first : '');
+        if (firstLine.startsWith('@add')) {
+          // 첫 번째 라인이 '@add'로 시작하면 해당하는 폴더 내의 모든 파일의 경로를 수집 (단, .gitkeep 파일은 제외)
+          await for (FileSystemEntity fileEntity
+              in entity.parent.list(recursive: false, followLinks: false)) {
+            if (fileEntity is File && fileEntity.path != entity.path) {
+              // .gitkeep 파일 자체는 제외
+              String relativePath = path.relative(fileEntity.path, from: basePath);
+              filesWithAddTag.add(relativePath);
+            }
+          }
+        }
+      }
+    }
   }
+
+  await searchGitkeepFiles(directory, directoryPath);
+
+  return filesWithAddTag;
+}
+
+Future<List<String>> _collectLinesWithAddTag(
+    String filePath, String filterKeyword) async {
+  var file = File(filePath);
+  var linesWithAddTag = <String>[];
+
+  // 파일이 존재하는지 확인
+  if (await file.exists()) {
+    // 파일의 각 줄을 읽기
+    var lines = await file.readAsLines();
+    for (var line in lines) {
+      // 줄 끝에 '@add' 태그가 있는지 확인
+      if (line.trim().endsWith(filterKeyword)) {
+        // '@add' 태그를 제거한 줄을 리스트에 추가
+        linesWithAddTag.add(line.split(filterKeyword)[0].trim());
+      }
+    }
+  } else {
+    print('File not found: $filePath');
+  }
+
+  return linesWithAddTag;
 }
 
 List<String> _parseYamlList(YamlMap yamlContent, String key) {
@@ -215,46 +242,39 @@ List<String> _parseYamlList(YamlMap yamlContent, String key) {
   return [];
 }
 
-Future<List<PubspecCode>> _getCodeBlocksFromPubspec(String projectPath) async {
+Future<List<PubspecCode>> _extractPubspecCodes(String projectPath) async {
   File pubspecFile = File('$projectPath/pubspec.yaml');
-  if (await pubspecFile.exists()) {
-    String configContent = await pubspecFile.readAsString();
-
-    List<PubspecCode> codeBlocksToCheck = [];
-
-    // 'add_code_block_to_pubspec:' 섹션 찾기
-    RegExp regExp = RegExp(r'add_code_block_to_pubspec:(.*?)#', dotAll: true);
-    var matches = regExp.firstMatch(configContent);
-
-    if (matches != null) {
-      // 코드 블록 추출
-      String blocksContent = matches.group(1)!;
-      RegExp blockRegExp = RegExp(r'- (.*?): *\|\n(.*?)\n\s*\n', dotAll: true);
-      var blockMatches = blockRegExp.allMatches(blocksContent);
-
-      for (var match in blockMatches) {
-        String key = match.group(1)!.trim();
-        String value = match
-            .group(2)!
-            .trim()
-            .replaceAll(RegExp(r'\n\s+'), '\n'); // 들여쓰기 최소화
-        // 값이 바로 뒤에 오는 경우를 위해 조건 추가
-        if (value.startsWith('|')) {
-          value = value.substring(1).trim();
-          codeBlocksToCheck.add(PubspecCode()
-            ..Title = key
-            ..CodeBloc = value);
-        } else {
-          codeBlocksToCheck.add(PubspecCode()
-            ..Title = key
-            ..CodeBloc = "\n$value");
-        }
-      }
-    }
-
-    return codeBlocksToCheck;
-  } else {
-    print('File not found: ${pubspecFile.path}');
+  if (!await pubspecFile.exists()) {
+    print("File does not exist: ${pubspecFile.path}");
     return [];
   }
+
+  List<String> lines = await pubspecFile.readAsLines();
+  List<PubspecCode> codes = [];
+  bool isAddSection = false;
+  String title = '';
+  String codeBloc = '';
+
+  for (String line in lines) {
+    if (line.trim() == "#@add start") {
+      // Reset for a new section
+      isAddSection = true;
+      title = '';
+      codeBloc = '';
+    } else if (line.trim() == "#@add end" && isAddSection) {
+      // Only add if we are inside a section
+      if (title.isNotEmpty && codeBloc.isNotEmpty) {
+        codes.add(PubspecCode()..Title = title..CodeBloc = codeBloc.trim());
+      }
+      isAddSection = false; // Reset flag
+    } else if (isAddSection) {
+      // Accumulate lines and detect title if not set
+      if (title.isEmpty && line.contains(':')) {
+        title = line.split(':')[0].trim();
+      } else {
+        codeBloc += line + '\n';
+      }
+    }
+  }
+  return codes;
 }
