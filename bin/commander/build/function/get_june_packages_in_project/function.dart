@@ -145,17 +145,25 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
 
   for (String relativePath in filteredCopyPaths) {
     String fullPath = '$projectPath/$relativePath';
-    File file = File(fullPath);
-    if (await file.exists()) {
+    FileSystemEntityType entityType = await FileSystemEntity.type(fullPath, followLinks: false);
+
+    if (entityType == FileSystemEntityType.file) {
+      File file = File(fullPath);
       String content = await file.readAsString();
       files.add(FilePathAndContents()
         ..Path = relativePath
         ..CodeBloc = content);
-    } else {
-      print('File not found: $fullPath');
-      // 파일을 찾을 수 없는 경우, 빈 내용을 가진 FilePathAndContents를 추가할 수 있습니다.
-      // 이는 선택적으로 처리할 수 있으며, 필요에 따라 생략하거나 다른 처리를 할 수 있습니다.
-      // files.add(FilePathAndContents(path: fullPath, codeBlock: ''));
+    } else if (entityType == FileSystemEntityType.directory) {
+      Directory directory = Directory(fullPath);
+      await for (FileSystemEntity entity in directory.list(recursive: true, followLinks: false)) {
+        if (entity is File) {
+          String entityPath = entity.path.replaceFirst('$projectPath/', '');
+          String content = await entity.readAsString();
+          files.add(FilePathAndContents()
+            ..Path = entityPath
+            ..CodeBloc = content);
+        }
+      }
     }
   }
 
