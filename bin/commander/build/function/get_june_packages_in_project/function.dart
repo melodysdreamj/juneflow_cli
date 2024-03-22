@@ -98,7 +98,7 @@ String? _getPackagePath(String packageName, String packageVersion) {
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
-  print('copyPaths: $copyPaths');
+  // print('copyPaths: $copyPaths');
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
     // 'lib/util'로 시작하는지 확인
     bool startsWithUtil = copyPath.startsWith('lib/util');
