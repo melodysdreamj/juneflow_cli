@@ -35,6 +35,9 @@ createApp() async {
     await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
         _toPascalCase(result.Name));
 
+    await replaceStringInFiles(
+        '${result.Name}/README.md', 'NewModule', result.Name);
+
     await renameNewFolders('${result.Name}/lib/util', result.Name);
 
     await renameNewFolders('${result.Name}/assets/module', result.Name);
