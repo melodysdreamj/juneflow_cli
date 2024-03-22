@@ -29,7 +29,6 @@ buildApp() async {
   // 시작전 초기화하고 진행
   await resetTempDir();
 
-
   for (var module in BuildInfo.instance.ModuleList) {
     // 6. copy and paste the code file to the lib folder
     await pasteAllCodeFiles(module.LibraryName, module.Files);
@@ -52,7 +51,7 @@ buildApp() async {
     await updatePubspecWithCodeBlocks(module.PubspecCodeBloc);
 
     // 4. add readme
-    await addReadme(module.ReadMeContents,module.LibraryName);
+    await addReadme(module.ReadMeContents, module.LibraryName);
 
     // 5. check asset if exist, add to pubspec
     await addAssetPaths(
@@ -60,8 +59,8 @@ buildApp() async {
             .toList());
 
     // 7. add package to pubspec
-    await addPackageInModules(module.Packages);
-    await addDevPackageInModules(module.DevPackage);
+    await checkAndAddModules(module.Packages, devPackages: false);
+    await checkAndAddModules(module.DevPackage, devPackages: true);
   }
 
   // 7. apply .tempDir to lib folder

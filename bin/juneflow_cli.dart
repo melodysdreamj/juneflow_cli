@@ -45,13 +45,6 @@ ArgParser buildParser() {
       help: 'Add a module to the project.',
       valueHelp: 'moduleName',
     );
-
-      // ..addFlag(
-      //   'practice',
-      //   negatable: false,
-      //   help: 'Run the practices.',
-      // );
-      ;
 }
 
 void printUsage(ArgParser argParser) {
