@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../../entity/model/pubspec_code/model.dart';
 import '../../../../singleton/build_info/model.dart';
 import '../add_asset_paths_in_pubspec/function.dart';
@@ -22,6 +24,9 @@ buildApp() async {
   await getJuneFlowPackagesInProject();
 
   // print(BuildInfo.instance.ModuleList);
+
+  // 시작전 초기화하고 진행
+  await Directory('.tempDir').delete(recursive: true);
 
   for (var module in BuildInfo.instance.ModuleList) {
     // 6. copy and paste the code file to the lib folder
