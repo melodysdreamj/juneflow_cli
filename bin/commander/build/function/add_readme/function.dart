@@ -1,17 +1,16 @@
 import 'dart:io';
 
-Future<void> addReadme(String ReadmeContent) async {
-  if(ReadmeContent.isEmpty) {
+Future<void> addReadme(String readmeContent, String libraryName) async {
+  if (readmeContent.isEmpty) {
     print('Readme content is empty.');
     return;
   }
   String currentPath = Directory.current.path;
-  String filePath = 'lib/util/usage/logger_module/README.md';
-  // print('filePath: $filePath');
+  String directoryPath = '$currentPath/lib/util/usage/$libraryName';
+  await Directory(directoryPath).create(recursive: true); // 폴더 생성
 
-  // 해당위치로 README.md 파일을 생성하거나 있을경우 덮어씌운다.
+  String filePath = '$directoryPath/README.md';
   File file = File(filePath);
-  file.writeAsStringSync(ReadmeContent);
-  // print('README.md has been updated.');
-
+  await file.writeAsString(readmeContent); // 비동기 방식으로 파일 쓰기
+  print('README.md has been updated.');
 }

@@ -50,7 +50,7 @@ buildApp() async {
     await updatePubspecWithCodeBlocks(module.PubspecCodeBloc);
 
     // 4. add readme
-    await addReadme(module.ReadMeContents);
+    await addReadme(module.ReadMeContents,module.LibraryName);
 
     // 5. check asset if exist, add to pubspec
     await addAssetPaths(
