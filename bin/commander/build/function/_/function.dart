@@ -59,8 +59,8 @@ buildApp() async {
             .toList());
 
     // 7. add package to pubspec
-    await addPackageInModules(module.Packages);
-    await addDevPackageInModules(module.DevPackage);
+    // await addPackageInModules(module.Packages);
+    // await addDevPackageInModules(module.DevPackage);
 
     await checkAndAddModules(module.Packages, devPackages: false);
     await checkAndAddModules(module.DevPackage, devPackages: true);
