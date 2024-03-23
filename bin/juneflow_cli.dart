@@ -94,9 +94,9 @@ void main(List<String> arguments) {
           if (results.rest.length > 1) {
             // 'add' 명령어와 함께 패키지명 처리
             String moduleName = results.rest[1];
-            print("start add module: $moduleName")
+            print("start add module: $moduleName");
             addModule(moduleName);
-            print("end add module: $moduleName")
+            print("end add module: $moduleName");
           } else {
             print('Package name is missing.');
           }
