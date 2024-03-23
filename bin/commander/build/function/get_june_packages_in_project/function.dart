@@ -8,6 +8,7 @@ import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
 import '../../../../singleton/build_info/model.dart';
+import '../add_package_in_modules/function.dart';
 import '../check_assets_exist_and_add_folder/function.dart';
 import '../flutter_pub_get/function.dart';
 import '../get_direct_dependencies_with_versions/function.dart';
@@ -42,6 +43,9 @@ Future<void> getJuneFlowPackagesInProject() async {
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
       module.DevPackage =
           await getDirectDevDependenciesWithVersions(packagePath);
+
+      await addPackagesIfNeeded(module.Packages, devPackage: false);
+      await addPackagesIfNeeded(module.DevPackage, devPackage: true);
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
