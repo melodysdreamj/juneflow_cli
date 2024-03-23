@@ -19,7 +19,7 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
     if (!pubspecContent.contains(RegExp(r'^${pubspecCode.title}:', multiLine: true))) {
       // 여기서는 원본 코드 블록의 들여쓰기를 그대로 유지합니다.
       String formattedBlock = pubspecCode.CodeBloc;
-      pubspecContent += '\n${pubspecCode.Title}:\n$formattedBlock';
+      pubspecContent += '\n\n${pubspecCode.Title}:\n$formattedBlock\n\n';
       modified = true;
       print('Adding ${pubspecCode.Title} block to pubspec.yaml');
     }
