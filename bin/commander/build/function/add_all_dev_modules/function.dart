@@ -8,7 +8,7 @@ import '../get_direct_dependencies_with_versions/function.dart';
 
 Future<void> addAllDevModules() async {
   List<PackageInfo> DevPackage =
-  await getDirectDevDependenciesWithVersions(Directory.current.path);
+  await getDirectDevDependenciesWithVersions('pubspec.yaml');
 
   print('DevPackage: $DevPackage');
 

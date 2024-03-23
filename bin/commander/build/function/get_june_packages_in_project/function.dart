@@ -43,7 +43,7 @@ Future<void> getJuneFlowPackagesInProject() async {
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
       module.DevPackage =
-          await getDirectDevDependenciesWithVersions(packagePath);
+          await getDirectDevDependenciesWithVersions('$packagePath/pubspec.yaml');
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");

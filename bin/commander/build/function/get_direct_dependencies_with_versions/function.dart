@@ -45,8 +45,8 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions(
 }
 
 Future<List<PackageInfo>> getDirectDevDependenciesWithVersions(
-    String packagePath) async {
-  final pubspecYaml = File('$packagePath/pubspec.yaml');
+    String packagePubspecPath) async {
+  final pubspecYaml = File(packagePubspecPath);
   final pubspecLock = File('pubspec.lock');
 
   final pubspecContents = await pubspecYaml.readAsLines();
