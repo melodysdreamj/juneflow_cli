@@ -36,7 +36,7 @@ Future<void> getJuneFlowPackagesInProject() async {
           packagePath, name, details['version']);
 
       module =
-          await checkAssetsHandler(packagePath, module, '$packagePath/assets/mmodule/${module.LibraryName}');
+          await checkAssetsHandler(packagePath, module, '$packagePath/assets/module/${module.LibraryName}');
 
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
