@@ -24,7 +24,9 @@ buildApp() async {
   }
 
   await addAllDevModules();
-  
+
+  return;
+
   await getJuneFlowPackagesInProject();
 
   // print(BuildInfo.instance.ModuleList);

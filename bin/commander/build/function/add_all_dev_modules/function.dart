@@ -10,6 +10,8 @@ Future<void> addAllDevModules() async {
   List<PackageInfo> DevPackage =
   await getDirectDevDependenciesWithVersions(Directory.current.path);
 
+  print('DevPackage: $DevPackage');
+
   for(PackageInfo package in DevPackage) {
     await addFlutterPackage(package.Name, devPackage: true);
   }
