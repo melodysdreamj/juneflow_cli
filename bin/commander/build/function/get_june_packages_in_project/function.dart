@@ -287,26 +287,31 @@ Future<List<PubspecCode>> _extractPubspecCodes(String projectPath) async {
 
   for (String line in lines) {
     if (line.trim() == "#@add start") {
-      // Reset for a new section
+      // 새로운 섹션이 시작되면 변수를 리셋합니다.
       isAddSection = true;
       title = '';
       codeBloc = '';
     } else if (line.trim() == "#@add end" && isAddSection) {
-      // Only add if we are inside a section
+      // 섹션이 끝나면, 들여쓰기를 포함하여 코드 블록을 추가합니다.
       if (title.isNotEmpty && codeBloc.isNotEmpty) {
         codes.add(PubspecCode()
           ..Title = title
-          ..CodeBloc = codeBloc.trim());
+        // 코드 블록의 마지막에 추가된 개행 문자를 제거합니다.
+          ..CodeBloc = codeBloc.trimRight());
       }
-      isAddSection = false; // Reset flag
+      isAddSection = false; // 플래그를 리셋합니다.
     } else if (isAddSection) {
-      // Accumulate lines and detect title if not set
+      // 타이틀이 아직 설정되지 않았고, ':'을 포함한 첫 줄을 타이틀로 설정합니다.
       if (title.isEmpty && line.contains(':')) {
         title = line.split(':')[0].trim();
+        // 타이틀 라인도 코드 블록에 포함시킵니다.
+        codeBloc += line + '\n';
       } else {
+        // 들여쓰기를 유지하면서 코드 블록에 라인을 추가합니다.
         codeBloc += line + '\n';
       }
     }
   }
   return codes;
 }
+
