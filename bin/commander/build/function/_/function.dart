@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '../../../../entity/model/pubspec_code/model.dart';
 import '../../../../singleton/build_info/model.dart';
+import '../add_all_dev_modules/function.dart';
 import '../add_asset_paths_in_pubspec/function.dart';
 import '../add_bloc_to_pubspec/function.dart';
 import '../add_global_export_if_not_exists/function.dart';
@@ -22,6 +23,8 @@ buildApp() async {
     return;
   }
 
+  await addAllDevModules();
+  
   await getJuneFlowPackagesInProject();
 
   // print(BuildInfo.instance.ModuleList);
