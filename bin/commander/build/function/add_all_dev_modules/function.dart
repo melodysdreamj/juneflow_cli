@@ -13,7 +13,7 @@ import '../get_package_path/function.dart';
 Future<void> addAllDevModules() async {
   // 현재꺼는 모든 dev를 가져옵니다.
   List<dynamic> devPackages = await _getAllDevPackages(Directory.current.path);
-  print('DevPackage: $devPackages');
+  // print('DevPackage: $devPackages');
 
   // 이거를 바탕으로 해당 프로젝트 경로를 받아줍니다. 그러기 위해서는 버전정보도 알아야합니다.
   for(var package in devPackages){
