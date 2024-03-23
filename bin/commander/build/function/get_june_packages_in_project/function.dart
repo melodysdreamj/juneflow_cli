@@ -49,8 +49,6 @@ Future<void> getJuneFlowPackagesInProject() async {
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
 
       BuildInfo.instance.ModuleList.add(module);
-
-
     }
   }
 }

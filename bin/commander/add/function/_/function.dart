@@ -25,7 +25,5 @@ addModule(String moduleName) async {
   await addFlutterPackage(moduleName,
       devPackage: true);
 
-  await runFlutterPubGet();
-
   await buildApp();
 }

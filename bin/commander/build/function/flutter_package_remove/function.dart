@@ -26,9 +26,9 @@ Future<void> removeFlutterPackage(String packageName) async {
     // print('Stdout: ${result.stdout}');
     // print('Stderr: ${result.stderr}');
 
-    print("removed $packageName");
+    // print("removed $packageName");
   } else {
     // 패키지가 존재하지 않으면 메시지 출력
-    print("Package '$packageName' not found in pubspec.yaml");
+    // print("Package '$packageName' not found in pubspec.yaml");
   }
 }
