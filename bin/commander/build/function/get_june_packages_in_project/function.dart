@@ -26,6 +26,7 @@ Future<void> getJuneFlowPackagesInProject() async {
   var dependencies = yamlContent['packages'] as Map;
 
   for (var entry in dependencies.entries) {
+    print('name: ${entry.key}, version: ${entry.value['version']}');
     String name = entry.key;
     Map details = entry.value;
 
@@ -43,9 +44,6 @@ Future<void> getJuneFlowPackagesInProject() async {
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
       module.DevPackage =
           await getDirectDevDependenciesWithVersions(packagePath);
-
-      await addPackagesIfNeeded(module.Packages, devPackage: false);
-      await addPackagesIfNeeded(module.DevPackage, devPackage: true);
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
