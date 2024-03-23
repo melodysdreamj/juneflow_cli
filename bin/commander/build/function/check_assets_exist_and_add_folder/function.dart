@@ -20,7 +20,7 @@ Future<Module> checkAssetsHandler(String packageAbsolutePath,
     await _findAllDirectoriesRelative(packageAbsolutePath, moduleAssetsAbsolutePaths);
     for (String directory in directories) {
       String _ = p.relative(directory, from: packageAbsolutePath);
-      moduleObj.AddLineToPubspecAssetsBlock.add(_);
+      moduleObj.AddLineToPubspecAssetsBlock.add('$_/');
     }
 
     // 소스 디렉토리의 모든 엔티티를 탐색
