@@ -21,7 +21,7 @@ addModule(String moduleName) async {
   //       devPackage: true);
   // }
 
-  await removeFlutterPackage(moduleName, devPackage: true);
+  await removeFlutterPackage(moduleName);
   await addFlutterPackage(moduleName,
       devPackage: true);
 
