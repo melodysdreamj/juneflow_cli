@@ -49,6 +49,8 @@ Future<List<PackageInfo>> getDirectDevDependenciesWithVersions(
   final pubspecYaml = File(packagePubspecPath);
   final pubspecLock = File('pubspec.lock');
 
+  print('pubspecYaml: $pubspecYaml');
+
   final pubspecContents = await pubspecYaml.readAsLines();
   final directDependenciesWithComments = {};
   bool inDependenciesSection = false;
