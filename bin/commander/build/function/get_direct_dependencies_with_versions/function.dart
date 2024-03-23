@@ -3,7 +3,7 @@ import 'package:yaml/yaml.dart';
 
 import '../../../../entity/model/package_info/model.dart';
 
-Future<List<PackageInfo>> getDirectDependenciesWithVersions(
+Future<List<PackageInfo>> getNeedAddPackagesUsingPath(
     String packagePath) async {
   final pubspecYaml = File('$packagePath/pubspec.yaml');
   final pubspecLock = File('pubspec.lock');
@@ -44,7 +44,7 @@ Future<List<PackageInfo>> getDirectDependenciesWithVersions(
   return dependenciesWithVersions;
 }
 
-Future<List<PackageInfo>> getDirectDevDependenciesWithVersions(
+Future<List<PackageInfo>> getNeedAddDevPackagesUsingPath(
     String packagePath) async {
   final pubspecYaml = File('$packagePath/pubspec.yaml');
   final pubspecLock = File('pubspec.lock');

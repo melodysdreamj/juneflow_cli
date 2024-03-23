@@ -1,6 +1,6 @@
 // import 'function.dart';
 //
 // void main() async {
-//   final dependenciesWithVersions = await getDirectDependenciesWithVersions();
+//   final dependenciesWithVersions = await getNeedAddPackagesUsingPath();
 //   print(dependenciesWithVersions);
 // }
