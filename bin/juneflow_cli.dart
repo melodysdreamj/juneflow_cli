@@ -52,7 +52,7 @@ void printUsage(ArgParser argParser) {
   print(argParser.usage);
 }
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   final ArgParser argParser = buildParser();
   try {
     final ArgResults results = argParser.parse(arguments);
@@ -95,7 +95,7 @@ void main(List<String> arguments) {
             // 'add' 명령어와 함께 패키지명 처리
             String moduleName = results.rest[1];
             print("start add module: $moduleName");
-            addModule(moduleName);
+            await addModule(moduleName);
             print("end add module: $moduleName");
           } else {
             print('Package name is missing.');
