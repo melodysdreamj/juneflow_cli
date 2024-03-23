@@ -11,14 +11,13 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
   }
 
   String pubspecContent = await pubspecFile.readAsString();
-
-  // 파일이 수정되었는지 여부를 추적합니다.
   bool modified = false;
+
   for (PubspecCode pubspecCode in codeBloc) {
-    // 주어진 타이틀이 이미 pubspec.yaml 파일 내에 존재하는지 확인합니다.
-    print('title: ${pubspecCode.Title}');
-    if (!pubspecContent.contains(RegExp(r'^${pubspecCode.Title}:', multiLine: true))) {
-      // 여기서는 원본 코드 블록의 들여쓰기를 그대로 유지합니다.
+    // 타이틀이 이미 존재하는지 여부를 확인합니다.
+    // 여기서는 타이틀 뒤에 콜론과 공백을 포함하여 보다 정확한 일치를 검사합니다.
+    String pattern = r'^' + RegExp.escape(pubspecCode.Title) + r':\s';
+    if (!RegExp(pattern, multiLine: true).hasMatch(pubspecContent)) {
       String formattedBlock = pubspecCode.CodeBloc;
       pubspecContent += '\n\n$formattedBlock\n\n';
       modified = true;
@@ -26,12 +25,12 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
     }
   }
 
-  // 파일이 수정되었다면 새로운 내용으로 파일을 업데이트합니다.
   if (modified) {
     await pubspecFile.writeAsString(pubspecContent);
     print('pubspec.yaml has been updated with new blocks.');
   }
 }
+
 
 void main() async {
   // 'config_file_path.yaml'과 'pubspec.yaml'을 실제 파일 경로로 변경하세요.
