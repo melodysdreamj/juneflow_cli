@@ -19,7 +19,8 @@ Future<Module> checkAssetsHandler(String packageAbsolutePath,
     List<String> directories =
     await _findAllDirectoriesRelative(packageAbsolutePath, moduleAssetsAbsolutePaths);
     for (String directory in directories) {
-      moduleObj.AddLineToPubspecAssetsBlock.add(directory);
+      String _ = p.relative(directory, from: packageAbsolutePath);
+      moduleObj.AddLineToPubspecAssetsBlock.add(_);
     }
 
     // 소스 디렉토리의 모든 엔티티를 탐색
@@ -28,6 +29,9 @@ Future<Module> checkAssetsHandler(String packageAbsolutePath,
       if (entity is File) {
         final String newPath =
         entity.path.replaceFirst(moduleAssetsAbsolutePaths, targetPath);
+        if(newPath.endsWith('/add.june')) {
+          continue;
+        }
         final File newFile = File(newPath);
 
         // 새 파일의 디렉토리가 존재하지 않으면 생성
