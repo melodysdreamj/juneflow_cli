@@ -11,5 +11,5 @@ Future<void> removeFlutterPackage(String packageName) async {
   // print('Stdout: ${result.stdout}');
   // print('Stderr: ${result.stderr}');
 
-  print("removed $packageName");
+  // print("removed $packageName");
 }

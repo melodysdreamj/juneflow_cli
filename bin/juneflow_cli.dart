@@ -86,7 +86,7 @@ void main(List<String> arguments) async {
           // 여기에 앱 생성 로직 추가
           break;
         case 'build':
-          print('Project initialization process initiated.');
+          // print('Project initialization process initiated.');
           buildApp();
           print('Project initialization process completed.');
           break;
@@ -94,9 +94,9 @@ void main(List<String> arguments) async {
           if (results.rest.length > 1) {
             // 'add' 명령어와 함께 패키지명 처리
             String moduleName = results.rest[1];
-            print("start add module: $moduleName");
+            // print("start add module: $moduleName");
             await addModule(moduleName);
-            print("end add module: $moduleName");
+            print("completed add module: $moduleName");
           } else {
             print('Package name is missing.');
           }
