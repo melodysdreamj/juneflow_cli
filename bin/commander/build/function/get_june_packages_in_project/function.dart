@@ -194,11 +194,10 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
           if (entity.path.endsWith('add.june')) {
 
             if (firstLine.startsWith('@add')) {
-              await for (FileSystemEntity fileEntity
-                  in entity.parent.list(recursive: false, followLinks: false)) {
-                if (fileEntity is File && fileEntity.path != entity.path) {
-                  String relativePath =
-                      path.relative(fileEntity.path, from: basePath);
+              // 모든 파일을 포함시키기 위해 현재 디렉토리에서 재귀적으로 파일 탐색
+              await for (FileSystemEntity fileEntity in entity.parent.list(recursive: true, followLinks: false)) {
+                if (fileEntity is File) {
+                  String relativePath = path.relative(fileEntity.path, from: basePath);
                   filesWithAddTag.add(relativePath);
                 }
               }
@@ -219,6 +218,9 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   }
 
   await searchGitkeepFiles(directory, directoryPath);
+
+  // 중복값제거
+  filesWithAddTag = filesWithAddTag.toSet().toList();
 
   return filesWithAddTag;
 }
