@@ -87,8 +87,11 @@ import '../../../../../main.dart';
 $importStatements
 
 Future<void> readyBeforeRunApp() async {
+if (_done) return; _done = true;
+
 ${functionCalls.toString()}
 }
+bool _done = false;
 ''';
 
   final File targetFile = File(targetFilePath);

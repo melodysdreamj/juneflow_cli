@@ -93,8 +93,12 @@ import '../../../../../main.dart';
 $importStatements
 
 Future<void> readyAfterMaterialApp(BuildContext context) async {
+if (_done) return; _done = true;
+
 ${functionCalls.toString()}
+
 }
+bool _done = false;
 ''';
 
   final File targetFile = File(targetFilePath);
