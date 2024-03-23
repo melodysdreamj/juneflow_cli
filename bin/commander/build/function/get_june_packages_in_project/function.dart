@@ -12,6 +12,7 @@ import '../add_package_in_modules/function.dart';
 import '../check_assets_exist_and_add_folder/function.dart';
 import '../flutter_pub_get/function.dart';
 import '../get_direct_dependencies_with_versions/function.dart';
+import '../get_package_path/function.dart';
 import 'usage.dart';
 
 Future<void> getJuneFlowPackagesInProject() async {
@@ -30,7 +31,7 @@ Future<void> getJuneFlowPackagesInProject() async {
     String name = entry.key;
     Map details = entry.value;
 
-    var packagePath = _getPackagePath(name, details['version']);
+    var packagePath = getPackagePath(name, details['version']);
     if (packagePath == null) continue;
 
     if (await _checkJuneFlowModule(packagePath, name, details['version'])) {
@@ -43,7 +44,7 @@ Future<void> getJuneFlowPackagesInProject() async {
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.
       module.Packages = await getDirectDependenciesWithVersions(packagePath);
       module.DevPackage =
-          await getDirectDevDependenciesWithVersions('$packagePath/pubspec.yaml');
+          await getDirectDevDependenciesWithVersions(packagePath);
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
@@ -73,30 +74,6 @@ Future<String> _readReadmeContent(String projectPath) async {
   }
 }
 
-String? _getPackagePath(String packageName, String packageVersion) {
-  // 환경 변수에서 홈 디렉토리 경로 가져오기
-  var homePath =
-      Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
-  if (homePath == null) {
-    print('Cannot find user home directory');
-    return null;
-  }
-
-  // .pub-cache 경로 옵션 설정
-  var pubCacheHostedPath = path.join(homePath, '.pub-cache', 'hosted');
-  var pubDevPath = path.join(pubCacheHostedPath, 'pub.dev');
-  var pubDartlangOrgPath = path.join(pubCacheHostedPath, 'pub.dartlang.org');
-
-  // 존재하는 .pub-cache 호스팅 경로 확인
-  String? packageHostedPath;
-  if (Directory(pubDevPath).existsSync()) {
-    packageHostedPath = pubDevPath;
-  } else if (Directory(pubDartlangOrgPath).existsSync()) {
-    packageHostedPath = pubDartlangOrgPath;
-  }
-
-  return path.join(packageHostedPath!, '$packageName-$packageVersion');
-}
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
