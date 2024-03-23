@@ -35,7 +35,7 @@ Future<void> getJuneFlowPackagesInProject() async {
     if (packagePath == null) continue;
 
     if (await _checkJuneFlowModule(packagePath, name, details['version'])) {
-      print("JuneFlow Module: $name packagePath: $packagePath");
+      // print("JuneFlow Module: $name packagePath: $packagePath");
       Module module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
@@ -80,7 +80,7 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
   // print('copyPaths: $copyPaths');
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
-    print('copyPath: $copyPath');
+    // print('copyPath: $copyPath');
     // 'lib/util'로 시작하는지 확인
     bool startsWithUtil = copyPath.startsWith('lib/util');
     // 경로 중간과 끝에 'libraryName'이 포함되어 있는지 확인 (더 넓은 범위를 위해 수정됨)

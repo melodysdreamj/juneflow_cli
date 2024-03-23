@@ -96,7 +96,7 @@ void main(List<String> arguments) async {
             String moduleName = results.rest[1];
             // print("start add module: $moduleName");
             await addModule(moduleName);
-            print("completed add module: $moduleName");
+            print("finish add process");
           } else {
             print('Package name is missing.');
           }

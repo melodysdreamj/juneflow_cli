@@ -20,7 +20,7 @@ Future<List<PackageInfo>> getNeedAddPackagesUsingPath(
         if (line.contains('#@add')) {
           final dependencyName = line.split(':')[0].trim();
           directDependenciesWithComments[dependencyName] = true;
-          print('dependencyName: $dependencyName');
+          // print('dependencyName: $dependencyName');
         }
       } else if (line
           .trim()
