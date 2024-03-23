@@ -12,25 +12,23 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
 
   String pubspecContent = await pubspecFile.readAsString();
 
-  // pubspec.yaml에 없는 대제목이면 추가
+  // 파일이 수정되었는지 여부를 추적합니다.
   bool modified = false;
-  for(PubspecCode pubspecCode in codeBloc) {
-    // RegExp 패턴에 'm' 플래그를 추가하여, 문자열 전체에 걸쳐 여러 줄 모드에서 작동하도록 합니다.
+  for (PubspecCode pubspecCode in codeBloc) {
+    // 주어진 타이틀이 이미 pubspec.yaml 파일 내에 존재하는지 확인합니다.
     if (!pubspecContent.contains(RegExp(r'^${pubspecCode.title}:', multiLine: true))) {
-      // 여러 줄의 코드 블록을 처리하기 위해, 각 줄 앞에 2개의 공백을 추가합니다.
-      String formattedBlock = pubspecCode.CodeBloc.split('\n').map((line) => '  $line').join('\n');
+      // 여기서는 원본 코드 블록의 들여쓰기를 그대로 유지합니다.
+      String formattedBlock = pubspecCode.CodeBloc;
       pubspecContent += '\n${pubspecCode.Title}:\n$formattedBlock';
       modified = true;
       print('Adding ${pubspecCode.Title} block to pubspec.yaml');
     }
   }
 
-  // 파일이 수정되었으면 새 내용으로 쓰기
+  // 파일이 수정되었다면 새로운 내용으로 파일을 업데이트합니다.
   if (modified) {
     await pubspecFile.writeAsString(pubspecContent);
     print('pubspec.yaml has been updated with new blocks.');
-  } else {
-    // print('No new blocks were added to pubspec.yaml.');
   }
 }
 
