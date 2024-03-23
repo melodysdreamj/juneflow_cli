@@ -110,7 +110,7 @@ Widget Function() MaterialAppBuilder(BuildContext context) {
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(materialAppInsideBuilderFunction);
-  print('MaterialAppInsideBuilder util updated successfully with cover functions sorted by index and dynamic imports.');
+  // print('MaterialAppInsideBuilder util updated successfully with cover functions sorted by index and dynamic imports.');
 }
 
 Future<void> main() async {

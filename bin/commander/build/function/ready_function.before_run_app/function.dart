@@ -96,7 +96,7 @@ bool _done = false;
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(readyBeforeRunAppFunction);
-  print('readyBeforeRunApp util updated successfully with dynamic imports and util calls.');
+  // print('readyBeforeRunApp util updated successfully with dynamic imports and util calls.');
 }
 
 

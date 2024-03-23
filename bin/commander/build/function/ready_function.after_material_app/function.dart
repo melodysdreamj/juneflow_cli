@@ -103,7 +103,7 @@ bool _done = false;
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(readyAfterMaterialAppFunction);
-  print('readyAfterMaterialApp util updated successfully with dynamic imports and util calls.');
+  // print('readyAfterMaterialApp util updated successfully with dynamic imports and util calls.');
 }
 
 Future<void> main() async {

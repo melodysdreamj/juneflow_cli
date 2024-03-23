@@ -78,7 +78,7 @@ ${coverFunctionCalls.toString()}
 
   final File targetFile = File(targetFilePath);
   await targetFile.writeAsString(buildAppFunction);
-  print('buildApp util updated successfully with cover functions and imports.');
+  // print('buildApp util updated successfully with cover functions and imports.');
 }
 Future<void> main() async {
   findFunctionsAndGenerateFileBuildRunApp();
