@@ -27,7 +27,7 @@ Future<void> getJuneFlowPackagesInProject() async {
   var dependencies = yamlContent['packages'] as Map;
 
   for (var entry in dependencies.entries) {
-    print('name: ${entry.key}, version: ${entry.value['version']}');
+    // print('name: ${entry.key}, version: ${entry.value['version']}');
     String name = entry.key;
     Map details = entry.value;
 
@@ -79,6 +79,7 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
   // print('copyPaths: $copyPaths');
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
+    print('copyPath: $copyPath');
     // 'lib/util'로 시작하는지 확인
     bool startsWithUtil = copyPath.startsWith('lib/util');
     // 경로 중간과 끝에 'libraryName'이 포함되어 있는지 확인 (더 넓은 범위를 위해 수정됨)
