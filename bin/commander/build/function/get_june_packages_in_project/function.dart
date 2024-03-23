@@ -186,6 +186,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
       if (entity is Directory) {
         await searchGitkeepFiles(entity, basePath);
       } else if (entity is File) {
+        print('entity.path: ${entity.path}');
         try {
           String firstLine = await entity
               .readAsLines()
