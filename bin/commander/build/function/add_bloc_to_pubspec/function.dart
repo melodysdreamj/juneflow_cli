@@ -16,7 +16,8 @@ Future<void> updatePubspecWithCodeBlocks(List<PubspecCode> codeBloc) async {
   bool modified = false;
   for (PubspecCode pubspecCode in codeBloc) {
     // 주어진 타이틀이 이미 pubspec.yaml 파일 내에 존재하는지 확인합니다.
-    if (!pubspecContent.contains(RegExp(r'^${pubspecCode.title}:', multiLine: true))) {
+    print('title: ${pubspecCode.Title}');
+    if (!pubspecContent.contains(RegExp(r'^${pubspecCode.Title}:', multiLine: true))) {
       // 여기서는 원본 코드 블록의 들여쓰기를 그대로 유지합니다.
       String formattedBlock = pubspecCode.CodeBloc;
       pubspecContent += '\n\n$formattedBlock\n\n';
