@@ -16,33 +16,36 @@ Future<void> addAllDevModules() async {
   // print('DevPackage: $devPackages');
 
   // 이거를 바탕으로 해당 프로젝트 경로를 받아줍니다. 그러기 위해서는 버전정보도 알아야합니다.
-  for(var package in devPackages){
+  for (var package in devPackages) {
     // 해당 패키지의 버전을 가져옵니다.
     PackageInfo? packageInfo = await getPackageInfoUsingName(package);
-    if(packageInfo == null){
+    if (packageInfo == null) {
       continue;
     }
     // 해당 패키지의 경로를 가져옵니다.
     String? packagePath = getPackagePath(packageInfo.Name, packageInfo.Version);
-    if(packagePath == null){
+    if (packagePath == null) {
       continue;
     }
 
-    await addDevPackageUsingPath(packagePath);
-
+    await addPackageUsingPath(packagePath);
   }
 }
 
-Future<void> addDevPackageUsingPath(String packagePath) async {
+Future<void> addPackageUsingPath(String packagePath) async {
   // 이제 그 경로를 바탕으로 그 프로젝트에서 dev에서 @add 인걸 찾아줍니다.
-  List<PackageInfo> devPackagesInfo = await getNeedAddDevPackagesUsingPath(packagePath);
-  for(var package in devPackagesInfo){
-    bool isExistBefore = await addFlutterPackage(package.Name, version: package.Version, devPackage: true);
+  List<PackageInfo> packagesInfo = [];
+  packagesInfo.addAll(await getNeedAddDevPackagesUsingPath(packagePath));
+  packagesInfo.addAll(await getNeedAddPackagesUsingPath(packagePath));
+
+  for (var package in packagesInfo) {
+    bool isExistBefore = await addFlutterPackage(package.Name,
+        version: package.Version, devPackage: true);
     String? _packagePath = getPackagePath(package.Name, package.Version);
-    if(_packagePath == null || isExistBefore){
+    if (_packagePath == null || isExistBefore) {
       continue;
     }
-    await addDevPackageUsingPath(_packagePath);
+    await addPackageUsingPath(_packagePath);
   }
 }
 
