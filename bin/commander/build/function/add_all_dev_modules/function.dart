@@ -38,9 +38,10 @@ Future<void> addPackageUsingPath(String packagePath) async {
   List<PackageInfo> devPackagesInfo = await getNeedAddDevPackagesUsingPath(packagePath);
 
   for (var package in packagesInfo) {
-    print('Adding ${package.Name}...');
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: false);
+    await Future.delayed(Duration(seconds: 1));
+    print('isExistBefore: $isExistBefore _packagePath: $packagePath _packageName: ${package.Name}');
     String? _packagePath = getPackagePath(package.Name, package.Version);
     if (_packagePath == null || isExistBefore) {
       continue;
@@ -49,9 +50,10 @@ Future<void> addPackageUsingPath(String packagePath) async {
   }
 
   for (var package in devPackagesInfo) {
-    print('Adding dev ${package.Name}...');
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: true);
+    await Future.delayed(Duration(seconds: 1));
+    print('isExistBefore: $isExistBefore _packagePath: $packagePath _packageName: ${package.Name}');
     String? _packagePath = getPackagePath(package.Name, package.Version);
     if (_packagePath == null || isExistBefore) {
       continue;
