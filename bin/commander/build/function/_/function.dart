@@ -23,7 +23,7 @@ buildApp() async {
     return;
   }
 
-  await addAllDevModules();
+  await addAllModules();
 
   await getJuneFlowPackagesInProject();
 

@@ -10,7 +10,7 @@ import '../get_direct_dependencies_with_versions/function.dart';
 import '../get_package_info_using_name/function.dart';
 import '../get_package_path/function.dart';
 
-Future<void> addAllDevModules() async {
+Future<void> addAllModules() async {
   // 현재꺼는 모든 dev를 가져옵니다.
   List<dynamic> devPackages = await _getAllDevPackages(Directory.current.path);
   // print('DevPackage: $devPackages');
@@ -34,11 +34,20 @@ Future<void> addAllDevModules() async {
 
 Future<void> addPackageUsingPath(String packagePath) async {
   // 이제 그 경로를 바탕으로 그 프로젝트에서 dev에서 @add 인걸 찾아줍니다.
-  List<PackageInfo> packagesInfo = [];
-  packagesInfo.addAll(await getNeedAddDevPackagesUsingPath(packagePath));
-  packagesInfo.addAll(await getNeedAddPackagesUsingPath(packagePath));
+  List<PackageInfo> packagesInfo = await getNeedAddPackagesUsingPath(packagePath);
+  List<PackageInfo> devPackagesInfo = await getNeedAddDevPackagesUsingPath(packagePath);
 
   for (var package in packagesInfo) {
+    bool isExistBefore = await addFlutterPackage(package.Name,
+        version: package.Version, devPackage: false);
+    String? _packagePath = getPackagePath(package.Name, package.Version);
+    if (_packagePath == null || isExistBefore) {
+      continue;
+    }
+    await addPackageUsingPath(_packagePath);
+  }
+
+  for (var package in devPackagesInfo) {
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: true);
     String? _packagePath = getPackagePath(package.Name, package.Version);
