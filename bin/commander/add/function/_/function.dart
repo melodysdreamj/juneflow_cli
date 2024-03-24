@@ -8,7 +8,7 @@ import '../../../build/function/flutter_package_add/function.dart';
 import '../../../build/function/flutter_package_remove/function.dart';
 import '../../../build/function/flutter_pub_get/function.dart';
 
-addModule(String moduleName) async {
+Future<void> addModule(String moduleName) async {
   // await checkAndAddModules(moduleName, devPackage: true);
 
   // final file = File('pubspec.yaml');
