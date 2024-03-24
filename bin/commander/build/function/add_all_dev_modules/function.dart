@@ -38,6 +38,7 @@ Future<void> addPackageUsingPath(String packagePath) async {
   List<PackageInfo> devPackagesInfo = await getNeedAddDevPackagesUsingPath(packagePath);
 
   for (var package in packagesInfo) {
+    print('Adding ${package.Name}...');
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: false);
     String? _packagePath = getPackagePath(package.Name, package.Version);
