@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPackage = false}) async {
+  print('trying to add $packageName');
   // pubspec.yaml 파일을 로드합니다.
   final File pubspecFile = File('${Directory.current.path}/pubspec.yaml');
   final String pubspecContent = await pubspecFile.readAsString();
