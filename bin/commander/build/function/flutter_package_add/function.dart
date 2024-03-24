@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 
+import '../flutter_pub_get/function.dart';
+
 Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPackage = false}) async {
   print('trying to add $packageName');
   // pubspec.yaml 파일을 로드합니다.
@@ -47,6 +49,8 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
     final String devStr = (devPackage == true) ? 'dev_dependencies' : 'dependencies';
     print("Installed $packageName in $devStr.");
   }
+
+  await runFlutterPubGet()
 
   // 존재하지 않던경우
   return false;
