@@ -16,6 +16,7 @@ Future<void> removeFlutterPackage(String packageName) async {
       pubspecYaml['dev_dependencies']?.containsKey(packageName) ?? false;
 
   if (hasPackage) {
+    print("Removing $packageName...");
     // 패키지가 존재하면 제거 명령 실행
     final result = await Process.run('flutter', ['pub', 'remove', packageName],
         workingDirectory: Directory.current.path // 현재 작업 중인 디렉토리를 사용합니다.
