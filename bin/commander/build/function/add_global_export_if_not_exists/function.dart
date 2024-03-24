@@ -13,7 +13,7 @@ Future<void> addExportIfNotExists(String exportPath) async {
 
   String content = await file.readAsString();
   if (content.contains(exportPath)) {
-    // print('Export already exists: $exportPath');
+    print('Export already exists: $exportPath');
   } else {
     // Export 구문 추가
     final fileSink = file.openWrite(mode: FileMode.append);
