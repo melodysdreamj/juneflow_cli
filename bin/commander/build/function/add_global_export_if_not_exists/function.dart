@@ -12,7 +12,7 @@ Future<void> addExportIfNotExists(String exportPath) async {
   }
 
   String content = await file.readAsString();
-  print('exportPath: $exportPath');
+  // print('exportPath: $exportPath');
   if (content.contains(exportPath)) {
   } else {
     // Export 구문 추가
