@@ -4,6 +4,7 @@ import 'package:yaml/yaml.dart';
 
 // 패키지를 입력받아 flutter pub remove 명령을 실행하는 함수
 Future<void> removeFlutterPackage(String packageName) async {
+  print("removeFlutterPackage 함수 실행 중...");
   // pubspec.yaml 파일 읽기
   final pubspecFile = File('${Directory.current.path}/pubspec.yaml');
   final pubspecContent = await pubspecFile.readAsString();
