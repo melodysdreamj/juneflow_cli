@@ -50,7 +50,7 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
     print("Installed $packageName in $devStr.");
   }
 
-  await runFlutterPubGet()
+  await runFlutterPubGet();
 
   // 존재하지 않던경우
   return false;
