@@ -42,10 +42,10 @@ Future<void> getJuneFlowPackagesInProject() async {
       module =
           await checkAssetsHandler(packagePath, module, '$packagePath/assets/module/${module.LibraryName}');
 
-      // 패키지 어떤게 있는지도 챙겨서 넣어주자.
-      module.Packages = await getNeedAddPackagesUsingPath(packagePath);
-      module.DevPackage =
-          await getNeedAddDevPackagesUsingPath(packagePath);
+      // 패키지 어떤게 있는지도 챙겨서 넣어주자.(앞단에서 하게 되었기때문에 필요없어짐)
+      // module.Packages = await getNeedAddPackagesUsingPath(packagePath);
+      // module.DevPackage =
+      //     await getNeedAddDevPackagesUsingPath(packagePath);
 
       // print("module.Packages: ${module.Packages} name:${module.LibraryName}");
       // print("module.DevPackage: ${module.DevPackage} name:${module.LibraryName}");
