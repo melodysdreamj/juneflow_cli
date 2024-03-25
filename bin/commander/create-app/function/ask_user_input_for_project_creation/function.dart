@@ -31,7 +31,7 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
         break;
       default:
         print(
-            'Invalid selection. Please enter 1 for Skeleton project, 2 for Module or "cancel" to exit.');
+            'Invalid selection. Please enter 1 for Skeleton project, 2 for Module, 3 for View or "cancel" to exit.');
         continue;
     }
     break;
