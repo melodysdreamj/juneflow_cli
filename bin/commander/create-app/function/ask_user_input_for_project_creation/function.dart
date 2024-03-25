@@ -8,8 +8,9 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   while (true) {
     print(
         'What are you creating? (Press Enter for default, type "cancel" to exit)');
-    print('1. Skeleton project(default)');
-    print('2. Module project');
+    print('1. New Project(default)');
+    print('2. Module Template');
+    print('3. View Template');
     String? typeSelection = await readLine();
     if (typeSelection?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
