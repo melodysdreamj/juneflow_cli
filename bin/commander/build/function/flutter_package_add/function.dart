@@ -20,7 +20,7 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
 
   // 패키지가 이미 있으면 추가하지 않고 함수를 종료합니다.
   if (packageExists) {
-    print("Package $packageName is already installed.");
+    // print("Package $packageName is already installed.");
     //존재하는경우
     return true;
   }
