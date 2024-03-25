@@ -35,16 +35,26 @@ Future<void> addAllModules() async {
 Future<void> addPackageUsingPath(String packagePath) async {
   print('addPackageUsingPath: $packagePath');
   // 이제 그 경로를 바탕으로 그 프로젝트에서 dev에서 @add 인걸 찾아줍니다.
-  List<PackageInfo> packagesInfo = await getNeedAddPackagesUsingPath(packagePath);
-  List<PackageInfo> devPackagesInfo = await getNeedAddDevPackagesUsingPath(packagePath);
+  List<PackageInfo> packagesInfo =
+      await getNeedAddPackagesUsingPath(packagePath);
+  List<PackageInfo> devPackagesInfo =
+      await getNeedAddDevPackagesUsingPath(packagePath);
 
   for (var package in packagesInfo) {
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: false);
+
+
     await Future.delayed(Duration(seconds: 1));
+    PackageInfo? renewPackageInfo = await getPackageInfoUsingName(package.Name);
+    if (renewPackageInfo == null) {
+      continue;
+    }
+    package = renewPackageInfo;
 
     String? _packagePath = getPackagePath(package.Name, package.Version);
-    print('isExistBefore: $isExistBefore _packagePath: $_packagePath _packageName: ${package.Name}');
+    print(
+        'isExistBefore: $isExistBefore _packagePath: $_packagePath _packageName: ${package.Name}');
     if (_packagePath == null || isExistBefore) {
       continue;
     }
@@ -55,12 +65,18 @@ Future<void> addPackageUsingPath(String packagePath) async {
     bool isExistBefore = await addFlutterPackage(package.Name,
         version: package.Version, devPackage: true);
     await Future.delayed(Duration(seconds: 1));
+    PackageInfo? renewPackageInfo = await getPackageInfoUsingName(package.Name);
+    if (renewPackageInfo == null) {
+      continue;
+    }
+    package = renewPackageInfo;
 
     String? _packagePath = getPackagePath(package.Name, package.Version);
     if (_packagePath == null || isExistBefore) {
       continue;
     }
-    print('isExistBefore: $isExistBefore _packagePath: $_packagePath _packageName: ${package.Name}');
+    print(
+        'isExistBefore: $isExistBefore _packagePath: $_packagePath _packageName: ${package.Name}');
     await addPackageUsingPath(_packagePath);
   }
 }
