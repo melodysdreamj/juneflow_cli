@@ -5,6 +5,7 @@ import '../../../../entity/model/creation_result/model.dart';
 import '../ask_user_input_for_project_creation/function.dart';
 import '../change_project_name/function.dart';
 import '../clone_and_remove_git/function.dart';
+import '../remove_file/function.dart';
 import '../rename_new_folder/function.dart';
 import '../replace_string_in_file/function.dart';
 import '../replace_sttring_in_files/function.dart';
@@ -31,6 +32,7 @@ createApp() async {
   if (result.Type == ProjectTypeEnum.Skeleton) {
     await replaceStringInFiles(
         result.Name, 'june.lee.love', result.PackageName);
+    await removeFile('${result.Name}/LICENSE');
   } else {
     await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
         _toPascalCase(result.Name));
