@@ -52,10 +52,13 @@ createApp() async {
 
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
-  } else {
+  } else if (result.Type == ProjectTypeEnum.View) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
     await renameNewFolders(
         '${result.Name}/lib/app/_/_/interaction', result.Name);
+  } else {
+    print('Invalid project type: ${result.Type}');
+    return;
   }
 
   print('\nCongratulations! Your project has been created successfully!');
