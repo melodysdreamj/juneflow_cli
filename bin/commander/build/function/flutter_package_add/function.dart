@@ -6,7 +6,7 @@ import 'package:yaml/yaml.dart';
 import '../flutter_pub_get/function.dart';
 
 Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPackage = false}) async {
-  print('trying to add $packageName');
+  // print('trying to add $packageName');
   // pubspec.yaml 파일을 로드합니다.
   final File pubspecFile = File('${Directory.current.path}/pubspec.yaml');
   final String pubspecContent = await pubspecFile.readAsString();
@@ -40,7 +40,7 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
   // 프로세스를 실행하여 패키지를 추가합니다.
   final result = await Process.run('flutter', command, workingDirectory: Directory.current.path);
 
-  await Future.delayed(Duration(seconds: 2));
+  await Future.delayed(Duration(seconds: 1));
 
   // 실행 결과를 출력합니다.
   if (result.stderr.toString().isNotEmpty) {
