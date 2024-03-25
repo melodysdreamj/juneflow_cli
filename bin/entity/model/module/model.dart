@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../enum/project_type/enum.dart';
 import '../file_path_and_contents/model.dart';
 import '../package_info/model.dart';
 import '../pubspec_code/model.dart';
@@ -373,7 +374,7 @@ class Module {
   // List<SomeModel> J019 = [];
   // List<SomeModel> J020 = [];
 
-  // SomeEnum E000 = SomeEnum.NotSelected;
+  ProjectTypeEnum Type = ProjectTypeEnum.NotSelected;
   // SomeEnum E001 = SomeEnum.NotSelected;
   // SomeEnum E002 = SomeEnum.NotSelected;
   // SomeEnum E003 = SomeEnum.NotSelected;
@@ -756,7 +757,7 @@ class Module {
       // 'J019': jsonEncode(J019.map((model) => model.toString()).toList()),
       // 'J020': jsonEncode(J020.map((model) => model.toString()).toList()),
 
-      // 'E000': E000.toStringValue(),
+      'Type': Type.toStringValue(),
       // 'E001': E001.toStringValue(),
       // 'E002': E002.toStringValue(),
       // 'E003': E003.toStringValue(),
@@ -1154,7 +1155,7 @@ class Module {
     // obj.J019 = List<String>.from(data['J019'] is String ? jsonDecode(data['J019']) : (data['J019'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
     // obj.J020 = List<String>.from(data['J020'] is String ? jsonDecode(data['J020']) : (data['J020'] ?? [])).map((item) => SomeModel.fromString(item)).toList();
 
-    // obj.E000 = SomeEnum.fromString(data['E000'] ?? SomeEnum.NotSelected.toStringValue());
+    obj.Type = ProjectTypeEnum.fromString(data['Type'] ?? ProjectTypeEnum.NotSelected.toStringValue());
     // obj.E001 = SomeEnum.fromString(data['E001'] ?? SomeEnum.NotSelected.toStringValue());
     // obj.E002 = SomeEnum.fromString(data['E002'] ?? SomeEnum.NotSelected.toStringValue());
     // obj.E003 = SomeEnum.fromString(data['E003'] ?? SomeEnum.NotSelected.toStringValue());

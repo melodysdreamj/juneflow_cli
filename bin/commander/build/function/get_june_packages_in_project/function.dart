@@ -39,8 +39,10 @@ Future<void> getJuneFlowPackagesInProject() async {
       Module module = await generateModuleObjFromPackage(
           packagePath, name, details['version']);
 
-      module =
-          await checkAssetsHandler(packagePath, module, '$packagePath/assets/module/${module.LibraryName}');
+      module = await checkAssetsHandler(packagePath, module,
+          '$packagePath/assets/module/${module.LibraryName}');
+      module = await checkAssetsHandler(packagePath, module,
+          '$packagePath/assets/view/${module.LibraryName}');
 
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.(앞단에서 하게 되었기때문에 필요없어짐)
       // module.Packages = await getNeedAddPackagesUsingPath(packagePath);
@@ -74,7 +76,6 @@ Future<String> _readReadmeContent(String projectPath) async {
     return '';
   }
 }
-
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
@@ -175,14 +176,9 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   Directory directory = Directory(directoryPath);
   List<String> filesWithAddTag = [];
 
-
-
   Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
     await for (FileSystemEntity entity
         in dir.list(recursive: false, followLinks: false)) {
-
-
-
       if (entity is Directory) {
         await searchGitkeepFiles(entity, basePath);
       } else if (entity is File) {
@@ -192,12 +188,13 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
               .readAsLines()
               .then((lines) => lines.isNotEmpty ? lines.first : '');
           if (entity.path.endsWith('add.june')) {
-
             if (firstLine.startsWith('@add')) {
               // 모든 파일을 포함시키기 위해 현재 디렉토리에서 재귀적으로 파일 탐색
-              await for (FileSystemEntity fileEntity in entity.parent.list(recursive: true, followLinks: false)) {
+              await for (FileSystemEntity fileEntity
+                  in entity.parent.list(recursive: true, followLinks: false)) {
                 if (fileEntity is File) {
-                  String relativePath = path.relative(fileEntity.path, from: basePath);
+                  String relativePath =
+                      path.relative(fileEntity.path, from: basePath);
                   filesWithAddTag.add(relativePath);
                 }
               }
@@ -280,7 +277,7 @@ Future<List<PubspecCode>> _extractPubspecCodes(String projectPath) async {
       if (title.isNotEmpty && codeBloc.isNotEmpty) {
         codes.add(PubspecCode()
           ..Title = title
-        // 코드 블록의 마지막에 추가된 개행 문자를 제거합니다.
+          // 코드 블록의 마지막에 추가된 개행 문자를 제거합니다.
           ..CodeBloc = codeBloc.trimRight());
       }
       isAddSection = false; // 플래그를 리셋합니다.
@@ -298,4 +295,3 @@ Future<List<PubspecCode>> _extractPubspecCodes(String projectPath) async {
   }
   return codes;
 }
-
