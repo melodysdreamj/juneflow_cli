@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import '../../../../entity/enum/project_type/enum.dart';
 import '../../../../entity/model/pubspec_code/model.dart';
 import '../../../../singleton/build_info/model.dart';
 import '../add_all_dev_modules/function.dart';
@@ -54,7 +55,9 @@ buildApp() async {
     await updatePubspecWithCodeBlocks(module.PubspecCodeBloc);
 
     // 4. add readme
-    await addReadme(module.ReadMeContents, module.LibraryName);
+    if(module.Type == ProjectTypeEnum.Module) {
+      await addReadme(module.ReadMeContents, module.LibraryName);
+    }
 
     // 5. check asset if exist, add to pubspec
     await addAssetPaths(

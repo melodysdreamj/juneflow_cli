@@ -10,6 +10,7 @@ import 'package:yaml/yaml.dart';
 import '../../../../singleton/build_info/model.dart';
 import '../add_package_in_modules/function.dart';
 import '../check_assets_exist_and_add_folder/function.dart';
+import '../check_module_type/function.dart';
 import '../flutter_pub_get/function.dart';
 import '../get_direct_dependencies_with_versions/function.dart';
 import '../get_package_path/function.dart';
@@ -43,6 +44,8 @@ Future<void> getJuneFlowPackagesInProject() async {
           '$packagePath/assets/module/${module.LibraryName}');
       module = await checkAssetsHandler(packagePath, module,
           '$packagePath/assets/view/${module.LibraryName}');
+
+      module = await checkModuleType(packagePath, module);
 
       // 패키지 어떤게 있는지도 챙겨서 넣어주자.(앞단에서 하게 되었기때문에 필요없어짐)
       // module.Packages = await getNeedAddPackagesUsingPath(packagePath);
