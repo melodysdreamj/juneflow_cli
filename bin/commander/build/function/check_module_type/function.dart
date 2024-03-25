@@ -9,13 +9,13 @@ Future<Module> checkModuleType(String packagePath, Module moduleObj) async {
 
   // 첫번째 줄이 project면 project타입, module이면 module 타입, view면 view타입이고 없으면 에러 발생
   if (!await info.exists()) {
-    throw Exception('info.june file not found');
+    throw Exception('info.june file not found : $packagePath');
   }
 
   List<String> lines = await info.readAsLines();
 
   if (lines.isEmpty) {
-    throw Exception('info.june file is empty');
+    throw Exception('info.june file is empty : $packagePath');
   }
 
   String type = lines[0];
