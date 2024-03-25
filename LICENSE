@@ -1,6 +1,6 @@
-Educational Use License (EUL) based on MIT License for Commercial Flutter Education Activities
+MIT License
 
-Copyright (c) 2024 June. All rights reserved.
+Copyright (c) 2024 june lee
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -9,33 +9,13 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-1. The above copyright notice and this permission notice shall be included in all
+The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-2. Commercial Flutter Education Enhancement: In addition to the rights granted by the MIT License,
-this license grants the following specific rights for the use of the Software in commercial Flutter
-education activities:
-
-   a. Users may utilize the Software in the creation and operation of commercial educational content
-   and programs specifically related to Flutter, including but not limited to online courses, workshops,
-   and in-person training sessions.
-
-   b. For engaging in commercial Flutter education activities, users must contribute a predetermined fee
-   to the original project or its maintainers. This fee supports the sustainable development of the project
-   and the Flutter ecosystem. The specific terms, including the fee amount and payment methods, will be
-   defined separately by the project maintainers.
-
-   c. Modifications or derivative works created for the purpose of commercial Flutter education must be
-   disclosed to the project maintainers if such works are distributed beyond the immediate educational setting.
-   These works can remain closed source within commercial educational settings, provided the original
-   licensing terms are respected.
-
-For detailed terms and conditions regarding the use of this software for commercial educational activities,
-please refer to: https://www.notion.so/melodysdreamj/juneflow-license-5fb42b45e86244d5b2be61221c019218
-
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
