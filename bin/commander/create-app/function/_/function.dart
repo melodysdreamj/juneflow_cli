@@ -20,12 +20,21 @@ createApp() async {
   String branchName;
   if (result.Type == ProjectTypeEnum.Skeleton) {
     branchName = 'main';
-  } else {
+  } else if (result.Type == ProjectTypeEnum.Module) {
     branchName = 'module_template';
+  } else {
+    branchName = 'view_template';
   }
 
-  await cloneAndRemoveGit(
-      'https://github.com/melodysdreamj/juneflow.git', branchName, result.Name);
+  if (result.Type == ProjectTypeEnum.View) {
+    await cloneAndRemoveGit(
+        'https://github.com/melodysdreamj/june_view_store.git',
+        branchName,
+        result.Name);
+  } else {
+    await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
+        branchName, result.Name);
+  }
 
   await changeProjectName(result.Name, result.Name);
 
@@ -33,7 +42,7 @@ createApp() async {
     await replaceStringInFiles(
         result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
-  } else {
+  } else if (result.Type == ProjectTypeEnum.Module) {
     await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
         _toPascalCase(result.Name));
 
@@ -43,11 +52,16 @@ createApp() async {
 
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
+  } else {
+    await renameNewFolders('${result.Name}/assets/view', result.Name);
+    await renameNewFolders(
+        '${result.Name}/lib/app/_/_/interaction', result.Name);
   }
 
   print('\nCongratulations! Your project has been created successfully!');
-  print('Please change your current directory to the project directory by executing the following command:');
-  print('cd ${result.Name}');
+  print(
+      'Please change your current directory to the project directory by executing the following command:');
+  print('>>>> cd ${result.Name} && flutter run -d chrome <<<<');
 }
 
 String _toPascalCase(String text) {

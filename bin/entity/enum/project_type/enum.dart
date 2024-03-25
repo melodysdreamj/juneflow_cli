@@ -4,7 +4,7 @@ enum ProjectTypeEnum {
   NotSelected,
   Skeleton,
   Module,
-  // P002,
+  View,
   // P003,
   // P004,
   // P005,

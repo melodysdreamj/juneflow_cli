@@ -20,7 +20,10 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
         type = 'skeleton';
         break;
       case '2':
-        type = 'module';
+        type = 'module template';
+        break;
+      case '3':
+        type = 'view template';
         break;
       case '':
         print('Default selection [1. Skeleton project] is used.');
@@ -34,9 +37,11 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   }
 
   CreationResult? result;
-  if (type == 'module') {
+  if (type == 'module template') {
     result = await _createModule();
-  } else {
+  } else if(type == 'view template') {
+    result = await _createView();
+  } else if(type == 'skeleton') {
     result = await _createProject();
   }
 
@@ -52,7 +57,7 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
 }
 
 Future<CreationResult?> _createProject() async {
-  String? name = await _getName();
+  String? name = await _getName('project');
   if (name == null) return null; // Operation was cancelled.
 
   String? packageName = await _getPackageName();
@@ -62,16 +67,22 @@ Future<CreationResult?> _createProject() async {
 }
 
 Future<CreationResult?> _createModule() async {
-  String? name = await _getName();
+  String? name = await _getName('module');
   if (name == null) return null; // Operation was cancelled.
   return CreationResult()..Type = ProjectTypeEnum.Module..Name = name;
 }
 
-Future<String?> _getName() async {
+Future<CreationResult?> _createView() async {
+  String? name = await _getName('view');
+  if (name == null) return null; // Operation was cancelled.
+  return CreationResult()..Type = ProjectTypeEnum.View..Name = name;
+}
+
+Future<String?> _getName(String type) async {
   String? name;
   while (true) {
     print(
-        'Enter the name for your project (e.g., my_app):'); //  or type "cancel" to exit
+        'Enter the name for your $type (e.g., my_app):'); //  or type "cancel" to exit
     // print(
     //     'The name should be all lowercase and may include underscores (_) to separate words.');
     name = await readLine();
