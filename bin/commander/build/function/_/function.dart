@@ -55,7 +55,7 @@ buildApp() async {
     await updatePubspecWithCodeBlocks(module.PubspecCodeBloc);
 
     // 4. add readme
-    if(module.Type == ProjectTypeEnum.Module) {
+    if(module.Type == ProjectTypeEnum.Module || module.Type == ProjectTypeEnum.View) {
       await addReadme(module.ReadMeContents, module.LibraryName);
     }
 
