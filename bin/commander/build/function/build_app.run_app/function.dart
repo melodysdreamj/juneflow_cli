@@ -68,7 +68,9 @@ import '../../ready_functions/before_run_app/_.dart';
 import '../build_my_app/_.dart';
 $importStatements
 
-Future<void> buildApp() async {
+Future<void> buildApp({Widget? appHome, Function(BuildContext)? appCallAfterBuild}) async {
+  if(appHome != null) MyAppHome = appHome;
+  if(appCallAfterBuild != null) MyAppCallAfterBuild = appCallAfterBuild;
   await readyBeforeRunApp();
   Widget childWidget = MyApp();
 ${coverFunctionCalls.toString()}
