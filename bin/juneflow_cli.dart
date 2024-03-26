@@ -1,9 +1,8 @@
 import 'package:args/args.dart';
 
-import 'commander/add/function/_/function.dart';
-import 'commander/build/function/_/function.dart';
-import 'commander/build/function/get_june_packages_in_project/function.dart';
-import 'commander/create-app/function/_/function.dart';
+import 'commander/add/function.dart';
+import 'commander/build/function.dart';
+import 'commander/create-app/function.dart';
 
 const String version = '0.0.1';
 

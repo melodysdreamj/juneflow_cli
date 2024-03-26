@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:yaml/yaml.dart';
 
-import '../../../build/function/_/function.dart';
-import '../../../build/function/add_package_in_modules/function.dart';
-import '../../../build/function/flutter_package_add/function.dart';
-import '../../../build/function/flutter_package_remove/function.dart';
-import '../../../build/function/flutter_pub_get/function.dart';
+import '../build/function.dart';
+import '../build/function/flutter_package_add/function.dart';
+import '../build/function/flutter_package_remove/function.dart';
+
 
 Future<void> addModule(String moduleName) async {
   // await checkAndAddModules(moduleName, devPackage: true);

@@ -1,22 +1,19 @@
 import 'dart:io';
 
-import '../../../../entity/enum/project_type/enum.dart';
-import '../../../../entity/model/pubspec_code/model.dart';
-import '../../../../singleton/build_info/model.dart';
-import '../add_all_dev_modules/function.dart';
-import '../add_asset_paths_in_pubspec/function.dart';
-import '../add_bloc_to_pubspec/function.dart';
-import '../add_global_export_if_not_exists/function.dart';
-import '../add_line_to_gitignore/function.dart';
-import '../add_package_in_modules/function.dart';
-import '../add_readme/function.dart';
-import '../apply_temp_dir_to_project/function.dart';
-import '../build_app_with_juneflow_style/function.dart';
-import '../check_assets_exist_and_add_folder/function.dart';
-import '../check_is_right_project/function.dart';
-import '../get_june_packages_in_project/function.dart';
-import '../pasted_all_code_files_to_temp_dir/function.dart';
-import '../reset_temp_dir/function.dart';
+import '../../entity/enum/project_type/enum.dart';
+import '../../singleton/build_info/model.dart';
+import 'function/add_all_dev_modules/function.dart';
+import 'function/add_asset_paths_in_pubspec/function.dart';
+import 'function/add_bloc_to_pubspec/function.dart';
+import 'function/add_global_export_if_not_exists/function.dart';
+import 'function/add_line_to_gitignore/function.dart';
+import 'function/add_readme/function.dart';
+import 'function/apply_temp_dir_to_project/function.dart';
+import 'function/build_app_with_juneflow_style/function.dart';
+import 'function/check_is_right_project/function.dart';
+import 'function/get_june_packages_in_project/function.dart';
+import 'function/pasted_all_code_files_to_temp_dir/function.dart';
+import 'function/reset_temp_dir/function.dart';
 
 buildApp() async {
   if (!await checkIsRightProject()) {
