@@ -1,17 +1,26 @@
 import 'dart:io';
 
-Future<List<String>> findFilesWithJuneViewAnnotations(String directoryPath) async {
+Future<List<String>> findFilesWithJuneViewAnnotations(
+    String directoryPath) async {
   List<String> filesWithAnnotations = [];
 
   // 디렉토리를 재귀적으로 탐색하는 비동기 함수
   Future<void> searchDirectory(Directory directory) async {
-    await for (var entity in directory.list(recursive: false, followLinks: false)) {
+    await for (var entity
+        in directory.list(recursive: false, followLinks: false)) {
       if (entity is File) {
         // 파일인 경우 내용을 검사
         try {
           String content = await entity.readAsString();
-          if (content.contains('@JuneViewAction()') || content.contains('@JuneViewEvent()')) {
-            filesWithAnnotations.add(entity.path);
+          List<String> lines = content.split('\n');
+
+          for (String line in lines) {
+            // 각 줄의 시작이 해당 어노테이션으로 시작하는지 확인
+            if (line.startsWith('@JuneViewAction()') ||
+                line.startsWith('@JuneViewEvent()')) {
+              filesWithAnnotations.add(entity.path);
+              break; // 조건을 만족하는 줄을 찾았으므로, 더 이상 검사할 필요 없음
+            }
           }
         } catch (e) {
           if (e is FileSystemException) {
