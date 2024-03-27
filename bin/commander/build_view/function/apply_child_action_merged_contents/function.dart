@@ -31,8 +31,20 @@ Future<void> applyChildActionMergedContents(Map<String, Map<String, String>> mer
 Future<void> _addCodeBlock(String filePath, String codeBlock) async {
   String fileContent = await File(filePath).readAsString();
   List<String> lines = fileContent.split('\n');
-  int startIndex = lines.indexOf('/// automatically generated action code - don\'t change this code');
-  int endIndex = lines.indexOf('/// end of automatically action generated code');
+  int startIndex = -1;
+  int endIndex = -1;
+
+  // 각 줄을 순회하며 시작과 끝 인덱스 찾기
+  for (int i = 0; i < lines.length; i++) {
+    if (lines[i].contains('/// automatically generated action code - don\'t change this code')) {
+      startIndex = i;
+    }
+    if (lines[i].contains('/// end of automatically action generated code')) {
+      endIndex = i;
+      break; // 끝 인덱스를 찾으면 반복 종료
+    }
+  }
+
 
   // 시작과 끝 마커가 모두 존재하는 경우에만 처리
   if (startIndex != -1 && endIndex != -1) {
