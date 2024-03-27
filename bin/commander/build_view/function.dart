@@ -13,12 +13,13 @@ import 'function/find_files_with_june_view_annotations/function.dart';
 import 'function/merge_files_in_same_directory/function.dart';
 
 buildView() async {
-  Timer.periodic(Duration(seconds: 1), (Timer t) {
+  Timer.periodic(Duration(seconds: 5), (Timer t) {
     _run();
   });
 }
 
 _run() async {
+  print('Building view...');
   List<String> targetFilePaths =
       await findFilesWithJuneViewAnnotations(Directory.current.path);
 
@@ -36,4 +37,5 @@ _run() async {
     await applyChildEventMergedContents(mergedDirectoryContents['event']!);
     await applyMotherEventMergedContents(mergedDirectoryContents['event']!);
   }
+  print('View built successfully!');
 }
