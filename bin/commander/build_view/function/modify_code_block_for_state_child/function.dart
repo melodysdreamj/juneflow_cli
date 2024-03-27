@@ -1,4 +1,4 @@
-String processString(String input) {
+String modifyCodeBlockForStateChild(String input) {
   // 입력 문자열을 라인별로 분리
   List<String> lines = input.split('\n');
 

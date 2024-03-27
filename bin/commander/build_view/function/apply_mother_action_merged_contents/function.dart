@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 
 import '../add_import_or_export_reference/function.dart';
+import '../remove_june_view_annotations/function.dart';
 
 Future<void> applyMotherActionMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
@@ -20,6 +21,7 @@ Future<void> applyMotherActionMergedContents(Map<String, Map<String, String>> me
 
       // 코드 블록 추가
       String codeBlock = mergedDirectoryContents[directory]!['code']!;
+      codeBlock = removeJuneViewAnnotations(codeBlock);
       await _addCodeBlock(targetFilePath, codeBlock);
     } else {
       print('File does not exist: $targetFilePath');

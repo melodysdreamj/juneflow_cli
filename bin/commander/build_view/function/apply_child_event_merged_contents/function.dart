@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 
 import '../add_import_or_export_reference/function.dart';
+import '../modify_code_block_for_state_child/function.dart';
+import '../replace_june_vuew_annotations_with_override/function.dart';
 
 Future<void> applyChildEventMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
@@ -20,6 +22,8 @@ Future<void> applyChildEventMergedContents(Map<String, Map<String, String>> merg
 
       // 코드 블록 추가
       String codeBlock = mergedDirectoryContents[directory]!['code']!;
+      codeBlock = replaceJuneViewAnnotationsWithOverride(codeBlock);
+      codeBlock = modifyCodeBlockForStateChild(codeBlock);
       await _addCodeBlock(targetFilePath, codeBlock);
     } else {
       print('File does not exist: $targetFilePath');
