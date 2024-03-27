@@ -13,18 +13,11 @@ import 'function/find_files_with_june_view_annotations/function.dart';
 import 'function/merge_files_in_same_directory/function.dart';
 
 buildView() async {
-  Timer.periodic(Duration(seconds: 5), (Timer t) {
-    _run();
-  });
-}
-
-_run() async {
-  print('Building view...');
   List<String> targetFilePaths =
-      await findFilesWithJuneViewAnnotations(Directory.current.path);
+  await findFilesWithJuneViewAnnotations(Directory.current.path);
 
   Map<String, Map<String, Map<String, String>>> mergedDirectoryContents =
-      await mergeFilesInActionAndEventDirectories(targetFilePaths);
+  await mergeFilesInActionAndEventDirectories(targetFilePaths);
 
   // "action" 디렉토리의 병합 결과에 대한 처리
   if (mergedDirectoryContents.containsKey('action')) {
@@ -37,5 +30,10 @@ _run() async {
     await applyChildEventMergedContents(mergedDirectoryContents['event']!);
     await applyMotherEventMergedContents(mergedDirectoryContents['event']!);
   }
+}
+
+_run() async {
+  print('Building view...');
+
   print('View built successfully!');
 }

@@ -94,10 +94,10 @@ void main(List<String> arguments) async {
         case 'build-view':
         // print('Project initialization process initiated.');
           await buildView();
-          print('JuneView Building started.');
-          var spinner = Spinner();
-          spinner.start();
-          // print('View initialization process completed.');
+          // print('JuneView Building started.');
+          // var spinner = Spinner();
+          // spinner.start();
+          print('View initialization process completed.');
           break;
         case 'add':
           if (results.rest.length > 1) {
