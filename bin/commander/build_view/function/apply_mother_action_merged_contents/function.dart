@@ -3,9 +3,9 @@ import 'dart:async';
 
 import '../add_import_or_export_reference/function.dart';
 
-Future<void> applyMotherMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
+Future<void> applyMotherActionMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
-    String targetFilePath = '$directory/../_/state_child.dart';
+    String targetFilePath = '$directory/../_/state_mother.dart';
     File targetFile = File(targetFilePath);
 
     // 파일이 존재하는지 확인
@@ -31,8 +31,8 @@ Future<void> applyMotherMergedContents(Map<String, Map<String, String>> mergedDi
 Future<void> _addCodeBlock(String filePath, String codeBlock) async {
   String fileContent = await File(filePath).readAsString();
   List<String> lines = fileContent.split('\n');
-  int startIndex = lines.indexOf('/// automatically generated event code - don\'t change this code');
-  int endIndex = lines.indexOf('/// end of automatically event generated code');
+  int startIndex = lines.indexOf('/// automatically generated action code - don\'t change this code');
+  int endIndex = lines.indexOf('/// end of automatically action generated code');
 
   // 시작과 끝 마커가 모두 존재하는 경우에만 처리
   if (startIndex != -1 && endIndex != -1) {

@@ -3,9 +3,9 @@ import 'dart:async';
 
 import '../add_import_or_export_reference/function.dart';
 
-Future<void> applyChildMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
+Future<void> applyMotherEventMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
-    String targetFilePath = '$directory/../_/state_child.dart';
+    String targetFilePath = '$directory/../_/state_mother.dart';
     File targetFile = File(targetFilePath);
 
     // 파일이 존재하는지 확인

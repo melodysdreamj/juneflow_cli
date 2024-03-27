@@ -2,6 +2,7 @@ import 'package:args/args.dart';
 
 import 'commander/add/function.dart';
 import 'commander/build/function.dart';
+import 'commander/build_view/function.dart';
 import 'commander/create-app/function.dart';
 
 const String version = '0.0.1';
@@ -88,6 +89,11 @@ void main(List<String> arguments) async {
           // print('Project initialization process initiated.');
           buildApp();
           print('Project initialization process completed.');
+          break;
+        case 'build-view':
+        // print('Project initialization process initiated.');
+          buildView();
+          print('View initialization process completed.');
           break;
         case 'add':
           if (results.rest.length > 1) {
