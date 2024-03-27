@@ -44,7 +44,7 @@ Future<void> _addCodeBlock(String filePath, String codeBlock) async {
       break; // 끝 인덱스를 찾으면 반복 종료
     }
   }
-  
+
   // 시작과 끝 마커가 모두 존재하는 경우에만 처리
   if (startIndex != -1 && endIndex != -1) {
     // 마커 사이의 내용을 삭제하고, 하나의 빈 줄을 남깁니다.

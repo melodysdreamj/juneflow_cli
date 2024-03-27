@@ -18,8 +18,8 @@ Future<void> addImportOrExportReference(String filePath, String reference) async
 
     // 수정된 내용을 다시 파일에 씁니다.
     await File(filePath).writeAsString(lines.join('\n'));
-    print('Reference added: $reference');
+    // print('Reference added: $reference');
   } else {
-    print('Reference already exists: $reference');
+    // print('Reference already exists: $reference');
   }
 }

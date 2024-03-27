@@ -82,17 +82,17 @@ void main(List<String> arguments) async {
       switch (results.rest.first) {
         case 'create-app':
           print('App creation process initiated.');
-          createApp();
+          await createApp();
           // 여기에 앱 생성 로직 추가
           break;
         case 'build':
           // print('Project initialization process initiated.');
-          buildApp();
+          await buildApp();
           print('Project initialization process completed.');
           break;
         case 'build-view':
         // print('Project initialization process initiated.');
-          buildView();
+          await buildView();
           print('View initialization process completed.');
           break;
         case 'add':
