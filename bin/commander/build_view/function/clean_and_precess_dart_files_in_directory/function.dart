@@ -1,16 +1,9 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
-Future<void> main() async {
-  const projectPath = 'your_project_path_here';
-  await cleanAndProcessDartFilesInDirectory(projectPath);
-}
-
 Future<void> cleanAndProcessDartFilesInDirectory(String directoryPath) async {
   final directory = Directory(directoryPath);
-  final List<FileSystemEntity> entities = await directory.list(recursive: true).toList();
-
-  for (final entity in entities) {
+  await for (final FileSystemEntity entity in directory.list(recursive: true)) {
     if (entity is File && entity.path.endsWith('.dart')) {
       await cleanImportsAndGeneratedCodeInFile(entity.path);
     }
@@ -21,6 +14,12 @@ Future<void> cleanImportsAndGeneratedCodeInFile(String filePath) async {
   String fileContent = await File(filePath).readAsString();
   List<String> lines = fileContent.split('\n');
 
+  // @JuneViewChild() 또는 @JuneViewMother()가 있는지 확인
+  bool hasTargetLines = lines.any((line) =>
+      line.startsWith('@JuneViewChild()') ||
+      line.startsWith('@JuneViewMother()'));
+  if (!hasTargetLines) return; // 해당하는 줄이 없으면 아무 작업도 수행하지 않음
+
   // 필요한 import 외 삭제
   final requiredImports = [
     "import 'package:flutter/cupertino.dart';",
@@ -28,12 +27,11 @@ Future<void> cleanImportsAndGeneratedCodeInFile(String filePath) async {
     "import '../../../../../../../../main.dart';",
     "import '../view.dart';",
   ];
-  lines = lines.where((line) {
-    return line.startsWith('@JuneViewChild()') ||
-        line.startsWith('@JuneViewMother()') ||
-        requiredImports.contains(line.trim()) ||
-        !line.startsWith('import ');
-  }).toList();
+  lines.retainWhere((line) =>
+      line.startsWith('@JuneViewChild()') ||
+      line.startsWith('@JuneViewMother()') ||
+      requiredImports.contains(line.trim()) ||
+      !line.startsWith('import '));
 
   // 자동 생성된 코드 블록 처리
   removeContentBetweenGeneratedCodeMarkers(lines, 'action');
@@ -44,22 +42,23 @@ Future<void> cleanImportsAndGeneratedCodeInFile(String filePath) async {
 }
 
 void removeContentBetweenGeneratedCodeMarkers(List<String> lines, String type) {
-  const startMarker = '/// automatically generated {type} code - don\'t change this code';
+  const startMarker =
+      '/// automatically generated {type} code - don\'t change this code';
   const endMarker = '/// end of automatically {type} generated code';
   int startIndex = -1;
   int endIndex = -1;
 
   for (int i = 0; i < lines.length; i++) {
-    if (lines[i].contains(startMarker)) {
+    if (lines[i].contains(startMarker.replaceFirst('{type}', type))) {
       startIndex = i;
     }
-    if (lines[i].contains(endMarker)) {
+    if (lines[i].contains(endMarker.replaceFirst('{type}', type))) {
       endIndex = i;
-      break; // 끝 인덱스를 찾으면 반복 종료
+      if (startIndex != -1) break; // 시작과 끝 인덱스 모두 찾으면 반복 종료
     }
   }
 
-  if (startIndex != -1 && endIndex != -1) {
+  if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
     lines.removeRange(startIndex + 1, endIndex);
     lines.insert(startIndex + 1, ''); // 빈 줄 추가
   }
