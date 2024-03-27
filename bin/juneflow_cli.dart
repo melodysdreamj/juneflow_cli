@@ -3,6 +3,7 @@ import 'package:args/args.dart';
 import 'commander/add/function.dart';
 import 'commander/build/function.dart';
 import 'commander/build_view/function.dart';
+import 'commander/build_view/function/spinner/function.dart';
 import 'commander/create-app/function.dart';
 
 const String version = '0.0.1';
@@ -93,7 +94,10 @@ void main(List<String> arguments) async {
         case 'build-view':
         // print('Project initialization process initiated.');
           await buildView();
-          print('View initialization process completed.');
+          print('JuneView Building started.');
+          var spinner = Spinner();
+          spinner.start();
+          // print('View initialization process completed.');
           break;
         case 'add':
           if (results.rest.length > 1) {
