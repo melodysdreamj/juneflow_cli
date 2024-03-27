@@ -22,7 +22,7 @@ Future<void> applyMotherActionMergedContents(Map<String, Map<String, String>> me
       // 코드 블록 추가
       String codeBlock = mergedDirectoryContents[directory]!['code']!;
       codeBlock = removeJuneViewAnnotations(codeBlock);
-      await _addCodeBlock(targetFilePath, codeBlock);
+      await _addCodeBlock(targetFilePath, codeBlock.trim());
     } else {
       print('File does not exist: $targetFilePath');
     }
@@ -66,5 +66,5 @@ Future<void> _addCodeBlock(String filePath, String codeBlock) async {
 
   // 수정된 내용을 파일에 다시 쓴다.
   await File(filePath).writeAsString(lines.join('\n'));
-  print('Code block and an empty line added to: $filePath');
+  // print('Code block and an empty line added to: $filePath');
 }
