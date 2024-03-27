@@ -13,6 +13,8 @@ String modifyCodeBlockForStateChild(String input) {
     }
     // 'state.' 문자열을 ''로 대체
     String processedLine = line.replaceAll('state.', '');
+    processedLine = processedLine.replaceAll('updateState', 'setState');
+
     processedLines.add(processedLine);
   }
 
