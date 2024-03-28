@@ -73,7 +73,7 @@ void main(List<String> arguments) async {
     }
 
     // 테스트 플래그를 처리합니다.
-    if (results.wasParsed('create-app')) {
+    if (results.wasParsed('create-app') || results.wasParsed('view')) {
       print('create-app');
       return;
     }
