@@ -11,7 +11,7 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
     print('1. Empty Project(default)');
     print('2. JuneView Project');
     print('3. Module Template');
-    print('4. View Template');
+    print('4. ViewStore Template');
     String? typeSelection = await readLine();
     if (typeSelection?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
