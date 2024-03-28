@@ -73,7 +73,7 @@ void main(List<String> arguments) async {
     }
 
     // 테스트 플래그를 처리합니다.
-    if (results.wasParsed('create-app') || results.wasParsed('view')) {
+    if (results.wasParsed('create-app')) {
       print('create-app');
       return;
     }
@@ -99,6 +99,9 @@ void main(List<String> arguments) async {
           // spinner.start();
           print('View initialization process completed.');
           break;
+        case 'view':
+          await buildView();
+          print('View initialization process completed.');
         case 'add':
           if (results.rest.length > 1) {
             // 'add' 명령어와 함께 패키지명 처리
