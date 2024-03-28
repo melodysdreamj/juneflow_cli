@@ -3,9 +3,9 @@ import 'dart:convert';
 enum ProjectTypeEnum {
   NotSelected,
   Skeleton,
-  Module,
-  View,
-  // P003,
+  ModuleTemplate,
+  ViewTemplate,
+  JuneViewProject,
   // P004,
   // P005,
   // P006,

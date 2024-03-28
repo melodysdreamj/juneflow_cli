@@ -45,6 +45,7 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
   // 실행 결과를 출력합니다.
   if (result.stderr.toString().isNotEmpty) {
     print('error: ${result.stderr}');
+    return true;
   } else {
     final String devStr = (devPackage == true) ? 'dev_dependencies' : 'dependencies';
     print("Installed $packageName in $devStr.");

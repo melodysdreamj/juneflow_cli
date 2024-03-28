@@ -20,17 +20,22 @@ createApp() async {
   String branchName;
   if (result.Type == ProjectTypeEnum.Skeleton) {
     branchName = 'main';
-  } else if (result.Type == ProjectTypeEnum.Module) {
+  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
     branchName = 'module_template';
+  } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
+    branchName = 'june_view_project';
   } else {
     branchName = 'view_template';
   }
 
-  if (result.Type == ProjectTypeEnum.View) {
+  if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await cloneAndRemoveGit(
         'https://github.com/melodysdreamj/june_view_store.git',
         branchName,
         result.Name);
+  } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
+    await cloneAndRemoveGit('https://github.com/juneflow-songdo/june_view',
+        'project-template', result.Name);
   } else {
     await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
         branchName, result.Name);
@@ -42,7 +47,11 @@ createApp() async {
     await replaceStringInFiles(
         result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
-  } else if (result.Type == ProjectTypeEnum.Module) {
+  } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
+    await replaceStringInFiles(
+        result.Name, 'june.lee.love', result.PackageName);
+    await removeFile('${result.Name}/LICENSE');
+  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
     await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
         _toPascalCase(result.Name));
 
@@ -52,7 +61,7 @@ createApp() async {
 
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
-  } else if (result.Type == ProjectTypeEnum.View) {
+  } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
     // await renameNewFolders(
     //     '${result.Name}/lib/app/_/_/interaction', result.Name);

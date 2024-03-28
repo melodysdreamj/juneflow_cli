@@ -8,9 +8,10 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   while (true) {
     print(
         'What are you creating? (Press Enter for default, type "cancel" to exit)');
-    print('1. New Project(default)');
-    print('2. Module Template');
-    print('3. View Template');
+    print('1. Empty Project(default)');
+    print('2. JuneView Project');
+    print('3. Module Template');
+    print('4. View Template');
     String? typeSelection = await readLine();
     if (typeSelection?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
@@ -21,11 +22,15 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
         type = 'skeleton';
         break;
       case '2':
-        type = 'module template';
+        type = 'june_view project';
         break;
       case '3':
+        type = 'module template';
+        break;
+      case '4':
         type = 'view template';
         break;
+
       case '':
         print('Default selection [1. Skeleton project] is used.');
         break;
@@ -43,7 +48,9 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   } else if(type == 'view template') {
     result = await _createView();
   } else if(type == 'skeleton') {
-    result = await _createProject();
+    result = await _createEmptyProject();
+  } else if(type == 'june_view project') {
+    result = await _createJuneViewProject();
   }
 
   if (result != null) {
@@ -57,7 +64,7 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   return null;
 }
 
-Future<CreationResult?> _createProject() async {
+Future<CreationResult?> _createEmptyProject() async {
   String? name = await _getName('project');
   if (name == null) return null; // Operation was cancelled.
 
@@ -67,16 +74,27 @@ Future<CreationResult?> _createProject() async {
   return CreationResult()..Type = ProjectTypeEnum.Skeleton..Name = name..PackageName = packageName;
 }
 
+
+Future<CreationResult?> _createJuneViewProject() async {
+  String? name = await _getName('project');
+  if (name == null) return null; // Operation was cancelled.
+
+  String? packageName = await _getPackageName();
+  if (packageName == null) return null; // Operation was cancelled.
+
+  return CreationResult()..Type = ProjectTypeEnum.JuneViewProject..Name = name..PackageName = packageName;
+}
+
 Future<CreationResult?> _createModule() async {
   String? name = await _getName('module');
   if (name == null) return null; // Operation was cancelled.
-  return CreationResult()..Type = ProjectTypeEnum.Module..Name = name;
+  return CreationResult()..Type = ProjectTypeEnum.ModuleTemplate..Name = name;
 }
 
 Future<CreationResult?> _createView() async {
   String? name = await _getName('view');
   if (name == null) return null; // Operation was cancelled.
-  return CreationResult()..Type = ProjectTypeEnum.View..Name = name;
+  return CreationResult()..Type = ProjectTypeEnum.ViewTemplate..Name = name;
 }
 
 Future<String?> _getName(String type) async {

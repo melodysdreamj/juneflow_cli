@@ -22,10 +22,12 @@ Future<Module> checkModuleType(String packagePath, Module moduleObj) async {
 
   if (type == 'project') {
     moduleObj.Type = ProjectTypeEnum.Skeleton;
+  } else if(type == 'june-view project') {
+    moduleObj.Type = ProjectTypeEnum.JuneViewProject;
   } else if(type == 'module') {
-    moduleObj.Type = ProjectTypeEnum.Module;
+    moduleObj.Type = ProjectTypeEnum.ModuleTemplate;
   } else if(type == 'view') {
-    moduleObj.Type = ProjectTypeEnum.View;
+    moduleObj.Type = ProjectTypeEnum.ViewTemplate;
   } else {
     throw Exception('info.june file is invalid');
   }
