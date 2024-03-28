@@ -63,8 +63,8 @@ createApp() async {
         '${result.Name}/README.md', 'NewModule', result.Name);
   } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
-    // await renameNewFolders(
-    //     '${result.Name}/lib/app/_/_/interaction', result.Name);
+    await renameNewFolders(
+        '${result.Name}/lib/app/_/_/interaction', result.Name);
   } else {
     print('Invalid project type: ${result.Type}');
     return;
