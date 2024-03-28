@@ -150,7 +150,7 @@ bool _isValidProjectName(String? name) {
 
 bool _isValidPackageName(String? packageName) {
   return packageName != null &&
-      RegExp(r'^[a-z]+(\.[a-z0-9]+){2,}$').hasMatch(packageName);
+      RegExp(r'^[a-z]+(\.[a-z0-9]+){2}$').hasMatch(packageName);
 }
 
 Future<String?> readLine() async {
