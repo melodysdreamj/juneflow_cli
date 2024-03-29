@@ -29,17 +29,22 @@ createApp() async {
     branchName = 'view_template';
   }
 
+  bool successClone = false;
   if (result.Type == ProjectTypeEnum.ViewTemplate) {
-    await cloneAndRemoveGit(
+    successClone =await cloneAndRemoveGit(
         'https://github.com/melodysdreamj/june_view_store.git',
         branchName,
         result.Name);
   } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    await cloneAndRemoveGit('https://github.com/juneflow-songdo/june_view',
+    successClone = await cloneAndRemoveGit('https://github.com/juneflow-songdo/june_view',
         'project-template', result.Name);
   } else {
-    await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
+    successClone = await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
         branchName, result.Name);
+  }
+  if(successClone == false) {
+    print('Failed to clone the project.');
+    return;
   }
 
   await changeProjectName(result.Name, result.Name);

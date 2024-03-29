@@ -1,13 +1,13 @@
 import 'dart:io';
 
-Future<void> cloneAndRemoveGit(
+Future<bool> cloneAndRemoveGit(
     String repoUrl, String branchName, String targetDirectory) async {
   // Execute the command to clone the Git repository
   var result = await Process.run(
       'git', ['clone', '-b', branchName, repoUrl, targetDirectory]);
   if (result.exitCode != 0) {
     print('Failed to clone Git: ${result.stderr}');
-    return;
+    return false;
   } else {
     // print('Git clone succeeded: ${result.stdout}');
   }
@@ -20,4 +20,5 @@ Future<void> cloneAndRemoveGit(
   } else {
     // print('The .git folder does not exist.');
   }
+  return true;
 }
