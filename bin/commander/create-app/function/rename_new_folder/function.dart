@@ -15,7 +15,7 @@ Future<void> renameNewFolders(String directoryPath, String newName) async {
       if (dirName == '_new') {
         final String newPath = entity.path.replaceFirst(RegExp(r'_new$'), newName);
         await entity.rename(newPath);
-        // print('Renamed ${entity.path} to $newPath');
+        print('Renamed ${entity.path} to $newPath');
       }
     }
   }
