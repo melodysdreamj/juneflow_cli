@@ -5,6 +5,7 @@ import '../../entity/model/creation_result/model.dart';
 import 'function/ask_user_input_for_project_creation/function.dart';
 import 'function/change_project_name/function.dart';
 import 'function/clone_and_remove_git/function.dart';
+import 'function/recreate_name_new_folder/function.dart';
 import 'function/remove_file/function.dart';
 import 'function/rename_new_folder/function.dart';
 import 'function/replace_string_in_file/function.dart';
@@ -63,7 +64,7 @@ createApp() async {
         '${result.Name}/README.md', 'NewModule', result.Name);
   } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
-    await renameNewFolders(
+    await reCreateNameNewFolders(
         '${result.Name}/lib/app/_/_/interaction', result.Name);
   } else {
     print('Invalid project type: ${result.Type}');
