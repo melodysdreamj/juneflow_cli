@@ -71,6 +71,8 @@ createApp() async {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
     await reCreateNameNewFolders(
         '${result.Name}/lib/app/_/_/interaction', result.Name);
+    await replaceStringInFile(
+        '${result.Name}/README.md', 'NewModule', result.Name);
   } else {
     print('Invalid project type: ${result.Type}');
     return;
