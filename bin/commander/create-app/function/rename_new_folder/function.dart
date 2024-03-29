@@ -25,6 +25,6 @@ Future<void> renameNewFolders(String directoryPath, String newName) async {
   for (final Directory dir in directoriesToRename) {
     final String newPath = dir.path.replaceFirst(RegExp(r'_new$'), newName);
     await dir.rename(newPath);
-    print('Renamed ${dir.path} to $newPath');
+    // print('Renamed ${dir.path} to $newPath');
   }
 }
