@@ -36,8 +36,8 @@ createApp() async {
         branchName,
         result.Name);
   } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    successClone = await cloneAndRemoveGit('https://github.com/juneflow-songdo/june_view',
-        'project-template', result.Name);
+    successClone = await cloneAndRemoveGit('https://github.com/melodysdreamj/june_view_project',
+        'main', result.Name);
   } else {
     successClone = await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
         branchName, result.Name);
