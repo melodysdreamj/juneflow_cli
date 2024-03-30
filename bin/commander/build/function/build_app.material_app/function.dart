@@ -99,7 +99,7 @@ Widget Function() MaterialAppBuilder(BuildContext context) {
         title: MaterialAppParams.appName ?? 'June',
         theme: MaterialAppParams.lightTheme,
         darkTheme: MaterialAppParams.darkTheme,
-        themeMode: MaterialAppParams.themeMode,
+        themeMode: MaterialAppParams.themeMode ?? ThemeMode.system,
         debugShowCheckedModeBanner: false,
         builder: (context, child) {
           return materialAppInsideBuilder(context, child);
