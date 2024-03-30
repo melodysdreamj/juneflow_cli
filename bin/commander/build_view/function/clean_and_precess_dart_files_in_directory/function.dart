@@ -23,7 +23,7 @@ Future<void> cleanImportsAndGeneratedCodeInFile(String filePath) async {
   bool hasTargetLines = lines.any((line) => line.startsWith('@JuneViewChild()') || line.startsWith('@JuneViewMother()'));
   if (!hasTargetLines) return; // 해당하는 줄이 없으면 아무 작업도 수행하지 않음
 
-  await removeActionOrEventImportOnView('${filePath}/../view.dart');
+  await removeActionOrEventImportOnView(filePath);
 
   // 필요한 import 목록
   final requiredImports = [
