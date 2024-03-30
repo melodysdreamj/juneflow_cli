@@ -12,5 +12,7 @@ List<String> removeActionOrEventImportOnView(String fileContents) {
       line.startsWith("export 'event/"))
   ).toList();
 
+  print('filteredLines: $filteredLines');
+
   return filteredLines;
 }
