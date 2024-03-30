@@ -11,9 +11,6 @@ Future<void> removeActionOrEventImportOnView(String path) async {
   // view.dart 파일에서 각 줄을 읽어들입니다.
   List<String> lines = await File(viewPath).readAsLines();
 
-  // 파일의 마지막 줄이 비어 있는지 확인합니다.
-  bool endsWithEmptyLine = lines.isNotEmpty && lines.last.isEmpty;
-
   // 오직 'import ' 또는 'export '로 시작하는 줄만 필터링합니다.
   // 그리고 'action/' 또는 'event/'로 시작하는 경우에만 제외합니다.
   List<String> filteredLines = lines.map((line) {
@@ -26,11 +23,5 @@ Future<void> removeActionOrEventImportOnView(String path) async {
   }).whereType<String>().toList(); // null이 아닌 줄들만 다시 리스트로 만듭니다.
 
   // 필터링된 내용으로 view.dart 파일을 다시 씁니다.
-  // 파일의 마지막 줄이 비어 있었다면, 저장할 때 그 상태를 유지합니다.
-  String contentToWrite = filteredLines.join('\n');
-  if (endsWithEmptyLine) {
-    contentToWrite += '\n'; // 마지막 줄이 비어 있었다면, 추가적인 줄바꿈을 추가합니다.
-  }
-
-  await File(viewPath).writeAsString(contentToWrite);
+  await File(viewPath).writeAsString(filteredLines.join('\n'));
 }
