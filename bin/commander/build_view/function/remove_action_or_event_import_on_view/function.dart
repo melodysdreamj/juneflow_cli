@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
-Future<void> removeActionOrEventImportOnView(String path) async {
-  // path에서 상위 폴더의 경로를 가져옵니다.
-  String directoryPath = p.dirname(path);
 
-  // 상위 폴더 내의 view.dart 파일의 경로를 구성합니다.
-  String viewPath = p.join(directoryPath, 'view.dart');
+Future<void> removeActionOrEventImportOnView(String path) async {
+  // path에서 두 번 상위 폴더의 경로를 가져옵니다.
+  String upperDirectoryPath = p.dirname(p.dirname(path));
+
+  // 두 번 상위 폴더 내의 view.dart 파일의 경로를 구성합니다.
+  String viewPath = p.join(upperDirectoryPath, 'view.dart');
 
   // view.dart 파일에서 각 줄을 읽어들입니다.
   List<String> lines = await File(viewPath).readAsLines();
