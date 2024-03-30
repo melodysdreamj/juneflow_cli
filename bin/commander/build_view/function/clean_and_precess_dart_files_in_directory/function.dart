@@ -4,6 +4,8 @@ import 'package:path/path.dart' as path;
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
+import '../remove_action_or_event_import_on_view/function.dart';
+
 Future<void> cleanAndProcessDartFilesInDirectory(String directoryPath) async {
   final directory = Directory(directoryPath);
   await for (final FileSystemEntity entity in directory.list(recursive: true)) {
@@ -20,6 +22,8 @@ Future<void> cleanImportsAndGeneratedCodeInFile(String filePath) async {
   // @JuneViewChild() 또는 @JuneViewMother()가 있는지 확인
   bool hasTargetLines = lines.any((line) => line.startsWith('@JuneViewChild()') || line.startsWith('@JuneViewMother()'));
   if (!hasTargetLines) return; // 해당하는 줄이 없으면 아무 작업도 수행하지 않음
+
+  lines = removeActionOrEventImportOnView(fileContent);
 
   // 필요한 import 목록
   final requiredImports = [
