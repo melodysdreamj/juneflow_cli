@@ -18,31 +18,29 @@ createApp() async {
     return;
   }
 
-  String branchName;
-  if (result.Type == ProjectTypeEnum.Skeleton) {
-    branchName = 'main';
-  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
-    branchName = 'module_template';
-  } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    branchName = 'june_view_project';
-  } else {
-    branchName = 'view_template';
-  }
-
   bool successClone = false;
   if (result.Type == ProjectTypeEnum.ViewTemplate) {
-    successClone =await cloneAndRemoveGit(
-        'https://github.com/melodysdreamj/june_view_store.git',
-        branchName,
+    successClone = await cloneAndRemoveGit(
+        'https://github.com/melodysdreamj/juneflow.git',
+        'view_template',
         result.Name);
   } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    successClone = await cloneAndRemoveGit('https://github.com/melodysdreamj/june_view_project',
-        'main', result.Name);
-  } else {
-    successClone = await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git',
-        branchName, result.Name);
+    successClone = await cloneAndRemoveGit(
+        'https://github.com/melodysdreamj/juneflow.git',
+        'starter_project',
+        result.Name);
+  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
+    successClone = await cloneAndRemoveGit(
+        'https://github.com/melodysdreamj/juneflow.git',
+        'module_template',
+        result.Name);
+  } else if (result.Type == ProjectTypeEnum.Skeleton) {
+    successClone = await cloneAndRemoveGit(
+        'https://github.com/melodysdreamj/juneflow.git',
+        'skeleton_project',
+        result.Name);
   }
-  if(successClone == false) {
+  if (successClone == false) {
     print('Failed to clone the project.');
     return;
   }

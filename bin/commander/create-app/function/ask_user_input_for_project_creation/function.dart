@@ -8,20 +8,21 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
   while (true) {
     print(
         'What are you creating? (Press Enter for default, type "cancel" to exit)');
-    print('1. Empty Project(default)');
-    print('2. JuneView Project');
+
+    print('1. StarterKit Project');
+    print('2. Skeleton Project(default)');
     print('3. Module Template');
-    print('4. ViewStore Template');
+    print('4. View Template');
     String? typeSelection = await readLine();
     if (typeSelection?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
     }
     switch (typeSelection) {
-      case '1':
+      case '2':
         type = 'skeleton';
         break;
-      case '2':
+      case '1':
         type = 'june_view project';
         break;
       case '3':
