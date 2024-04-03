@@ -65,12 +65,16 @@ createApp() async {
 
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
+    await replaceStringInFile(
+        '${result.Name}/pubspec.yaml', 'assets/view/_new/', 'assets/module/${result.Name}/');
   } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
     await reCreateNameNewFolders(
         '${result.Name}/lib/app/_/_/interaction', result.Name);
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
+    await replaceStringInFile(
+        '${result.Name}/pubspec.yaml', 'assets/view/_new/', 'assets/view/${result.Name}/');
   } else {
     print('Invalid project type: ${result.Type}');
     return;
