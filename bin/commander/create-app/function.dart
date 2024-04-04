@@ -66,7 +66,7 @@ createApp() async {
     await replaceStringInFile(
         '${result.Name}/README.md', 'NewModule', result.Name);
     await replaceStringInFile(
-        '${result.Name}/pubspec.yaml', 'assets/view/_new/', 'assets/module/${result.Name}/');
+        '${result.Name}/pubspec.yaml', 'assets/module/_new/', 'assets/module/${result.Name}/');
   } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
     await renameNewFolders('${result.Name}/assets/view', result.Name);
     await reCreateNameNewFolders(
