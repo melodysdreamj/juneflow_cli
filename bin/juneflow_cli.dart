@@ -4,7 +4,7 @@ import 'commander/add/function.dart';
 import 'commander/build/function.dart';
 import 'commander/build_view/function.dart';
 import 'commander/build_view/function/spinner/function.dart';
-import 'commander/create-app/function.dart';
+import 'commander/create/function.dart';
 
 const String version = '0.0.1';
 
@@ -29,7 +29,7 @@ ArgParser buildParser() {
         )
 
     ..addFlag(
-      'create-app',
+      'create',
       negatable: false,
       help: 'Create a new app.',
     )
@@ -73,15 +73,15 @@ void main(List<String> arguments) async {
     }
 
     // 테스트 플래그를 처리합니다.
-    if (results.wasParsed('create-app')) {
-      print('create-app');
+    if (results.wasParsed('create')) {
+      print('create');
       return;
     }
 
     // 위치 인자를 기반으로 명령어 처리
     if (results.rest.isNotEmpty) {
       switch (results.rest.first) {
-        case 'create-app':
+        case 'create':
           print('App creation process initiated.');
           await createApp();
           // 여기에 앱 생성 로직 추가

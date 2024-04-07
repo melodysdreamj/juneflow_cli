@@ -16,7 +16,7 @@ brew tap dart-lang/dart
 brew install dart
 dart pub global activate juneflow
 export PATH="$PATH":"$HOME/.pub-cache/bin"
-june create-app
+june create
 
 
 
