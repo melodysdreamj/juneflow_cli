@@ -9,8 +9,8 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
     print(
         'What are you creating? (Press Enter for default, type "cancel" to exit)');
 
-    print('1. StarterKit Project');
-    print('2. Skeleton Project(default)');
+    print('1. StarterKit Project(default)');
+    print('2. Skeleton Project');
     print('3. Module Template');
     print('4. View Template');
     String? typeSelection = await readLine();
