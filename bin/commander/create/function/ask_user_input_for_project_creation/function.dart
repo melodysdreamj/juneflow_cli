@@ -103,6 +103,7 @@ Future<String?> _getName(String type) async {
   while (true) {
     print('Enter the name for your $type (e.g., my_app):');
     name = stdin.readLineSync();
+    print('name: $name');
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
