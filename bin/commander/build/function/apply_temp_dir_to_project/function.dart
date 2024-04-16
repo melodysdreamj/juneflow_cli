@@ -3,26 +3,23 @@ import 'package:path/path.dart' as p;
 
 Future<void> applyTempDirToProject() async {
   Directory tempDir = Directory('.tempDir');
+  Directory currentDir = Directory.current;  // 현재 작업 디렉토리
+
   if (await tempDir.exists()) {
-    print("Temp directory exists.");
     await for (var element in tempDir.list(recursive: true)) {
-      print("Processing: ${element.path}"); // 현재 처리 중인 파일 경로 출력
       if (element is File) {
-        String newPath = p.join(p.dirname(element.path), p.basename(element.path).replaceAll('.tempDir', ''));
-        print("New path: $newPath"); // 새 파일 경로 출력
+        // 상대 경로를 계산하고 현재 디렉토리로 적용
+        String relativePath = p.relative(element.path, from: tempDir.path);
+        String newPath = p.join(currentDir.path, relativePath);
         File newFile = File(newPath);
+
         if (await newFile.exists()) {
-          print("File already exists and will be skipped: $newPath");
-          continue;
+          continue;  // 파일이 이미 존재하면 건너뛰기
         }
-        await newFile.create(recursive: true);
-        await newFile.writeAsString(await element.readAsString());
-        print("File created and written: $newPath");
+        await newFile.create(recursive: true);  // 새 파일 생성 (필요한 경우 디렉토리 포함)
+        await newFile.writeAsString(await element.readAsString());  // 내용 복사
       }
     }
-    print("All files processed, considering deleting .tempDir");
-    // await tempDir.delete(recursive: true);  // 주의: 실제 사용시 이 부분의 주석을 해제해야 합니다.
-  } else {
-    print("Temp directory does not exist.");
+    await tempDir.delete(recursive: true);  // .tempDir 디렉토리 삭제
   }
 }
