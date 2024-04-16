@@ -9,6 +9,7 @@ Future<void> pasteAllCodeFiles(
   for (FilePathAndContents fileObj in files) {
     String filePath = '$currentDirectory/.tempDir/${fileObj.Path}';
     File newFile = File(filePath);
+    print('filePath : $filePath');
 
     // 파일이 이미 존재하는지 확인
     if (await newFile.exists()) {
