@@ -32,7 +32,7 @@ Future<void> addAssetPaths(List<String> newPaths) async {
         if (!pathExists && assetsIndex != -1) {
           // 새 경로가 존재하지 않는 경우, 추가합니다.
           lines.insert(assetsIndex + 1, '    - $newPath');
-          print('Added asset path: $newPath');
+          // print('Added asset path: $newPath');
         } else if (pathExists) {
           // 경로가 이미 존재하는 경우, 사용자에게 알립니다.
           // print('Asset path already exists and was not added: $newPath');
