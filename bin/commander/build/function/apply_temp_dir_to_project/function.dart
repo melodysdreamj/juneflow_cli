@@ -20,6 +20,6 @@ Future<void> applyTempDirToProject() async {
         await newFile.writeAsString(await element.readAsString());  // 내용 복사
       }
     }
-    // await tempDir.delete(recursive: true);  // .tempDir 디렉토리 삭제
+    await tempDir.delete(recursive: true);  // .tempDir 디렉토리 삭제
   }
 }
