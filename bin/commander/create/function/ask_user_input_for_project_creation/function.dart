@@ -103,7 +103,6 @@ Future<String?> _getName(String type) async {
   while (true) {
     print('Enter the name for your $type (e.g., my_app):');
     name = stdin.readLineSync();
-    print('name: $name');
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
@@ -122,7 +121,6 @@ Future<String?> _getPackageName() async {
     print(
         'Enter the package name for your project (e.g., com.example.myapp), or type "cancel" to exit:');
     packageName = stdin.readLineSync();
-    print('packageName: $packageName');
     if (packageName?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
