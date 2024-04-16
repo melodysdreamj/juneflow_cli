@@ -4,9 +4,11 @@ import 'dart:async';
 import '../add_import_or_export_reference/function.dart';
 import '../remove_june_view_annotations/function.dart';
 
+import 'package:path/path.dart' as path;
+
 Future<void> applyMotherEventMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
-    String targetFilePath = '$directory/../_/state_mother.dart';
+    String targetFilePath = path.join(directory, '..', '_', 'state_mother.dart');
     File targetFile = File(targetFilePath);
 
     // 파일이 존재하는지 확인

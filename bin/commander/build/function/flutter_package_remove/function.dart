@@ -5,12 +5,13 @@ import 'package:yaml/yaml.dart';
 // 패키지를 입력받아 flutter pub remove 명령을 실행하는 함수
 import 'dart:io';
 import 'package:yaml/yaml.dart';
+import 'package:path/path.dart' as path;
 
 // 패키지를 입력받아 flutter pub remove 명령을 실행하는 함수
 Future<void> removeFlutterPackage(String packageName) async {
   // print("removeFlutterPackage 함수 실행 중...");
   // pubspec.yaml 파일 읽기
-  final pubspecFile = File('${Directory.current.path}/pubspec.yaml');
+  final File pubspecFile = File(path.join(Directory.current.path, 'pubspec.yaml'));
   final pubspecContent = await pubspecFile.readAsString();
 
   // pubspec.yaml 내용 파싱

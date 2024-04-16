@@ -2,11 +2,14 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 import '../../../../entity/model/package_info/model.dart';
+import 'package:path/path.dart' as path;
+
 
 Future<List<PackageInfo>> getNeedAddPackagesUsingPath(
     String packagePath) async {
   try {
-    final pubspecYaml = File('$packagePath/pubspec.yaml');
+    final pubspecYaml = File(path.join(packagePath, 'pubspec.yaml'));
+
     final pubspecLock = File('pubspec.lock');
 
     final pubspecContents = await pubspecYaml.readAsLines();
@@ -54,7 +57,8 @@ Future<List<PackageInfo>> getNeedAddPackagesUsingPath(
 Future<List<PackageInfo>> getNeedAddDevPackagesUsingPath(
     String packagePath) async {
   try {
-    final pubspecYaml = File('$packagePath/pubspec.yaml');
+    final pubspecYaml = File(path.join(packagePath, 'pubspec.yaml'));
+
     final pubspecLock = File('pubspec.lock');
 
     final pubspecContents = await pubspecYaml.readAsLines();

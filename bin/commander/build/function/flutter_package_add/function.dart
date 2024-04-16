@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 import '../flutter_pub_get/function.dart';
+import 'package:path/path.dart' as path;
 
 Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPackage = false}) async {
   // print('trying to add $packageName');
   // pubspec.yaml 파일을 로드합니다.
-  final File pubspecFile = File('${Directory.current.path}/pubspec.yaml');
+  final File pubspecFile = File(path.join(Directory.current.path, 'pubspec.yaml'));
   final String pubspecContent = await pubspecFile.readAsString();
   final dynamic pubspec = loadYaml(pubspecContent);
 

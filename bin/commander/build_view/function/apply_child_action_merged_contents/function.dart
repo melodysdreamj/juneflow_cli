@@ -5,10 +5,11 @@ import '../add_import_or_export_reference/function.dart';
 import '../modify_code_block_for_state_child/function.dart';
 import '../remove_june_view_annotations/function.dart';
 import '../replace_june_vuew_annotations_with_override/function.dart';
+import 'package:path/path.dart' as path;
 
 Future<void> applyChildActionMergedContents(Map<String, Map<String, String>> mergedDirectoryContents) async {
   for (var directory in mergedDirectoryContents.keys) {
-    String targetFilePath = '$directory/../_/state_child.dart';
+    String targetFilePath = path.join(directory, '..', '_', 'state_child.dart');
     File targetFile = File(targetFilePath);
 
     // 파일이 존재하는지 확인
