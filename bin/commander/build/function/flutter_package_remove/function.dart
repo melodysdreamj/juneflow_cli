@@ -8,30 +8,24 @@ import 'package:yaml/yaml.dart';
 
 // 패키지를 입력받아 flutter pub remove 명령을 실행하는 함수
 Future<void> removeFlutterPackage(String packageName) async {
-  // print("removeFlutterPackage 함수 실행 중...");
-  // pubspec.yaml 파일 읽기
   final pubspecFile = File('${Directory.current.path}/pubspec.yaml');
   final pubspecContent = await pubspecFile.readAsString();
-
-  // pubspec.yaml 내용 파싱
   final pubspecYaml = loadYaml(pubspecContent);
 
-  // dependencies 및 dev_dependencies에서 패키지가 있는지 확인
   bool hasDependency = _checkDependencies(pubspecYaml['dependencies'], packageName);
   bool hasDevDependency = _checkDevDependencies(pubspecYaml['dev_dependencies'], packageName);
 
   if (hasDependency || hasDevDependency) {
-    // print("Removing $packageName...");
-    // 패키지가 존재하면 제거 명령 실행
-    final result = await Process.run('flutter', ['pub', 'remove', packageName],
-        workingDirectory: Directory.current.path); // 현재 작업 중인 디렉토리를 사용합니다.
+    String flutterCommand = Platform.isWindows ? 'flutter.bat' : 'flutter';
 
-    // 실행 결과 출력(필요에 따라)
-    // print('Exit code: ${result.exitCode}');
-    // print('Stdout: ${result.stdout}');
-    // print('Stderr: ${result.stderr}');
+    final result = await Process.run(flutterCommand, ['pub', 'remove', packageName],
+        workingDirectory: Directory.current.path);
 
-    // print("removed $packageName");
+    if (result.stderr.toString().isNotEmpty) {
+      // print('Error removing package: ${result.stderr}');
+    } else {
+      // print("Removed $packageName successfully");
+    }
   } else {
     // print("Package '$packageName' not found in pubspec.yaml");
   }
