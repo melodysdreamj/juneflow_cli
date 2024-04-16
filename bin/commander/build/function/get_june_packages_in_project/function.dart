@@ -78,7 +78,6 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
         (!startsWithUtil || (startsWithUtil && containsLibraryName));
   }).toList();
 
-  print('filteredCopyPaths: $filteredCopyPaths');
 
   List<FilePathAndContents> files = [];
 
