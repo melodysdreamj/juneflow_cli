@@ -58,7 +58,7 @@ buildApp() async {
 
     // 5. check asset if exist, add to pubspec
     await addAssetPaths(
-        module.AddLineToPubspecAssetsBlock.map((item) => item.toString())
+        module.AddLineToPubspecAssetsBlock.map((item) => item.toString().replaceAll('\\', '/'))
             .toList());
 
     // 7. add package to pubspec
