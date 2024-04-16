@@ -15,13 +15,13 @@ Future<Module> checkAssetsHandler(String packageAbsolutePath, Module moduleObj, 
   if (await _isExistAssetInDirectory(moduleAssetsAbsolutePaths)) {
     List<String> directories = await _findAllDirectoriesRelative(packageAbsolutePath, moduleAssetsAbsolutePaths);
     for (String directory in directories) {
-      String _ = p.relative(directory, from: packageAbsolutePath);
+      String _ = p.posix.relative(directory, from: packageAbsolutePath);
       moduleObj.AddLineToPubspecAssetsBlock.add('$_/');
     }
 
     await for (var entity in Directory(moduleAssetsAbsolutePaths).list(recursive: true, followLinks: false)) {
       if (entity is File) {
-        final String newPath = p.join(targetPath, p.relative(entity.path, from: moduleAssetsAbsolutePaths));
+        final String newPath = p.posix.join(targetPath, p.posix.relative(entity.path, from: moduleAssetsAbsolutePaths));
         if(newPath.endsWith('add.june')) {
           continue;
         }
