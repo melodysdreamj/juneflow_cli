@@ -69,7 +69,7 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
     bool startsWithUtil = copyPath.startsWith('lib/util');
-    bool containsLibraryName = copyPath.contains(path.join('libraryName'));
+    bool containsLibraryName = copyPath.contains(path.join(libraryName));
     bool doesNotStartWithAssets = !copyPath.startsWith('assets/');
     bool doesNotEndWithGitkeep = !copyPath.endsWith('add.june');
 
