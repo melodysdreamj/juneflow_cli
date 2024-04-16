@@ -38,7 +38,7 @@ Future<bool> addFlutterPackage(String packageName, {String? version, bool? devPa
   }
 
   // 프로세스를 실행하여 패키지를 추가합니다.
-  final result = await Process.run('flutter', command, workingDirectory: Directory.current.path);
+  final result = await Process.run(Platform.isWindows ? 'flutter.bat' : 'flutter', command, workingDirectory: Directory.current.path);
 
   await Future.delayed(Duration(seconds: 1));
 

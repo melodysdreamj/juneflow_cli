@@ -23,7 +23,7 @@ Future<void> removeFlutterPackage(String packageName) async {
   if (hasDependency || hasDevDependency) {
     // print("Removing $packageName...");
     // 패키지가 존재하면 제거 명령 실행
-    final result = await Process.run('flutter', ['pub', 'remove', packageName],
+    final result = await Process.run(Platform.isWindows ? 'flutter.bat' : 'flutter', ['pub', 'remove', packageName],
         workingDirectory: Directory.current.path); // 현재 작업 중인 디렉토리를 사용합니다.
 
     // 실행 결과 출력(필요에 따라)
