@@ -1,25 +1,25 @@
 import 'dart:io';
-import 'package:path/path.dart' as p;
 
 Future<void> applyTempDirToProject() async {
+  // /.tempDir 디렉토리의 파일들을 현재 디렉토리로 복사
   Directory tempDir = Directory('.tempDir');
-  Directory currentDir = Directory.current;  // 현재 작업 디렉토리
-
   if (await tempDir.exists()) {
+    // Stream을 사용한 파일 리스트 처리
     await for (var element in tempDir.list(recursive: true)) {
       if (element is File) {
-        // 상대 경로를 계산하고 현재 디렉토리로 적용
-        String relativePath = p.relative(element.path, from: tempDir.path);
-        String newPath = p.join(currentDir.path, relativePath);
+        String newPath = element.path.replaceAll('.tempDir/', '');
         File newFile = File(newPath);
-
         if (await newFile.exists()) {
-          continue;  // 파일이 이미 존재하면 건너뛰기
+          // 기존 파일이 있을 경우, 이 파일 처리를 건너뛰고 계속 진행
+          continue;
         }
-        await newFile.create(recursive: true);  // 새 파일 생성 (필요한 경우 디렉토리 포함)
-        await newFile.writeAsString(await element.readAsString());  // 내용 복사
+        await newFile.create(recursive: true);
+        await newFile.writeAsString(await element.readAsString());
       }
     }
-    await tempDir.delete(recursive: true);  // .tempDir 디렉토리 삭제
+    // 파일 복사 작업이 완료된 후, .tempDir 디렉토리 삭제
+    await tempDir.delete(recursive: true);
   }
 }
+
+
