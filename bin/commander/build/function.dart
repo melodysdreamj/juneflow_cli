@@ -31,6 +31,7 @@ buildApp() async {
   await resetTempDir();
 
   for (var module in BuildInfo.instance.ModuleList) {
+    print('module : ${module.LibraryName}');
     // 6. copy and paste the code file to the lib folder
     await pasteAllCodeFiles(module.LibraryName, module.Files);
   }
