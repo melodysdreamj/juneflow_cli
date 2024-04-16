@@ -18,7 +18,7 @@ Future<void> applyTempDirToProject() async {
       }
     }
     // 파일 복사 작업이 완료된 후, .tempDir 디렉토리 삭제
-    await tempDir.delete(recursive: true);
+    // await tempDir.delete(recursive: true);
   }
 }
 
