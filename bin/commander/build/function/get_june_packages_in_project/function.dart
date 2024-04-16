@@ -82,16 +82,10 @@ Future<String> _readReadmeContent(String projectPath) async {
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
-  // print('copyPaths: $copyPaths');
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
-    // print('copyPath: $copyPath');
-    // 'lib/util'로 시작하는지 확인
     bool startsWithUtil = copyPath.startsWith('lib/util');
-    // 경로 중간과 끝에 'libraryName'이 포함되어 있는지 확인 (더 넓은 범위를 위해 수정됨)
     bool containsLibraryName = copyPath.contains('/$libraryName');
-    // 'assets/'로 시작하지 않는지 확인
     bool doesNotStartWithAssets = !copyPath.startsWith('assets/');
-    // 파일 이름이 'add.june'으로 끝나지 않는지 확인
     bool doesNotEndWithGitkeep = !copyPath.endsWith('add.june');
 
     return doesNotStartWithAssets &&
@@ -104,16 +98,21 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
   for (String relativePath in filteredCopyPaths) {
     String fullPath = path.join(projectPath, relativePath);
     FileSystemEntityType entityType =
-        await FileSystemEntity.type(fullPath, followLinks: false);
+    await FileSystemEntity.type(fullPath, followLinks: false);
 
     if (entityType == FileSystemEntityType.file) {
       File file = File(fullPath);
-      String content = await file.readAsString();
-      // 파일 내용의 첫 줄이 //@add 또는 #@add 로 시작하는 경우 그 줄을 제거
+      String content;
+      try {
+        content = await file.readAsString();
+      } catch (e) {
+        print('Error reading file $fullPath: $e');
+        continue; // 파일 읽기 실패 시 다음 파일로 넘어감
+      }
+
       List<String> lines = content.split('\n');
       if (lines.isNotEmpty &&
-          (lines.first.startsWith('//@add') ||
-              lines.first.startsWith('#@add'))) {
+          (lines.first.startsWith('//@add') || lines.first.startsWith('#@add'))) {
         lines.removeAt(0); // 첫 줄 제거
       }
       content = lines.join('\n'); // 수정된 내용으로 다시 합치기
@@ -124,15 +123,20 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     } else if (entityType == FileSystemEntityType.directory) {
       Directory directory = Directory(fullPath);
       await for (FileSystemEntity entity
-          in directory.list(recursive: true, followLinks: false)) {
+      in directory.list(recursive: true, followLinks: false)) {
         if (entity is File) {
           String entityPath = entity.path.replaceFirst('$projectPath/', '');
-          String content = await entity.readAsString();
-          // 파일 내용의 첫 줄이 //@add 또는 #@add 로 시작하는 경우 그 줄을 제거
+          String content;
+          try {
+            content = await entity.readAsString();
+          } catch (e) {
+            print('Error reading file $entityPath: $e');
+            continue; // 파일 읽기 실패 시 다음 파일로 넘어감
+          }
+
           List<String> lines = content.split('\n');
           if (lines.isNotEmpty &&
-              (lines.first.startsWith('//@add') ||
-                  lines.first.startsWith('#@add'))) {
+              (lines.first.startsWith('//@add') || lines.first.startsWith('#@add'))) {
             lines.removeAt(0); // 첫 줄 제거
           }
           content = lines.join('\n'); // 수정된 내용으로 다시 합치기
