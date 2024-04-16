@@ -121,6 +121,7 @@ Future<String?> _getPackageName() async {
     print(
         'Enter the package name for your project (e.g., com.example.myapp), or type "cancel" to exit:');
     packageName = stdin.readLineSync();
+    print('packageName: $packageName');
     if (packageName?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
