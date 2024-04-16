@@ -2,15 +2,24 @@ import 'dart:io';
 
 // flutter pub get을 실행하는 함수
 Future<void> runFlutterPubGet() async {
-  // 현재 작업 디렉토리를 가져옵니다.
   var currentDirectory = Directory.current.path;
+  String flutterCommand = 'flutter.bat';  // Windows에서는 'flutter.bat' 사용
 
-  // 'flutter pub get' 명령을 실행합니다.
-  var result = await Process.run('flutter', ['pub', 'get'], workingDirectory: currentDirectory);
+  if (Platform.isWindows) {
+    var whereResult = await Process.run('where', ['flutter.bat']);
+    if (whereResult.exitCode == 0) {
+      flutterCommand = (whereResult.stdout as String).split('\n').first.trim();
+    } else {
+      print('Flutter not found in your path.');
+      return;
+    }
+  }
 
-  // 실행 결과를 출력합니다.
-  // print(result.stdout);
-  // 에러가 있다면 에러도 출력합니다.
+  var result = await Process.run(flutterCommand, ['pub', 'get'], workingDirectory: currentDirectory);
+
+  if (result.stdout.isNotEmpty) {
+    print(result.stdout);
+  }
   if (result.stderr.isNotEmpty) {
     print('Error: ${result.stderr}');
   }
