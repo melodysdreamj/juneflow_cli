@@ -106,6 +106,8 @@ Future<String?> _getName(String type) async {
     // print(
     //     'The name should be all lowercase and may include underscores (_) to separate words.');
     name = await readLine();
+    print('name:$name');
+
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
