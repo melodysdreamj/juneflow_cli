@@ -67,7 +67,6 @@ Future<String> _readReadmeContent(String projectPath) async {
 
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
-  print('copyPaths: $copyPaths');
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
     bool startsWithUtil = copyPath.startsWith('lib/util');
     bool containsLibraryName = copyPath.contains(path.join('libraryName'));
@@ -78,6 +77,8 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
         doesNotEndWithGitkeep &&
         (!startsWithUtil || (startsWithUtil && containsLibraryName));
   }).toList();
+
+  print('filteredCopyPaths: $filteredCopyPaths');
 
   List<FilePathAndContents> files = [];
 
