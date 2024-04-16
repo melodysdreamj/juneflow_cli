@@ -15,7 +15,7 @@ Future<void> applyTempDirToProject() async {
         await newFile.writeAsString(await element.readAsString());
       }
     }
-    await tempDir.delete(recursive: true);  // 주의: 실제 사용시 이 부분의 주석을 해제해야 합니다.
+    // await tempDir.delete(recursive: true);  // 주의: 실제 사용시 이 부분의 주석을 해제해야 합니다.
   }
 }
 
