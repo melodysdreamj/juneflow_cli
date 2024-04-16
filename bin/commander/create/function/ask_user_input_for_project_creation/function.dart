@@ -101,17 +101,13 @@ Future<CreationResult?> _createView() async {
 Future<String?> _getName(String type) async {
   String? name;
   while (true) {
-    print(
-        'Enter the name for your $type (e.g., my_app):'); //  or type "cancel" to exit
-    // print(
-    //     'The name should be all lowercase and may include underscores (_) to separate words.');
-    name = await readLine();
+    print('Enter the name for your $type (e.g., my_app):');
+    name = stdin.readLineSync();
     if (name?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
     } else if (!_isValidProjectName(name)) {
-      print(
-          'Error: The project name must be all lowercase, including underscores to separate words, and cannot start with a digit. Please try again.');
+      print('Error: The project name must be all lowercase, including underscores to separate words, and cannot start with a digit. Please try again.');
       continue;
     }
     break;
@@ -123,8 +119,8 @@ Future<String?> _getPackageName() async {
   String? packageName;
   while (true) {
     print(
-        'Enter the package name for your project (e.g., com.example.myapp):');//, or type "cancel" to exit
-    packageName = await readLine();
+        'Enter the package name for your project (e.g., com.example.myapp), or type "cancel" to exit:');
+    packageName = stdin.readLineSync();
     if (packageName?.toLowerCase() == 'cancel') {
       print('Operation cancelled.');
       return null;
