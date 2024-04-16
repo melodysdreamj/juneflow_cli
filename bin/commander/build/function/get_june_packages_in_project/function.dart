@@ -192,7 +192,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
             }
           }
         } catch (e) {
-          // Handle or log errors as needed
+          print('Failed to read ${entity.path}: $e');
         }
       }
     }
