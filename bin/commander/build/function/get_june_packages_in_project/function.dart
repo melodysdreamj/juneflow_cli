@@ -68,9 +68,7 @@ Future<String> _readReadmeContent(String projectPath) async {
 Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
     String libraryName, String projectPath, List<String> copyPaths) async {
   List<String> filteredCopyPaths = copyPaths.where((copyPath) {
-    // Adjusted for path separator differences
     bool startsWithUtil = copyPath.startsWith('lib/util');
-    // Ensure cross-platform compatibility for path checks
     bool containsLibraryName = copyPath.contains(path.join('libraryName'));
     bool doesNotStartWithAssets = !copyPath.startsWith('assets/');
     bool doesNotEndWithGitkeep = !copyPath.endsWith('add.june');
@@ -84,23 +82,29 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
 
   for (String relativePath in filteredCopyPaths) {
     String fullPath = path.join(projectPath, relativePath);
+
     FileSystemEntityType entityType =
     await FileSystemEntity.type(fullPath, followLinks: false);
 
     if (entityType == FileSystemEntityType.file) {
-      File file = File(fullPath);
-      String content = await file.readAsString();
-      List<String> lines = content.split('\n');
-      if (lines.isNotEmpty &&
-          (lines.first.trim().startsWith('//@add') ||
-              lines.first.trim().startsWith('#@add'))) {
-        lines.removeAt(0);
-      }
-      content = lines.join('\n');
+      try {
+        File file = File(fullPath);
+        String content = await file.readAsString();  // Try to read the file as a string
+        List<String> lines = content.split('\n');
+        if (lines.isNotEmpty &&
+            (lines.first.trim().startsWith('//@add') ||
+                lines.first.trim().startsWith('#@add'))) {
+          lines.removeAt(0);
+        }
+        content = lines.join('\n');
 
-      files.add(FilePathAndContents()
-        ..Path = path.relative(fullPath, from: projectPath)  // Use relative path
-        ..CodeBloc = content);
+        files.add(FilePathAndContents()
+          ..Path = path.relative(fullPath, from: projectPath)  // Use relative path
+          ..CodeBloc = content);
+      } catch (e) {
+        // print('Failed to read $fullPath: $e');
+        // Optionally, handle the error further or log to a file.
+      }
     } else if (entityType == FileSystemEntityType.directory) {
       // Recursively list files in the directory
       await _listDirectoryFiles(Directory(fullPath), projectPath, files);
@@ -109,6 +113,7 @@ Future<List<FilePathAndContents>> _generateFilePathAndContentsList(
 
   return files;
 }
+
 
 Future<void> _listDirectoryFiles(Directory directory, String projectPath, List<FilePathAndContents> files) async {
   await for (FileSystemEntity entity in directory.list(recursive: true, followLinks: false)) {
