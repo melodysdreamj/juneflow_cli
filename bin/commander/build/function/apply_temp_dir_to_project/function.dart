@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;  // Ensure this import is correctly placed
 
 Future<void> applyTempDirToProject() async {
   Directory tempDir = Directory('.tempDir');
