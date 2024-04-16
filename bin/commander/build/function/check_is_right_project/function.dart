@@ -1,21 +1,20 @@
 import 'dart:io';
+import 'package:path/path.dart' as path;
 
 Future<bool> checkIsRightProject() async {
   String currentPath = Directory.current.path;
   List<String> filePaths = [
-    '$currentPath/lib/util/_/initial_app/build_app_widget/build_run_app/_.dart',
-    '$currentPath/lib/util/config/_/global_imports.dart',
-    '$currentPath/lib/util/_/initial_app/ready_functions/before_run_app/_.dart',
-    '$currentPath/pubspec.lock',
+    path.join(currentPath, 'lib', 'util', '_', 'initial_app', 'build_app_widget', 'build_run_app', '_.dart'),
+    path.join(currentPath, 'lib', 'util', 'config', '_', 'global_imports.dart'),
+    path.join(currentPath, 'lib', 'util', '_', 'initial_app', 'ready_functions', 'before_run_app', '_.dart'),
+    path.join(currentPath, 'pubspec.lock'),
   ];
 
-  for (String path in filePaths) {
-    File file = File(path);
+  for (String filePath in filePaths) {
+    File file = File(filePath);
     bool exists = await file.exists();
-    // 하나라도 존재하지 않으면 false 반환
     if (!exists) return false;
   }
 
-  // 모든 파일이 존재하면 true 반환
   return true;
 }

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:path/path.dart' as path;
+
 
 Future<void> addLineToGitignore(String lineToAdd) async {
   // 업로드한 .gitignore 파일의 경로를 지정합니다.

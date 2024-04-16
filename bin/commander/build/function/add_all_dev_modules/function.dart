@@ -10,6 +10,9 @@ import '../get_direct_dependencies_with_versions/function.dart';
 import '../get_package_info_using_name/function.dart';
 import '../get_package_path/function.dart';
 
+import 'package:path/path.dart' as path;
+
+
 Future<void> addAllModules() async {
   // 현재꺼는 모든 dev를 가져옵니다.
   List<dynamic> devPackages = await _getAllDevPackages(Directory.current.path);
@@ -82,7 +85,7 @@ Future<void> addPackageUsingPath(String packagePath) async {
 }
 
 Future<List<dynamic>> _getAllDevPackages(String projectPath) async {
-  final pubspecYaml = File('$projectPath/pubspec.yaml');
+  final pubspecYaml = File(path.join(projectPath, 'pubspec.yaml'));
   final pubspecContent = await pubspecYaml.readAsString();
 
   final pubspecYamlMap = loadYaml(pubspecContent);

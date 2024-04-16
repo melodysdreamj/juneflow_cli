@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 class _AnnotatedFunctionInfo {
   final String filePath;
@@ -11,11 +12,12 @@ class _AnnotatedFunctionInfo {
 }
 
 Future<void> findFunctionsAndGenerateFileMaterialApp() async {
-  const String searchDirectory = 'lib/util/_/initial_app/build_app_widget/build_material_app';
-  const String targetFilePath = 'lib/util/_/initial_app/build_app_widget/build_material_app/_.dart';
+  String searchDirectory = path.join('lib', 'util', '_', 'initial_app', 'build_app_widget', 'build_material_app');
+  String targetFilePath = path.join(searchDirectory, '_.dart');
   final List<_AnnotatedFunctionInfo> coverFunctions = await _findCoverMaterialAppFunctions(searchDirectory);
   await _generateAndWriteMaterialAppInsideBuilder(coverFunctions, targetFilePath);
 }
+
 
 Future<List<_AnnotatedFunctionInfo>> _findCoverMaterialAppFunctions(String searchDirectory) async {
   final List<_AnnotatedFunctionInfo> functions = [];
