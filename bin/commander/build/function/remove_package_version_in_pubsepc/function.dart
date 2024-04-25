@@ -11,13 +11,14 @@ Future<void> removePackageVersion(String filePath, String packageName) async {
   bool found = false;
 
   List<String> updatedLines = lines.map((line) {
-    // 앞쪽에 공백이 없도록 trim()을 적용하고, '$packageName:'로 시작하는지 확인
-    if (line.trim().startsWith('$packageName:')) {
+    // 각 줄의 시작 부분에서 '$packageName:' 패턴을 찾습니다.
+    if (line.startsWith('  $packageName:') || line.startsWith('$packageName:')) {
       found = true;
       if (line.contains('#@add')) {
-        return line.split('#@add').first.trim() + ' #@add';
+        int index = line.indexOf('#@add');
+        return '${line.substring(0, index).trimRight()} #@add';
       }
-      return '$packageName:'; // ':'을 추가하여 정확한 의존성 표시
+      return line.substring(0, line.indexOf(':') + 1);  // 콜론 다음 내용을 제거하지만 공백은 유지
     }
     return line;
   }).toList();
@@ -30,6 +31,7 @@ Future<void> removePackageVersion(String filePath, String packageName) async {
   await pubspec.writeAsString(updatedLines.join('\n'));
   print('패키지 버전 정보가 성공적으로 제거되었습니다.');
 }
+
 
 // void main() async {
 //   String filePath = 'path/to/your/pubspec.yaml';  // 파일 경로를 입력하세요
