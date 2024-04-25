@@ -17,7 +17,8 @@ Future<PackageInfo?> getPackageInfoUsingName(String name) async {
     if (entry.key == name) {
       return PackageInfo()
         ..Name = entry.key
-        ..Version = entry.value['version'];
+        // ..Version = entry.value['version']
+      ;
     }
   }
 
