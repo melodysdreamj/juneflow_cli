@@ -60,7 +60,7 @@ Future<bool> addFlutterPackage(String packageName,
     final String devStr =
         (devPackage == true) ? 'dev_dependencies' : 'dependencies';
 
-    if (version == null) {
+    if (version == null || version == "") {
       await removePackageVersion(pubspecFile.path, packageName);
     }
 
