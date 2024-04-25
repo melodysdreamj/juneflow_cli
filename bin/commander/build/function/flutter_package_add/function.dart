@@ -64,7 +64,7 @@ Future<bool> addFlutterPackage(String packageName,
       await removePackageVersion(pubspecFile.path, packageName);
     }
 
-    print("Installed $packageName in $devStr. version:$version ${version == null} ${version == ""}");
+    print("Installed $packageName in $devStr.");
   }
 
   // await runFlutterPubGet();

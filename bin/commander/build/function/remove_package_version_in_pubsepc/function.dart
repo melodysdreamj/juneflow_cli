@@ -3,7 +3,7 @@ import 'dart:io';
 Future<void> removePackageVersion(String filePath, String packageName) async {
   File pubspec = File(filePath);
   if (!await pubspec.exists()) {
-    print('지정한 경로의 pubspec.yaml 파일을 찾을 수 없습니다.');
+    // print('지정한 경로의 pubspec.yaml 파일을 찾을 수 없습니다.');
     return;
   }
 
@@ -24,12 +24,12 @@ Future<void> removePackageVersion(String filePath, String packageName) async {
   }).toList();
 
   if (!found) {
-    print('$packageName 패키지가 pubspec.yaml 파일에 없습니다.');
+    // print('$packageName 패키지가 pubspec.yaml 파일에 없습니다.');
     return;
   }
 
   await pubspec.writeAsString(updatedLines.join('\n'));
-  print('패키지 버전 정보가 성공적으로 제거되었습니다.');
+  // print('패키지 버전 정보가 성공적으로 제거되었습니다.');
 }
 
 
