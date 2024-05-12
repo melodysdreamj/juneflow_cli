@@ -33,7 +33,7 @@ Future<List<_AnnotatedFunctionInfo>> _findAnnotatedFunctions(String searchDirect
     if (file is File && file.path.endsWith('.dart')) {
       final content = await file.readAsString();
       // 매개변수를 포함하는 함수 형태를 처리할 수 있도록 정규 표현식 수정
-      final RegExp exp = RegExp(r'@ReadyAfterMaterialApp\((index:\s*(\d+(\.\d+)?)\s*)?\)\s*Future<void>\s*(\w+)\s*\(\s*BuildContext context\s*\)\s*async', multiLine: true);
+      final RegExp exp = RegExp(r'@ReadyAfterMaterialApp\((index:\s*(\d+(\.\d+)?)\s*)?\)\s*void\s*(\w+)\s*\((.*?)\)', multiLine: true);
       final matches = exp.allMatches(content);
 
       for (final match in matches) {
@@ -63,29 +63,37 @@ Future<void> _generateAndWriteReadyAfterMaterialApp(List<_AnnotatedFunctionInfo>
     final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
     final importPath = relativeFilePath.replaceAll('\\', '/');
     imports.add("import '$importPath';");
-    functionCalls.writeln('  await ${functionInfo.functionName}(context);');
+    functionCalls.writeln('  ${functionInfo.functionName}(context);');
   }
 
 // 인덱스가 없는 함수들의 호출문 생성
   if (unindexedFunctions.isNotEmpty) {
-    // 인덱스가 없는 함수가 단 하나인 경우, Future.wait 없이 직접 호출
-    if (unindexedFunctions.length == 1) {
-      final functionInfo = unindexedFunctions.first;
+
+    for (final functionInfo in unindexedFunctions) {
       final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
       final importPath = relativeFilePath.replaceAll('\\', '/');
       imports.add("import '$importPath';");
-      functionCalls.writeln('  await ${functionInfo.functionName}(context);');
-    } else {
-      // 여러 개인 경우, Future.wait 사용
-      functionCalls.writeln('  await Future.wait([');
-      for (final functionInfo in unindexedFunctions) {
-        final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
-        final importPath = relativeFilePath.replaceAll('\\', '/');
-        imports.add("import '$importPath';");
-        functionCalls.writeln('    ${functionInfo.functionName}(context),');
-      }
-      functionCalls.writeln('  ]);');
+      functionCalls.writeln('  ${functionInfo.functionName}(context);');
     }
+
+    // // 인덱스가 없는 함수가 단 하나인 경우, Future.wait 없이 직접 호출
+    // if (unindexedFunctions.length == 1) {
+    //   final functionInfo = unindexedFunctions.first;
+    //   final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
+    //   final importPath = relativeFilePath.replaceAll('\\', '/');
+    //   imports.add("import '$importPath';");
+    //   functionCalls.writeln('  await ${functionInfo.functionName}(context);');
+    // } else {
+    //   // 여러 개인 경우, Future.wait 사용
+    //   functionCalls.writeln('  await Future.wait([');
+    //   for (final functionInfo in unindexedFunctions) {
+    //     final relativeFilePath = p.relative(functionInfo.filePath, from: p.dirname(targetFilePath));
+    //     final importPath = relativeFilePath.replaceAll('\\', '/');
+    //     imports.add("import '$importPath';");
+    //     functionCalls.writeln('    ${functionInfo.functionName}(context),');
+    //   }
+    //   functionCalls.writeln('  ]);');
+    // }
   }
 
   final String importStatements = imports.join('\n');
@@ -95,7 +103,7 @@ import 'package:flutter/material.dart';
 import '../../../../../main.dart';
 $importStatements
 
-Future<void> readyAfterMaterialApp(BuildContext context) async {
+void readyAfterMaterialApp(BuildContext context) {
 if (_done) return; _done = true;
 
 ${functionCalls.toString()}

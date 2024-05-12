@@ -1,6 +1,6 @@
 name: juneflow_cli
 description: A command-line for JuneFlow.
-version: 1.0.10
+version: 1.0.11
 repository: https://github.com/melodysdreamj/juneflow_cli
 
 environment:
