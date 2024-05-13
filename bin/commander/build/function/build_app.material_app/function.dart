@@ -81,7 +81,6 @@ Future<void> _generateAndWriteMaterialAppInsideBuilder(List<_AnnotatedFunctionIn
 import 'package:flutter/material.dart';
 import '../../../../../main.dart';
 
-import '../../../../config/_/router/_/_.dart';
 import '../../../shared_params/_/material_app.dart';
 $importStatements
 

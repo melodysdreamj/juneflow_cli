@@ -5,7 +5,7 @@ Future<bool> checkIsRightProject() async {
   String currentPath = Directory.current.path;
   List<String> filePaths = [
     path.join(currentPath, 'lib', 'util', '_', 'initial_app', 'build_app_widget', 'build_run_app', '_.dart'),
-    path.join(currentPath, 'lib', 'util', 'config', '_', 'global_imports.dart'),
+    path.join(currentPath, 'lib', 'util', 'config', 'global_imports.dart'),
     path.join(currentPath, 'lib', 'util', '_', 'initial_app', 'ready_functions', 'before_run_app', '_.dart'),
     path.join(currentPath, 'pubspec.lock'),
   ];

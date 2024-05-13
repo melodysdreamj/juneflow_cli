@@ -149,7 +149,7 @@ Future<Module> generateModuleObjFromPackage(
   moduleObj.LibraryVersion = libraryVersion;
 
   moduleObj.AddLineToGlobalImports = await _collectLinesWithAddTag(
-      path.join(projectPath, 'lib', 'util', 'config', '_', 'global_imports.dart'), '//@add');
+      path.join(projectPath, 'lib', 'util', 'config', 'global_imports.dart'), '//@add');
 
   moduleObj.Files = await _generateFilePathAndContentsList(libraryName,
       projectPath, await _findFilesInDirectoriesWithGitkeepForAdd(projectPath));
