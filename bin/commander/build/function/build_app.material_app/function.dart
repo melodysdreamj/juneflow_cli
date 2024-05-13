@@ -78,9 +78,11 @@ Future<void> _generateAndWriteMaterialAppInsideBuilder(List<_AnnotatedFunctionIn
   final String importStatements = imports.join('\n');
 
   final String materialAppInsideBuilderFunction = '''
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import '../../../../../main.dart';
 
+import '../../../../config/router.dart';
 import '../../../shared_params/_/material_app.dart';
 $importStatements
 
