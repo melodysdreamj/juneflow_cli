@@ -4,7 +4,7 @@ import '../../../../entity/enum/project_type/enum.dart';
 import '../../../../entity/model/creation_result/model.dart';
 
 Future<CreationResult?> askUserInputForProjectCreation() async {
-  String type = 'skeleton'; // Default value
+  String type = 'june_view project'; // Default value
   while (true) {
     print(
         'What are you creating? (Press Enter for default, type "cancel" to exit)');
@@ -33,7 +33,7 @@ Future<CreationResult?> askUserInputForProjectCreation() async {
         break;
 
       case '':
-        print('Default selection [1. Skeleton project] is used.');
+        print('Default selection [1. StarterKit Project] is used.');
         break;
       default:
         print(
