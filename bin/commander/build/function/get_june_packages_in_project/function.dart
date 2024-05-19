@@ -34,6 +34,7 @@ Future<void> getJuneFlowPackagesInProject() async {
     var packagePath = getPackagePath(name, details['version']);
     if (packagePath == null) continue;
 
+    print('packagePath: $packagePath');
     if (await _checkJuneFlowModule(packagePath, name, details['version'])) {
       Module module = await generateModuleObjFromPackage(packagePath, name, details['version']);
 
