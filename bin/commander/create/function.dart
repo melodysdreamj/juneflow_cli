@@ -20,25 +20,17 @@ createApp() async {
 
   bool successClone = false;
   if (result.Type == ProjectTypeEnum.ViewTemplate) {
-    successClone = await cloneAndRemoveGit(
-        'https://github.com/melodysdreamj/juneflow.git',
-        'view_template',
-        result.Name);
+    successClone =
+        await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git', 'view_template', result.Name);
   } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    successClone = await cloneAndRemoveGit(
-        'https://github.com/melodysdreamj/juneflow.git',
-        'starter_project',
-        result.Name);
+    successClone =
+        await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git', 'starter_project', result.Name);
   } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
-    successClone = await cloneAndRemoveGit(
-        'https://github.com/melodysdreamj/juneflow.git',
-        'module_template',
-        result.Name);
+    successClone =
+        await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git', 'module_template', result.Name);
   } else if (result.Type == ProjectTypeEnum.Skeleton) {
-    successClone = await cloneAndRemoveGit(
-        'https://github.com/melodysdreamj/juneflow.git',
-        'skeleton_project',
-        result.Name);
+    successClone =
+        await cloneAndRemoveGit('https://github.com/melodysdreamj/juneflow.git', 'skeleton_project', result.Name);
   }
   if (successClone == false) {
     print('Failed to clone the project.');
@@ -48,13 +40,25 @@ createApp() async {
   await changeProjectName(result.Name, result.Name);
 
   if (result.Type == ProjectTypeEnum.Skeleton) {
-    await replaceStringInFiles(
-        result.Name, 'june.lee.love', result.PackageName);
+    await replaceStringInFiles(result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
   } else if (result.Type == ProjectTypeEnum.JuneViewProject) {
-    await replaceStringInFiles(
-        result.Name, 'june.lee.love', result.PackageName);
+    await replaceStringInFiles(result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
+  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
+    await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New', _toPascalCase(result.Name));
+
+    await renameNewFolders('${result.Name}/lib/util', result.Name);
+
+    await renameNewFolders('${result.Name}/assets/module', result.Name);
+
+    await replaceStringInFile('${result.Name}/README.md', 'NewModule', result.Name);
+    await replaceStringInFile('${result.Name}/pubspec.yaml', 'assets/module/_new/', 'assets/module/${result.Name}/');
+  } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
+    await renameNewFolders('${result.Name}/assets/view', result.Name);
+    await reCreateNameNewFolders('${result.Name}/lib/app/_/_/interaction', result.Name);
+    await replaceStringInFile('${result.Name}/README.md', 'NewModule', result.Name);
+    await replaceStringInFile('${result.Name}/pubspec.yaml', 'assets/view/_new/', 'assets/view/${result.Name}/');
     await renameNewFolders('${result.Name}/lib/template', result.Name, checkDirName: [
       '_new',
       '_new.dialog',
@@ -63,34 +67,13 @@ createApp() async {
       '_new.toast',
       '_new.in_app_notification',
     ]);
-  } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
-    await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
-        _toPascalCase(result.Name));
-
-    await renameNewFolders('${result.Name}/lib/util', result.Name);
-
-    await renameNewFolders('${result.Name}/assets/module', result.Name);
-
-    await replaceStringInFile(
-        '${result.Name}/README.md', 'NewModule', result.Name);
-    await replaceStringInFile(
-        '${result.Name}/pubspec.yaml', 'assets/module/_new/', 'assets/module/${result.Name}/');
-  } else if (result.Type == ProjectTypeEnum.ViewTemplate) {
-    await renameNewFolders('${result.Name}/assets/view', result.Name);
-    await reCreateNameNewFolders(
-        '${result.Name}/lib/app/_/_/interaction', result.Name);
-    await replaceStringInFile(
-        '${result.Name}/README.md', 'NewModule', result.Name);
-    await replaceStringInFile(
-        '${result.Name}/pubspec.yaml', 'assets/view/_new/', 'assets/view/${result.Name}/');
   } else {
     print('Invalid project type: ${result.Type}');
     return;
   }
 
   print('\nCongratulations! Your project has been created successfully!');
-  print(
-      'Please change your current directory to the project directory by executing the following command:');
+  print('Please change your current directory to the project directory by executing the following command:');
   print('>>>> cd ${result.Name} && flutter run -d chrome <<<<');
 }
 
@@ -101,8 +84,7 @@ String _toPascalCase(String text) {
   // 모든 단어의 첫 글자를 대문자로 변환
   for (int i = 0; i < words.length; i++) {
     if (words[i].isNotEmpty) {
-      words[i] =
-          words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
     }
   }
 
