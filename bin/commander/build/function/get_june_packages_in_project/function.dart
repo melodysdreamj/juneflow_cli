@@ -189,6 +189,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
             if (firstLine.startsWith('#@add') ||
                 firstLine.startsWith('//@add')) {
               String relativePath = path.relative(entity.path, from: basePath);
+              print('relativePath: $relativePath');
               filesWithAddTag.add(relativePath);
             }
           }
