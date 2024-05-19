@@ -151,6 +151,8 @@ Future<Module> generateModuleObjFromPackage(
   moduleObj.AddLineToGlobalImports = await _collectLinesWithAddTag(
       path.join(projectPath, 'lib', 'util', 'config', 'global_imports.dart'), '//@add');
 
+  print('test: ${moduleObj.AddLineToGlobalImports}');
+
   moduleObj.Files = await _generateFilePathAndContentsList(libraryName,
       projectPath, await _findFilesInDirectoriesWithGitkeepForAdd(projectPath));
 
@@ -165,7 +167,6 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   List<String> filesWithAddTag = [];
 
   Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
-    print('searchGitkeepFiles: ${dir.path}');
     await for (FileSystemEntity entity
     in dir.list(recursive: false, followLinks: false)) {
       if (entity is Directory) {
@@ -190,7 +191,6 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
             if (firstLine.startsWith('#@add') ||
                 firstLine.startsWith('//@add')) {
               String relativePath = path.relative(entity.path, from: basePath);
-              print('relativePath: $relativePath');
               filesWithAddTag.add(relativePath);
             }
           }
