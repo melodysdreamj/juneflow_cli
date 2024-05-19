@@ -70,13 +70,15 @@ import '../build_my_app/_.dart';
 $importStatements
 
 Future<void> buildApp({Widget? appHome, Function(BuildContext)? appCallAfterBuild}) async {
-  if(appHome != null) MyAppHome = appHome;
-  if(appCallAfterBuild != null) MyAppCallAfterBuild = appCallAfterBuild;
+  if (appHome != null) MyAppHome = appHome;
+  if (appCallAfterBuild != null) MyAppCallAfterBuild = appCallAfterBuild;
   await readyBeforeRunApp();
   Widget childWidget = MyApp();
 ${coverFunctionCalls.toString()}
+
   return runApp(childWidget);
 }
+
 ''';
 
   final File targetFile = File(targetFilePath);

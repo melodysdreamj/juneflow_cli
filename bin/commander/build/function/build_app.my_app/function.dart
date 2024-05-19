@@ -65,6 +65,7 @@ $importStatements
 Widget Function() buildMyApp(BuildContext context) {
   Widget Function() materialAppBuilder = MaterialAppBuilder(context);
 ${coverFunctionCalls.toString()}
+
   return () => materialAppBuilder();
 }
 
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
     return buildMyApp(context)();
   }
 }
+
 ''';
 
   final File targetFile = File(targetFilePath);

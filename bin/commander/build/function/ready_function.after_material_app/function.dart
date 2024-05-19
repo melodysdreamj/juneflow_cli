@@ -104,11 +104,13 @@ import '../../../../../main.dart';
 $importStatements
 
 void readyAfterMaterialApp(BuildContext context) {
-if (_done) return; _done = true;
-
+  if (_done) return;
+  _done = true;
+  
 ${functionCalls.toString()}
 
 }
+
 bool _done = false;
 ''';
 
