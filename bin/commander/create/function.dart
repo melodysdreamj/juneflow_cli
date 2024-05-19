@@ -55,6 +55,14 @@ createApp() async {
     await replaceStringInFiles(
         result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
+    await renameNewFolders('${result.Name}/lib/template', result.Name, checkDirName: [
+      '_new',
+      '_new.dialog',
+      '_new.bottom_sheet',
+      '_new.snackbar',
+      '_new.toast',
+      '_new.in_app_notification',
+    ]);
   } else if (result.Type == ProjectTypeEnum.ModuleTemplate) {
     await replaceStringInFiles('${result.Name}/lib/util/_/initial_app', 'New',
         _toPascalCase(result.Name));
