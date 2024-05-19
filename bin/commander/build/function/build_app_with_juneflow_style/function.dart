@@ -11,7 +11,7 @@ Future<void> buildAppWithJuneFlowStyle() async {
   await findFunctionsAndGenerateFileBuildMyApp();
   await findFunctionsAndGenerateFileBuildRunApp();
 
-  await findFunctionsAndGenerateFileAfterMaterialApp();
+  // await findFunctionsAndGenerateFileAfterMaterialApp();
   await findFunctionsAndGenerateFileBeforeMaterialApp();
   await findFunctionsAndGenerateFileBeforeRunApp();
 
