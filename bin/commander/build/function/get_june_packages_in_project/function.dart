@@ -165,6 +165,7 @@ Future<List<String>> _findFilesInDirectoriesWithGitkeepForAdd(
   List<String> filesWithAddTag = [];
 
   Future<void> searchGitkeepFiles(Directory dir, String basePath) async {
+    print('searchGitkeepFiles: ${dir.path}');
     await for (FileSystemEntity entity
     in dir.list(recursive: false, followLinks: false)) {
       if (entity is Directory) {
