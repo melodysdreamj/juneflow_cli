@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
@@ -15,8 +16,8 @@ Future<void> renameNewFolders(String directoryPath, String newName, {List<String
   await for (final FileSystemEntity entity in directory.list(recursive: true)) {
     if (entity is Directory) {
       final String dirName = p.basename(entity.path);
-      // _new는 항상 체크하고, checkDirName 목록에 있는 이름과 일치하는지 확인합니다.
-      if (dirName == '_new' || (checkDirName != null && checkDirName.contains(dirName))) {
+      // 정확히 '_new'인 폴더와 '_new.'로 시작하는 폴더를 체크합니다.
+      if (dirName == '_new' || (checkDirName != null && (checkDirName.contains(dirName) || dirName.startsWith('_new.')))) {
         directoriesToRename.add(entity);
       }
     }
@@ -24,11 +25,14 @@ Future<void> renameNewFolders(String directoryPath, String newName, {List<String
 
   // 수집한 폴더 목록의 이름을 변경합니다.
   for (final Directory dir in directoriesToRename) {
-    String newPath = dir.path.replaceFirst(RegExp(r'_new$'), newName);
-    if (checkDirName != null) {
-      for (final String name in checkDirName) {
-        newPath = newPath.replaceFirst(RegExp(name + r'$'), newName);
-      }
+    String newPath = dir.path;
+    final String dirName = p.basename(dir.path);
+    if (dirName == '_new') {
+      newPath = dir.path.replaceFirst(RegExp(r'_new$'), newName);
+    } else if (dirName.startsWith('_new.')) {
+      newPath = dir.path.replaceFirst(RegExp(r'_new'), newName);
+    } else if (checkDirName != null && checkDirName.contains(dirName)) {
+      newPath = dir.path.replaceFirst(RegExp(dirName + r'$'), newName);
     }
     await dir.rename(newPath);
     // print('Renamed ${dir.path} to $newPath');
