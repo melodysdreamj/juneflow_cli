@@ -34,7 +34,6 @@ Future<void> getJuneFlowPackagesInProject() async {
     var packagePath = getPackagePath(name, details['version']);
     if (packagePath == null) continue;
 
-    print('packagePath: $packagePath');
     if (await _checkJuneFlowModule(packagePath, name, details['version'])) {
       Module module = await generateModuleObjFromPackage(packagePath, name, details['version']);
 
@@ -151,8 +150,6 @@ Future<Module> generateModuleObjFromPackage(
 
   moduleObj.AddLineToGlobalImports = await _collectLinesWithAddTag(
       path.join(projectPath, 'lib', 'util', 'config', 'global_imports.dart'), '//@add');
-
-  print('test: ${moduleObj.AddLineToGlobalImports}');
 
   moduleObj.Files = await _generateFilePathAndContentsList(libraryName,
       projectPath, await _findFilesInDirectoriesWithGitkeepForAdd(projectPath));
