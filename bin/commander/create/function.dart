@@ -39,6 +39,14 @@ createApp() async {
 
   await changeProjectName(result.Name, result.Name);
 
+
+  await changeAndroidAppName(result.Name, result.Name);
+  await changeIosAppName(result.Name, result.Name);
+  await changeMacosAppName(result.Name, result.Name);
+  await changeWebAppName(result.Name, result.Name);
+  await changeLinuxAppName(result.Name, result.Name);
+  await changeWindowsAppName(result.Name, result.Name);
+
   if (result.Type == ProjectTypeEnum.Skeleton) {
     await replaceStringInFiles(result.Name, 'june.lee.love', result.PackageName);
     await removeFile('${result.Name}/LICENSE');
